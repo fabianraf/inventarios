@@ -58,8 +58,9 @@ if (!defined('APP_DIR')) {
  *
  * Leaving this constant undefined will result in it being defined in Cake/bootstrap.php
  */
-define('CAKE_CORE_INCLUDE_PATH',  DS . 'home' . DS . 'faguirre' . DS . 'projects' . DS . 'cake' . DS . 'lib');
-
+//define('CAKE_CORE_INCLUDE_PATH',  DS . 'home' . DS . 'faguirre' . DS . 'projects' . DS . 'cake' . DS . 'lib');
+//La siguiente linea tienes que cambiar de acuerdo a donde este ubicado tu proyecto
+define('CAKE_CORE_INCLUDE_PATH',  DS . 'home' . DS . 'faguirre' . DS . 'projects' . DS . 'git_projects' . DS . 'inventarios' . DS . 'lib');
 /**
  * Editing below this line should NOT be necessary.
  * Change at your own risk.
