@@ -3,13 +3,17 @@
 App::uses('Controller', 'Controller');
 
 class PersonasController extends Controller {
-  var $name = "Personas";
+  public $name = "Personas";
  
-  function index()
+  public function index()
   {
-    $personas = $this->Persona->find('all');
-   
-    $this->set('Personas', $personas);
+    //$this->Persona->algo();
+  	debug($this->Persona->isVirtualField('nombre_completo'));
+  	
+    $this->set('Personas', $this->Persona->find('all'));
+    
     
   }
+  
+  
 }
