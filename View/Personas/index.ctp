@@ -1,4 +1,4 @@
-<?php echo $this->Html->link('Añadir', 'Link URL'); ?>
+<?php echo $this->Html->link('Añadir Persona', array('controller' => 'personas', 'action' => 'add')); ?>
 <table>
   <tr>
     <th>Nombre</th>
@@ -10,7 +10,7 @@
       <td><?php echo $persona['Persona']['nombre_completo']; ?></td>
       <td><?php echo $persona['Persona']['email']; ?></td>
       <td>
-        <?php echo $this->Html->link('Editar', 'Link URL'); ?>
+        <?php echo $this->Html->link('Editar', array('action' => 'edit', $persona['Persona']['id'])); ?>
         <?php echo $this->Html->link('Borrar', 'Link URL'); ?>
       </td>
     </tr>
