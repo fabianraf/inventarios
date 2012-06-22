@@ -7,7 +7,6 @@ class PersonasController extends Controller {
   public $helpers = array('Html', 'Form');
   //public $layout= ''; 
   public function index(){
-    //$this->Persona->algo();
   	debug($this->Persona->isVirtualField('nombre_completo'));
     $this->set('Personas', $this->Persona->find('all'));
   }
@@ -38,17 +37,36 @@ class PersonasController extends Controller {
   
   public function edit($id = null) {
     $this->Persona->id = $id;
-    if ($this->request->is('get')) {
+    if ($this->request->is('get')) 
+      {
         $this->request->data = $this->Persona->read();
-    } else {
-        if ($this->Persona->save($this->request->data)) {
+      } 
+    else 
+      {
+        if ($this->Persona->save($this->request->data)) 
+          {
             $this->Session->setFlash('Persona ha sido actualizada con satisfactoriamente.');
             $this->redirect(array('action' => 'index'));
-        } else {
+          } 
+        else 
+          {
             $this->Session->setFlash('No se pudo leer la Persona.');
+          }
+      }
+    }
+    
+    
+    public function delete($id) {
+      if ($this->request->is('get')) 
+        {
+          throw new MethodNotAllowedException();
+        }
+      if ($this->Persona->delete($id)) 
+        {
+          $this->Session->setFlash('La persona con id: ' . $id . ' ha sido eliminada.');
+          $this->redirect(array('action' => 'index'));
         }
     }
-}
 
   
 }

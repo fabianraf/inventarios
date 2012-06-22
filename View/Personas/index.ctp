@@ -11,7 +11,7 @@
       <td><?php echo $persona['Persona']['email']; ?></td>
       <td>
         <?php echo $this->Html->link('Editar', array('action' => 'edit', $persona['Persona']['id'])); ?>
-        <?php echo $this->Html->link('Borrar', 'Link URL'); ?>
+        <?php echo $this->Form->postLink('Eliminar', array('action' => 'delete', $persona['Persona']['id']), array('confirm' => 'Está seguro?'));?>
       </td>
     </tr>
   <?php }?>
