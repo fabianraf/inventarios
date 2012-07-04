@@ -3,7 +3,7 @@
   <tr>
     <th>Nombre</th>
     <th>Email</th>
-    <th width="110" class="ac">Content Control</th>
+    <th width="110" class="ac">Acciones</th>
   </tr>
   <?php foreach($Personas as $persona){ ?>
     <tr>

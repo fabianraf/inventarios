@@ -21,13 +21,11 @@ class PersonasController extends Controller {
     if(!empty($this->data)){
       if ($this->Persona->save($this->request->data)) 
         {
-          debug("si");
             $this->Session->setFlash('Persona ha sido guardada.');
             $this->redirect(array('action' => 'index'));
         } 
       else 
         {
-          debug("no");
           $this->Session->setFlash('No se pudo leer la Persona.');
         }
     }

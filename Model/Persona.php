@@ -2,6 +2,7 @@
 class Persona extends AppModel {
 	
 	public $name = 'Persona';
+  public $hasOne = 'Cliente';
 	public $validate = array(
         'primer_nombre' => array(
             'rule' => 'notEmpty'
