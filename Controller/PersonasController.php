@@ -2,7 +2,7 @@
 
 App::uses('Controller', 'Controller');
 
-class PersonasController extends Controller {
+class PersonasController extends AppController {
   public $name = "Personas";
   public $helpers = array('Html', 'Form');
   //public $layout= ''; 
