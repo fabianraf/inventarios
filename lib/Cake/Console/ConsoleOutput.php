@@ -128,12 +128,16 @@ class ConsoleOutput {
  * @var array
  */
 	protected static $_styles = array(
+		'emergency' => array('text' => 'red', 'underline' => true),
+		'alert' => array('text' => 'red', 'underline' => true),
+		'critical' => array('text' => 'red', 'underline' => true),
 		'error' => array('text' => 'red', 'underline' => true),
 		'warning' => array('text' => 'yellow'),
 		'info' => array('text' => 'cyan'),
+		'debug' => array('text' => 'yellow'),
 		'success' => array('text' => 'green'),
 		'comment' => array('text' => 'blue'),
-		'question' => array('text' => "magenta"),
+		'question' => array('text' => 'magenta'),
 	);
 
 /**
@@ -182,7 +186,7 @@ class ConsoleOutput {
 			return preg_replace('#</?(?:' . $tags . ')>#', '', $text);
 		}
 		return preg_replace_callback(
-			'/<(?<tag>[a-z0-9-_]+)>(?<text>.*?)<\/(\1)>/ims', array($this, '_replaceTags'), $text
+			'/<(?P<tag>[a-z0-9-_]+)>(?P<text>.*?)<\/(\1)>/ims', array($this, '_replaceTags'), $text
 		);
 	}
 

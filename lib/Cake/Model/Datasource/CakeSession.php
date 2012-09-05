@@ -122,7 +122,7 @@ class CakeSession {
 	public static $requestCountdown = 10;
 
 /**
- * Constructor.
+ * Pseudo constructor.
  *
  * @param string $base The base path for the Session
  * @return void
@@ -136,6 +136,8 @@ class CakeSession {
 		}
 		self::_setPath($base);
 		self::_setHost(env('HTTP_HOST'));
+
+		register_shutdown_function('session_write_close');
 	}
 
 /**
@@ -469,6 +471,12 @@ class CakeSession {
 		}
 		if (!empty($sessionConfig['handler'])) {
 			$sessionConfig['ini']['session.save_handler'] = 'user';
+		}
+		if (!isset($sessionConfig['ini']['session.gc_maxlifetime'])) {
+			$sessionConfig['ini']['session.gc_maxlifetime'] = $sessionConfig['timeout'] * 60;
+		}
+		if (!isset($sessionConfig['ini']['session.cookie_httponly'])) {
+			$sessionConfig['ini']['session.cookie_httponly'] = 1;
 		}
 
 		if (empty($_SESSION)) {

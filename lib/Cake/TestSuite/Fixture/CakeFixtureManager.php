@@ -101,6 +101,7 @@ class CakeFixtureManager {
  *
  * @param array $fixtures the fixture names to load using the notation {type}.{name}
  * @return void
+ * @throws UnexpectedValueException when a referenced fixture does not exist.
  */
 	protected function _loadFixtures($fixtures) {
 		foreach ($fixtures as $index => $fixture) {
@@ -133,6 +134,7 @@ class CakeFixtureManager {
 				);
 			}
 
+			$loaded = false;
 			foreach ($fixturePaths as $path) {
 				$className = Inflector::camelize($fixture);
 				if (is_readable($path . DS . $className . 'Fixture.php')) {
@@ -141,8 +143,14 @@ class CakeFixtureManager {
 					$fixtureClass = $className . 'Fixture';
 					$this->_loaded[$fixtureIndex] = new $fixtureClass();
 					$this->_fixtureMap[$fixtureClass] = $this->_loaded[$fixtureIndex];
+					$loaded = true;
 					break;
 				}
+			}
+
+			if (!$loaded) {
+				$firstPath = str_replace(array(APP, CAKE_CORE_INCLUDE_PATH, ROOT), '', $fixturePaths[0] . DS . $className . 'Fixture.php');
+				throw new UnexpectedValueException(__d('cake_dev', 'Referenced fixture class %s (%s) not found', $className, $firstPath));
 			}
 		}
 	}
@@ -169,12 +177,15 @@ class CakeFixtureManager {
 
 		$sources = $db->listSources();
 		$table = $db->config['prefix'] . $fixture->table;
+		$exists = in_array($table, $sources);
 
-		if ($drop && in_array($table, $sources)) {
+		if ($drop && $exists) {
 			$fixture->drop($db);
 			$fixture->create($db);
-		} elseif (!in_array($table, $sources)) {
+		} elseif (!$exists) {
 			$fixture->create($db);
+		} else {
+			$fixture->created[] = $db->configKeyName;
 		}
 	}
 

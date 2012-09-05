@@ -59,6 +59,30 @@ class DboTestSource extends DboSource {
 
 }
 
+class DboSecondTestSource extends DboSource {
+
+	public $startQuote = '_';
+
+	public $endQuote = '_';
+
+	public function connect($config = array()) {
+		$this->connected = true;
+	}
+
+	public function mergeAssociation(&$data, &$merge, $association, $type, $selfJoin = false) {
+		return parent::_mergeAssociation($data, $merge, $association, $type, $selfJoin);
+	}
+
+	public function setConfig($config = array()) {
+		$this->config = $config;
+	}
+
+	public function setConnection($conn) {
+		$this->_connection = $conn;
+	}
+
+}
+
 /**
  * DboSourceTest class
  *
@@ -606,6 +630,20 @@ class DboSourceTest extends CakeTestCase {
 	}
 
 /**
+ * Test that rare collisions do not happen with method caching
+ *
+ * @return void
+ */
+	public function testNameMethodCacheCollisions() {
+		$this->testDb->cacheMethods = true;
+		$this->testDb->flushMethodCache();
+		$this->testDb->name('Model.fieldlbqndkezcoapfgirmjsh');
+		$result = $this->testDb->name('Model.fieldkhdfjmelarbqnzsogcpi');
+		$expected = '`Model`.`fieldkhdfjmelarbqnzsogcpi`';
+		$this->assertEquals($expected, $result);
+	}
+
+/**
  * testLog method
  *
  * @outputBuffering enabled
@@ -768,6 +806,62 @@ class DboSourceTest extends CakeTestCase {
 	}
 
 /**
+ * test that queryAssociation() reuse already joined data for 'belongsTo' and 'hasOne' associations
+ * instead of running unneeded queries for each record
+ *
+ * @return void
+ */
+	public function testQueryAssociationUnneededQueries() {
+		$this->loadFixtures('Article', 'User', 'Comment', 'Attachment', 'Tag', 'ArticlesTag');
+		$Comment = new Comment;
+
+		$fullDebug = $this->db->fullDebug;
+		$this->db->fullDebug = true;
+
+		$Comment->find('all', array('recursive' => 2)); // ensure Model descriptions are saved
+		$this->db->getLog();
+
+		// case: Comment  belongsTo User and Article
+		$Comment->unbindModel(array(
+			'hasOne' => array('Attachment')
+		));
+		$Comment->Article->unbindModel(array(
+			'belongsTo' => array('User'),
+			'hasMany' => array('Comment'),
+			'hasAndBelongsToMany' => array('Tag')
+		));
+		$Comment->find('all', array('recursive' => 2));
+		$log = $this->db->getLog();
+		$this->assertEquals(1, count($log['log']));
+
+		// case: Comment belongsTo Article, Article belongsTo User
+		$Comment->unbindModel(array(
+			'belongsTo' => array('User'),
+			'hasOne' => array('Attachment')
+		));
+		$Comment->Article->unbindModel(array(
+			'hasMany' => array('Comment'),
+			'hasAndBelongsToMany' => array('Tag'),
+		));
+		$Comment->find('all', array('recursive' => 2));
+		$log = $this->db->getLog();
+		$this->assertEquals(7, count($log['log']));
+
+		// case: Comment hasOne Attachment
+		$Comment->unbindModel(array(
+			'belongsTo' => array('Article', 'User'),
+		));
+		$Comment->Attachment->unbindModel(array(
+			'belongsTo' => array('Comment'),
+		));
+		$Comment->find('all', array('recursive' => 2));
+		$log = $this->db->getLog();
+		$this->assertEquals(1, count($log['log']));
+
+		$this->db->fullDebug = $fullDebug;
+	}
+
+/**
  * test that fields() is using methodCache()
  *
  * @return void
@@ -779,6 +873,36 @@ class DboSourceTest extends CakeTestCase {
 		$Article = ClassRegistry::init('Article');
 		$this->testDb->fields($Article, null, array('title', 'body', 'published'));
 		$this->assertTrue(empty(DboTestSource::$methodCache['fields']), 'Cache not empty');
+	}
+
+/**
+ * test that fields() method cache detects datasource changes
+ *
+ * @return void
+ */
+	public function testFieldsCacheKeyWithDatasourceChange() {
+		ConnectionManager::create('firstschema', array(
+			'datasource' => 'DboTestSource'
+		));
+		ConnectionManager::create('secondschema', array(
+			'datasource' => 'DboSecondTestSource'
+		));
+		Cache::delete('method_cache', '_cake_core_');
+		DboTestSource::$methodCache = array();
+		$Article = ClassRegistry::init('Article');
+
+		$Article->setDataSource('firstschema');
+		$ds = $Article->getDataSource();
+		$ds->cacheMethods = true;
+		$first = $ds->fields($Article, null, array('title', 'body', 'published'));
+
+		$Article->setDataSource('secondschema');
+		$ds = $Article->getDataSource();
+		$ds->cacheMethods = true;
+		$second = $ds->fields($Article, null, array('title', 'body', 'published'));
+
+		$this->assertNotEquals($first, $second);
+		$this->assertEquals(2, count(DboTestSource::$methodCache['fields']));
 	}
 
 /**

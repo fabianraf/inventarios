@@ -313,7 +313,12 @@ class Helper extends Object {
 			$path = h($this->assetTimestamp($this->webroot($path)));
 
 			if (!empty($options['fullBase'])) {
-				$path = $this->url('/', true) . $path;
+				$base = $this->url('/', true);
+				$len = strlen($this->request->webroot);
+				if ($len) {
+					$base = substr($base, 0, -$len);
+				}
+				$path = $base . $path;
 			}
 		}
 

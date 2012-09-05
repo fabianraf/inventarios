@@ -494,7 +494,7 @@ class Set {
 				continue;
 			}
 			list(, $key, $op, $expected) = $match;
-			if (!isset($data[$key])) {
+			if (!(isset($data[$key]) || array_key_exists($key, $data))) {
 				return false;
 			}
 
@@ -561,8 +561,8 @@ class Set {
 
 		foreach ($path as $i => $key) {
 			if (is_numeric($key) && intval($key) > 0 || $key === '0') {
-				if (isset($data[intval($key)])) {
-					$data = $data[intval($key)];
+				if (isset($data[$key])) {
+					$data = $data[$key];
 				} else {
 					return null;
 				}

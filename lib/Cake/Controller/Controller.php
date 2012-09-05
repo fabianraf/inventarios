@@ -766,10 +766,6 @@ class Controller extends Object implements CakeEventListener {
 		$response = $event->result;
 		extract($this->_parseBeforeRedirect($response, $url, $status, $exit), EXTR_OVERWRITE);
 
-		if (function_exists('session_write_close')) {
-			session_write_close();
-		}
-
 		if ($url !== null) {
 			$this->response->header('Location', Router::url($url, true));
 		}
@@ -801,7 +797,7 @@ class Controller extends Object implements CakeEventListener {
  * @return array Array with keys url, status and exit
  */
 	protected function _parseBeforeRedirect($response, $url, $status, $exit) {
-		if (is_array($response)) {
+		if (is_array($response) && isset($response[0])) {
 			foreach ($response as $resp) {
 				if (is_array($resp) && isset($resp['url'])) {
 					extract($resp, EXTR_OVERWRITE);
@@ -809,6 +805,8 @@ class Controller extends Object implements CakeEventListener {
 					$url = $resp;
 				}
 			}
+		} elseif (is_array($response)) {
+			extract($response, EXTR_OVERWRITE);
 		}
 		return compact('url', 'status', 'exit');
 	}

@@ -1280,7 +1280,10 @@ class ModelValidationTest extends BaseModelTest {
 		$expected = array(
 			'Comment' => array(
 				'Article' => array(
-					'body' => array('This field cannot be left blank')
+					'body' => array('This field cannot be left blank'),
+					'User' => array(
+						'user' => array('This field cannot be left blank')
+					)
 				)
 			)
 		);
@@ -1304,7 +1307,13 @@ class ModelValidationTest extends BaseModelTest {
 		$result = $TestModel->Comment->Attachment->validationErrors;
 		$expected = array(
 			'Comment' => array(
-				'comment' => array('This field cannot be left blank')
+				'comment' => array('This field cannot be left blank'),
+				'Article' => array(
+					'body' => array('This field cannot be left blank'),
+					'User' => array(
+						'user' => array('This field cannot be left blank')
+					)
+				)
 			)
 		);
 		$this->assertSame($expected, $result);
@@ -1325,11 +1334,30 @@ class ModelValidationTest extends BaseModelTest {
 		$this->assertFalse($result);
 
 		$result = $TestModel->Comment->Attachment->validationErrors;
-		$expected = array('attachment' => array('This field cannot be left blank'));
+		$expected = array(
+			'attachment' => array('This field cannot be left blank'),
+			'Comment' => array(
+				'comment' => array('This field cannot be left blank'),
+				'Article' => array(
+					'body' => array('This field cannot be left blank'),
+					'User' => array(
+						'user' => array('This field cannot be left blank')
+					)
+				)
+			)
+		);
 		$this->assertSame($expected, $result);
 
 		$result = $TestModel->Comment->validationErrors;
-		$expected = array('comment' => array('This field cannot be left blank'));
+		$expected = array(
+			'comment' => array('This field cannot be left blank'),
+			'Article' => array(
+					'body' => array('This field cannot be left blank'),
+					'User' => array(
+						'user' => array('This field cannot be left blank')
+					)
+				)
+		);
 		$this->assertSame($expected, $result);
 
 		$expected = array(
@@ -1598,8 +1626,10 @@ class ModelValidationTest extends BaseModelTest {
 		$model->Attachment->validate = array('attachment' => 'notEmpty');
 		$model->Attachment->bindModel(array('belongsTo' => array('Comment')));
 		$expected = array(
-			'Comment' => array('comment' => array('This field cannot be left blank')),
-			'Attachment' => array('attachment' => array('This field cannot be left blank'))
+			'comment' => array('This field cannot be left blank'),
+			'Attachment' => array(
+				'attachment' => array('This field cannot be left blank')
+			)
 		);
 
 		$data = array(
@@ -1610,7 +1640,7 @@ class ModelValidationTest extends BaseModelTest {
 		$this->assertFalse($result);
 		$result = $model->validateAssociated($data);
 		$this->assertFalse($result);
-		$this->assertEquals($expected['Comment'], $model->validationErrors);
+		$this->assertEquals($expected, $model->validationErrors);
 		$this->assertEquals($expected['Attachment'], $model->Attachment->validationErrors);
 	}
 
@@ -1972,7 +2002,7 @@ class ModelValidationTest extends BaseModelTest {
 			array('body' => 'foo3')
 		);
 		$user = new User();
-		$user->hasMany['CustomArticle'] = array('foreignKey' => 'user_id');
+		$user->bindModel(array('hasMany' => array('CustomArticle')));
 		$data = array(
 			'User' => array('user' => 'foo', 'password' => 'bar'),
 			'CustomArticle' => $articles
@@ -2055,6 +2085,117 @@ class ModelValidationTest extends BaseModelTest {
 
 		$Validator->add('other', $set);
 		$this->assertSame($set, $Validator->getField('other'));
+	}
+
+/**
+ * Test that rules are parsed correctly when calling getField()
+ *
+ * @return void
+ */
+	public function testValidator() {
+		$TestModel = new Article();
+		$Validator = $TestModel->validator();
+
+		$result = $Validator->getField();
+		$expected = array('user_id', 'title', 'body');
+		$this->assertEquals($expected, array_keys($result));
+		$this->assertTrue($result['user_id'] instanceof CakeValidationSet);
+
+		$result = $TestModel->validator()->getField('title');
+		$this->assertTrue($result instanceof CakeValidationSet);
+	}
+
+/**
+ * Tests that altering data in a beforeValidate callback will lead to saving those
+ * values in database, this time with belongsTo associations
+ *
+ * @return void
+ */
+	public function testValidateFirstAssociatedWithBeforeValidate2() {
+		$this->loadFixtures('Article', 'User');
+		$model = new CustomArticle();
+		$model->validate = array(
+			'title' => array(
+				'notempty' => array(
+					'rule' => 'notEmpty',
+					'required' => true
+				)
+			)
+		);
+
+		$data = array(
+			'User' => array('user' => 'foo', 'password' => 'bar'),
+			'CustomArticle' => array(
+				'body' => 'a test'
+			)
+		);
+		$result = $model->saveAll($data, array('validate' => 'first'));
+		$this->assertTrue($result);
+
+		$this->assertEquals('foo', $model->field('title', array('body' => 'a test')));
+	}
+
+/**
+ * Testing you can dynamically add rules to a field, added this to dispel doubts
+ * after a presentation made to show off this new feature
+ *
+ * @return void
+ **/
+	public function testDynamicValidationRuleBuilding() {
+		$model = new Article;
+		$validator = $model->validator();
+		$validator->add('body', 'isSpecial', array('rule' => 'special'));
+		$rules = $validator['body']->getRules();
+		$this->assertCount(2, $rules);
+		$this->assertEquals('special', $rules['isSpecial']->rule);
+		$validator['body']->setRule('isAwesome', array('rule' => 'awesome'));
+		$rules = $validator['body']->getRules();
+		$this->assertCount(3, $rules);
+		$this->assertEquals('awesome', $rules['isAwesome']->rule);
+	}
+
+/**
+ * Test to ensure custom validation methods work with CakeValidationSet
+ *
+ * @return void
+ */
+	public function testCustomMethodsWithCakeValidationSet() {
+		$TestModel = new TestValidate();
+		$Validator = $TestModel->validator();
+
+		$Validator->add('title', 'validateTitle', array(
+			'rule' => 'validateTitle',
+			'message' => 'That aint right',
+		));
+		$data = array('title' => 'notatitle');
+		$result = $Validator->getField('title')->validate($data);
+		$expected = array(0 => 'That aint right');
+		$this->assertEquals($expected, $result);
+
+		$data = array('title' => 'title-is-good');
+		$result = $Validator->getField('title')->validate($data);
+		$expected = array();
+		$this->assertEquals($expected, $result);
+	}
+
+	public function testCustomMethodWithEmptyValue() {
+		$this->loadFixtures('Article');
+
+		$model = $this->getMock('Article', array('isLegit'));
+		$model->validate = array(
+			'title' => array(
+				'custom' => array(
+					'rule' => array('isLegit'),
+					'message' => 'is no good'
+				)
+			)
+		);
+		$model->expects($this->once())
+			->method('isLegit')
+			->will($this->returnValue(false));
+
+		$model->set(array('title' => ''));
+		$this->assertFalse($model->validates());
 	}
 
 }

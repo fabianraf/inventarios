@@ -161,14 +161,22 @@ class CakeRequest implements ArrayAccess {
  * @return void
  */
 	protected function _processPost() {
-		$this->data = $_POST;
+		if ($_POST) {
+			$this->data = $_POST;
+		} elseif ($this->is('put') || $this->is('delete')) {
+			$this->data = $this->_readInput();
+			if (env('CONTENT_TYPE') === 'application/x-www-form-urlencoded') {
+				parse_str($this->data, $this->data);
+			}
+		}
 		if (ini_get('magic_quotes_gpc') === '1') {
 			$this->data = stripslashes_deep($this->data);
 		}
 		if (env('HTTP_X_HTTP_METHOD_OVERRIDE')) {
 			$this->data['_method'] = env('HTTP_X_HTTP_METHOD_OVERRIDE');
 		}
-		if (isset($this->data['_method'])) {
+		$isArray = is_array($this->data);
+		if ($isArray && isset($this->data['_method'])) {
 			if (!empty($_SERVER)) {
 				$_SERVER['REQUEST_METHOD'] = $this->data['_method'];
 			} else {
@@ -176,8 +184,7 @@ class CakeRequest implements ArrayAccess {
 			}
 			unset($this->data['_method']);
 		}
-
-		if (isset($this->data['data'])) {
+		if ($isArray && isset($this->data['data'])) {
 			$data = $this->data['data'];
 			if (count($this->data) <= 1) {
 				$this->data = $data;
@@ -615,7 +622,7 @@ class CakeRequest implements ArrayAccess {
 /**
  * Get the host that the request was handled on.
  *
- * @return void
+ * @return string
  */
 	public function host() {
 		return env('HTTP_HOST');
@@ -656,7 +663,7 @@ class CakeRequest implements ArrayAccess {
  *
  * #### Check for a single type:
  *
- * `$this->request->accepts('json');`
+ * `$this->request->accepts('application/json');`
  *
  * This method will order the returned content types by the preference values indicated
  * by the client.

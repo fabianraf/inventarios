@@ -1175,7 +1175,7 @@ class Model extends Object implements CakeEventListener {
  */
 	protected function _setAliasData($data) {
 		$models = array_keys($this->getAssociated());
-		$schema = array_keys($this->schema());
+		$schema = array_keys((array)$this->schema());
 		foreach ($data as $field => $value) {
 			if (in_array($field, $schema) || !in_array($field, $models)) {
 				$data[$this->alias][$field] = $value;
@@ -2281,6 +2281,8 @@ class Model extends Object implements CakeEventListener {
 
 		if (isset($validationErrors[$this->alias])) {
 			$this->validationErrors = $validationErrors[$this->alias];
+			unset($validationErrors[$this->alias]);
+			$this->validationErrors = array_merge($this->validationErrors, $validationErrors);
 		}
 
 		if (!$options['atomic']) {
@@ -2368,13 +2370,14 @@ class Model extends Object implements CakeEventListener {
 						break;
 					}
 				}
-
-				$keys = $this->find('first', array(
-					'fields' => $this->_collectForeignKeys(),
-					'conditions' => array($this->alias . '.' . $this->primaryKey => $id),
-					'recursive' => -1,
-					'callbacks' => false
-				));
+				if ($updateCounterCache) {
+					$keys = $this->find('first', array(
+						'fields' => $this->_collectForeignKeys(),
+						'conditions' => array($this->alias . '.' . $this->primaryKey => $id),
+						'recursive' => -1,
+						'callbacks' => false
+					));
+				}
 			}
 
 			if ($db->delete($this, array($this->alias . '.' . $this->primaryKey => $id))) {
@@ -3164,10 +3167,6 @@ class Model extends Object implements CakeEventListener {
 		}
 
 		$this->schemaName = $db->getSchemaName();
-
-		if (empty($db) || !is_object($db)) {
-			throw new MissingConnectionException(array('class' => $this->name));
-		}
 	}
 
 /**
@@ -3393,7 +3392,7 @@ class Model extends Object implements CakeEventListener {
 			return $this->_validator = $instance;
 		}
 
-		if (is_null($instance)) {
+		if (empty($this->_validator) && is_null($instance)) {
 			$this->_validator = new ModelValidator($this);
 		}
 

@@ -532,6 +532,34 @@ class TranslateBehaviorTest extends CakeTestCase {
 	}
 
 /**
+ * Test that saving only some of the translated fields allows the record to be found again.
+ *
+ * @return void
+ */
+	public function testSavePartialFields() {
+		$this->loadFixtures('Translate', 'TranslatedItem');
+
+		$TestModel = new TranslatedItem();
+		$TestModel->locale = 'spa';
+		$data = array(
+			'slug' => 'fourth_translated',
+			'title' => 'Leyenda #4',
+		);
+		$TestModel->create($data);
+		$TestModel->save();
+		$result = $TestModel->read();
+		$expected = array(
+			'TranslatedItem' => array(
+				'id' => $TestModel->id,
+				'translated_article_id' => null,
+				'locale' => 'spa',
+				'content' => '',
+			) + $data
+		);
+		$this->assertEquals($expected, $result);
+	}
+
+/**
  * testSaveUpdate method
  *
  * @return void
@@ -1006,4 +1034,28 @@ class TranslateBehaviorTest extends CakeTestCase {
 		$TestModel = new TranslatedItem();
 		$TestModel->bindTranslation(array('name' => 'name'));
 	}
+
+/**
+ * Test that translations can be bound and unbound dynamically.
+ *
+ * @return void
+ */
+	public function testUnbindTranslation() {
+		$this->loadFixtures('Translate', 'TranslatedItem');
+		$Model = new TranslatedItem();
+		$Model->unbindTranslation();
+		$Model->bindTranslation(array('body', 'slug'), false);
+
+		$result = $Model->Behaviors->Translate->settings['TranslatedItem'];
+		$this->assertEquals(array('body', 'slug'), $result);
+
+		$Model->unbindTranslation(array('body'));
+		$result = $Model->Behaviors->Translate->settings['TranslatedItem'];
+		$this->assertNotContains('body', $result);
+
+		$Model->unbindTranslation('slug');
+		$result = $Model->Behaviors->Translate->settings['TranslatedItem'];
+		$this->assertNotContains('slug', $result);
+	}
+
 }

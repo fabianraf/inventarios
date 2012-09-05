@@ -137,7 +137,9 @@ class ModelValidator implements ArrayAccess, IteratorAggregate, Countable {
 					if ($options['deep']) {
 						$validates = $model->{$association}->validateAssociated($values, $options);
 					} else {
-						$validates = $model->{$association}->create($values) !== null && $model->{$association}->validates($options);
+						$model->{$association}->create(null);
+						$validates = $model->{$association}->set($values) && $model->{$association}->validates($options);
+						$data[$association] = $model->{$association}->data[$model->{$association}->alias];
 					}
 					if (is_array($validates)) {
 						if (in_array(false, $validates, true)) {
@@ -160,6 +162,8 @@ class ModelValidator implements ArrayAccess, IteratorAggregate, Countable {
 		$model->validationErrors = $validationErrors;
 		if (isset($validationErrors[$model->alias])) {
 			$model->validationErrors = $validationErrors[$model->alias];
+			unset($validationErrors[$model->alias]);
+			$model->validationErrors = array_merge($model->validationErrors, $validationErrors);
 		}
 		if (!$options['atomic']) {
 			return $return;
@@ -300,6 +304,7 @@ class ModelValidator implements ArrayAccess, IteratorAggregate, Countable {
  * @return CakeValidationSet|array
  */
 	public function getField($name = null) {
+		$this->_parseRules();
 		if ($name !== null && !empty($this->_fields[$name])) {
 			return $this->_fields[$name];
 		} elseif ($name !== null) {
@@ -329,7 +334,8 @@ class ModelValidator implements ArrayAccess, IteratorAggregate, Countable {
 		$this->_fields = array();
 		$methods = $this->getMethods();
 		foreach ($this->_validate as $fieldName => $ruleSet) {
-			$this->_fields[$fieldName] = new CakeValidationSet($fieldName, $ruleSet, $methods);
+			$this->_fields[$fieldName] = new CakeValidationSet($fieldName, $ruleSet);
+			$this->_fields[$fieldName]->setMethods($methods);
 		}
 		return true;
 	}
@@ -481,7 +487,9 @@ class ModelValidator implements ArrayAccess, IteratorAggregate, Countable {
 	public function offsetSet($field, $rules) {
 		$this->_parseRules();
 		if (!$rules instanceof CakeValidationSet) {
-			$rules = new CakeValidationSet($field, $rules, $this->getMethods());
+			$rules = new CakeValidationSet($field, $rules);
+			$methods = $this->getMethods();
+			$rules->setMethods($methods);
 		}
 		$this->_fields[$field] = $rules;
 	}
@@ -549,7 +557,7 @@ class ModelValidator implements ArrayAccess, IteratorAggregate, Countable {
 
 		if (!isset($this->_fields[$field])) {
 			$rule = (is_string($name)) ? array($name => $rule) : $name;
-			$this->_fields[$field] = new CakeValidationSet($field, $rule, $this->getMethods());
+			$this->_fields[$field] = new CakeValidationSet($field, $rule);
 		} else {
 			if (is_string($name)) {
 				$this->_fields[$field]->setRule($name, $rule);
@@ -557,6 +565,10 @@ class ModelValidator implements ArrayAccess, IteratorAggregate, Countable {
 				$this->_fields[$field]->setRules($name);
 			}
 		}
+
+		$methods = $this->getMethods();
+		$this->_fields[$field]->setMethods($methods);
+
 		return $this;
 	}
 

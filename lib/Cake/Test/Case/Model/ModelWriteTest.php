@@ -241,7 +241,7 @@ class ModelWriteTest extends BaseModelTest {
 		$data = array(
 			'OverallFavorite' => array(
 				'id' => 22,
-		 		'model_type' => '8-track',
+				'model_type' => '8-track',
 				'model_id' => '3',
 				'priority' => '1'
 			)
@@ -2953,10 +2953,12 @@ class ModelWriteTest extends BaseModelTest {
 		);
 		$this->assertEquals(false, $result);
 		$expected = array(
-			'Comment' => array('comment' => array('This field cannot be left blank')),
-			'Attachment' => array('attachment' => array('This field cannot be left blank'))
+			'comment' => array('This field cannot be left blank'),
+			'Attachment' => array(
+				'attachment' => array('This field cannot be left blank')
+			)
 		);
-		$this->assertEquals($expected['Comment'], $model->validationErrors);
+		$this->assertEquals($expected, $model->validationErrors);
 		$this->assertEquals($expected['Attachment'], $model->Attachment->validationErrors);
 	}
 
@@ -3000,23 +3002,6 @@ class ModelWriteTest extends BaseModelTest {
 		), array('atomic' => false));
 		$this->assertSame($result, array(true, true, true));
 
-		$TestModel->validate = array('title' => 'notEmpty', 'author_id' => 'numeric');
-		$result = $TestModel->saveAll(array(
-			array(
-				'id' => '1',
-				'title' => 'Un-Baleeted First Post',
-				'body' => 'Not Baleeted!',
-				'published' => 'Y'
-			),
-			array(
-				'id' => '2',
-				'title' => '',
-				'body' => 'Trying to get away with an empty title'
-			)
-		), array('validate' => true, 'atomic' => false));
-
-		$this->assertSame(array(true, false), $result);
-
 		$result = $TestModel->saveAll(array(
 			'Article' => array('id' => 2),
 			'Comment' => array(
@@ -3032,6 +3017,25 @@ class ModelWriteTest extends BaseModelTest {
 			))
 		), array('validate' => true, 'atomic' => false));
 		$this->assertSame($result, array('Article' => true, 'Comment' => array(true, true)));
+
+		$TestModel->validate = array(
+			'title' => 'notEmpty',
+			'author_id' => 'numeric'
+		);
+		$result = $TestModel->saveAll(array(
+			array(
+				'id' => '1',
+				'title' => 'Un-Baleeted First Post',
+				'body' => 'Not Baleeted!',
+				'published' => 'Y'
+			),
+			array(
+				'id' => '2',
+				'title' => '',
+				'body' => 'Trying to get away with an empty title'
+			)
+		), array('validate' => true, 'atomic' => false));
+		$this->assertSame(array(true, false), $result);
 	}
 
 /**
@@ -3187,6 +3191,25 @@ class ModelWriteTest extends BaseModelTest {
 
 		$data = array(
 			array(
+				'Article' => array('id' => 1),
+				'Comment' => array(
+					array('comment' => 'First comment deepsaved article 1', 'published' => 'Y', 'User' => array('user' => 'savemany', 'password' => 'manysaved')),
+					array('comment' => 'Second comment deepsaved article 1', 'published' => 'Y', 'user_id' => 2)
+				)
+			),
+			array(
+				'Article' => array('id' => 2),
+				'Comment' => array(
+					array('comment' => 'First comment deepsaved article 2', 'published' => 'Y', 'User' => array('user' => 'savemore', 'password' => 'moresaved')),
+					array('comment' => 'Second comment deepsaved article 2', 'published' => 'Y', 'user_id' => 2)
+				)
+			)
+		);
+		$result = $TestModel->saveAll($data, array('deep' => true));
+		$this->assertTrue($result);
+
+		$data = array(
+			array(
 				'id' => 1, 'body' => '',
 				'Comment' => array(
 					array('comment' => '', 'published' => 'Y', 'User' => array('user' => '', 'password' => 'manysaved')),
@@ -3207,9 +3230,18 @@ class ModelWriteTest extends BaseModelTest {
 
 		$expected = array(
 			0 => array(
-				'body' => array('This field cannot be left blank')
+				'body' => array('This field cannot be left blank'),
+				'Comment' => array(
+					0 => array(
+						'comment' => array('This field cannot be left blank'),
+						'User' => array(
+							'user' => array('This field cannot be left blank')
+						)
+					)
+				)
 			),
 			1 => array(
+				'body' => array('This field cannot be left blank'),
 				'Comment' => array(
 					0 => array(
 						'User' => array(
@@ -3224,25 +3256,6 @@ class ModelWriteTest extends BaseModelTest {
 		);
 		$result = $TestModel->validationErrors;
 		$this->assertSame($expected, $result);
-
-		$data = array(
-			array(
-				'Article' => array('id' => 1),
-				'Comment' => array(
-					array('comment' => 'First comment deepsaved article 1', 'published' => 'Y', 'User' => array('user' => 'savemany', 'password' => 'manysaved')),
-					array('comment' => 'Second comment deepsaved article 1', 'published' => 'Y', 'user_id' => 2)
-				)
-			),
-			array(
-				'Article' => array('id' => 2),
-				'Comment' => array(
-					array('comment' => 'First comment deepsaved article 2', 'published' => 'Y', 'User' => array('user' => 'savemore', 'password' => 'moresaved')),
-					array('comment' => 'Second comment deepsaved article 2', 'published' => 'Y', 'user_id' => 2)
-				)
-			)
-		);
-		$result = $TestModel->saveAll($data, array('deep' => true));
-		$this->assertTrue($result);
 	}
 /**
  * testSaveAllDeepValidateOnly
@@ -3468,7 +3481,10 @@ class ModelWriteTest extends BaseModelTest {
 		$expected = array(
 			'Comment' => array(
 				'Article' => array(
-					'body' => array('This field cannot be left blank')
+					'body' => array('This field cannot be left blank'),
+					'User' => array(
+						'user' => array('This field cannot be left blank')
+					)
 				)
 			)
 		);
@@ -3488,7 +3504,13 @@ class ModelWriteTest extends BaseModelTest {
 		$result = $TestModel->Comment->Attachment->validationErrors;
 		$expected = array(
 			'Comment' => array(
-				'comment' => array('This field cannot be left blank')
+				'comment' => array('This field cannot be left blank'),
+				'Article' => array(
+					'body' => array('This field cannot be left blank'),
+					'User' => array(
+						'user' => array('This field cannot be left blank')
+					)
+				)
 			)
 		);
 		$this->assertSame($expected, $result);
@@ -3505,11 +3527,30 @@ class ModelWriteTest extends BaseModelTest {
 		$this->assertFalse($result);
 
 		$result = $TestModel->Comment->Attachment->validationErrors;
-		$expected = array('attachment' => array('This field cannot be left blank'));
+		$expected = array(
+			'attachment' => array('This field cannot be left blank'),
+			'Comment' => array(
+				'comment' => array('This field cannot be left blank'),
+				'Article' => array(
+					'body' => array('This field cannot be left blank'),
+					'User' => array(
+						'user' => array('This field cannot be left blank')
+					)
+				)
+			)
+		);
 		$this->assertSame($expected, $result);
 
 		$result = $TestModel->Comment->validationErrors;
-		$expected = array('comment' => array('This field cannot be left blank'));
+		$expected = array(
+			'comment' => array('This field cannot be left blank'),
+			'Article' => array(
+				'body' => array('This field cannot be left blank'),
+				'User' => array(
+					'user' => array('This field cannot be left blank')
+				)
+			)
+		);
 		$this->assertSame($expected, $result);
 
 		$result = $TestModel->Comment->Attachment->saveAll($data, array('validate' => 'only', 'atomic' => false, 'deep' => true));
@@ -3623,7 +3664,8 @@ class ModelWriteTest extends BaseModelTest {
 
 		$data = array(
 			array(
-				'id' => 1, 'body' => '',
+				'id' => 1,
+				'body' => '',
 				'Comment' => array(
 					array('comment' => '', 'published' => 'Y', 'User' => array('user' => '', 'password' => 'manysaved')),
 					array('comment' => 'Second comment deepsaved article 1', 'published' => 'Y', 'user_id' => 2)
@@ -3643,6 +3685,9 @@ class ModelWriteTest extends BaseModelTest {
 
 		$expected = array(
 			0 => array(
+				'body' => array('This field cannot be left blank')
+			),
+			1 => array(
 				'body' => array('This field cannot be left blank')
 			)
 		);
@@ -5040,10 +5085,16 @@ class ModelWriteTest extends BaseModelTest {
 		);
 		$this->assertFalse($result);
 		$expected = array(
-			'Comment' => array('comment' => array('This field cannot be left blank')),
-			'Attachment' => array('attachment' => array('This field cannot be left blank'))
+			'comment' => array(
+				'This field cannot be left blank'
+			),
+			'Attachment' => array(
+				'attachment' => array(
+					'This field cannot be left blank'
+				)
+			)
 		);
-		$this->assertEquals($expected['Comment'], $model->validationErrors);
+		$this->assertEquals($expected, $model->validationErrors);
 		$this->assertEquals($expected['Attachment'], $model->Attachment->validationErrors);
 	}
 
@@ -5939,6 +5990,7 @@ class ModelWriteTest extends BaseModelTest {
  * @return void
  */
 	public function testValidateAssociated() {
+		$this->loadFixtures('Attachment', 'Article', 'Comment');
 		$TestModel = new Comment();
 		$TestModel->Attachment->validate = array('attachment' => 'notEmpty');
 
@@ -6304,8 +6356,8 @@ class ModelWriteTest extends BaseModelTest {
  * @return void
  */
 	public function testWriteFloatAsGerman() {
-		$restore = setlocale(LC_ALL, 0);
-		setlocale(LC_ALL, 'de_DE');
+		$restore = setlocale(LC_NUMERIC, 0);
+		setlocale(LC_NUMERIC, 'de_DE');
 
 		$model = new DataTest();
 		$result = $model->save(array(
@@ -6313,7 +6365,7 @@ class ModelWriteTest extends BaseModelTest {
 			'float' => 3.14593
 		));
 		$this->assertTrue((bool)$result);
-		setlocale(LC_ALL, $restore);
+		setlocale(LC_NUMERIC, $restore);
 	}
 
 /**

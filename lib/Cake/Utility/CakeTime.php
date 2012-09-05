@@ -315,10 +315,15 @@ class CakeTime {
 		if (is_integer($dateString) || is_numeric($dateString)) {
 			$date = intval($dateString);
 		} elseif (is_object($dateString) && $dateString instanceof DateTime) {
-			$dateString->setTimezone(new DateTimeZone(date_default_timezone_get()));
-			$date = (int)$dateString->format('U') + $dateString->getOffset();
+			$clone = clone $dateString;
+			$clone->setTimezone(new DateTimeZone(date_default_timezone_get()));
+			$date = (int)$clone->format('U') + $clone->getOffset();
 		} else {
 			$date = strtotime($dateString);
+		}
+
+		if ($date === -1 || empty($date)) {
+			return false;
 		}
 
 		if ($timezone === null) {
@@ -327,9 +332,6 @@ class CakeTime {
 
 		if ($timezone !== null) {
 			return self::convert($date, $timezone);
-		}
-		if ($date === -1) {
-			return false;
 		}
 		return $date;
 	}
@@ -698,10 +700,10 @@ class CakeTime {
 		$accuracy = self::$wordAccuracy;
 
 		if (is_array($options)) {
-			if (isset($options['userOffset'])) {
-				$timezone = $options['userOffset'];
-			} elseif (isset($options['timezone'])) {
+			if (isset($options['timezone'])) {
 				$timezone = $options['timezone'];
+			} elseif (isset($options['userOffset'])) {
+				$timezone = $options['userOffset'];
 			}
 
 			if (isset($options['accuracy'])) {
@@ -716,12 +718,11 @@ class CakeTime {
 
 			if (isset($options['format'])) {
 				$format = $options['format'];
-				unset($options['format']);
 			}
 			if (isset($options['end'])) {
 				$end = $options['end'];
-				unset($options['end']);
 			}
+			unset($options['end'], $options['format']);
 		} else {
 			$format = $options;
 		}
@@ -838,11 +839,6 @@ class CakeTime {
 			}
 		}
 
-		// If within the last or next 7 days
-		if (self::wasWithinLast('7 days', $dateTime, $timezone) || self::isWithinNext('7 days', $dateTime, $timezone)) {
-			$relativeDate = self::niceShort($dateTime , $timezone);
-		}
-
 		// If now
 		if ($diff == 0) {
 			$relativeDate = __d('cake', 'just now', 'just now');
@@ -927,25 +923,33 @@ class CakeTime {
  * This function also accepts a time string and a format string as first and second parameters.
  * In that case this function behaves as a wrapper for TimeHelper::i18nFormat()
  *
- * @param integer|string|DateTime $format date format string (or UNIX timestamp, strtotime() valid string or DateTime object)
+ * ## Examples:
+ *	{{{
+ *		CakeTime::format('2012-02-15', '%m-%d-%Y'); // returns 02-15-2012
+ *		CakeTime::format('2012-02-15 23:01:01', '%c'); // returns preferred date and time based on configured locale
+ *		CakeTime::format('0000-00-00', '%d-%m-%Y', 'N/A'); // return N/A becuase an invalid date was passed
+ *		CakeTime::format('2012-02-15 23:01:01', '%c', 'N/A', 'America/New_York'); // converts passed date to timezone
+ *	}}}
+ *
  * @param integer|string|DateTime $date UNIX timestamp, strtotime() valid string or DateTime object (or a date format string)
- * @param boolean $invalid flag to ignore results of fromString == false
+ * @param integer|string|DateTime $format date format string (or UNIX timestamp, strtotime() valid string or DateTime object)
+ * @param boolean|string $default if an invalid date is passed it will output supplied default value. Pass false if you want raw conversion value
  * @param string|DateTimeZone $timezone Timezone string or DateTimeZone object
  * @return string Formatted date string
  * @link http://book.cakephp.org/2.0/en/core-libraries/helpers/time.html#formatting
  */
-	public static function format($format, $date = null, $invalid = false, $timezone = null) {
-		$time = self::fromString($date, $timezone);
-		$_time = is_numeric($time) ? false : self::fromString($format, $timezone);
+	public static function format($date, $format = null, $default = false, $timezone = null) {
+		//Backwards compatible params order
+		$time = self::fromString($format, $timezone);
+		$_time = is_numeric($time) ? false : self::fromString($date, $timezone);
 
 		if (is_numeric($_time) && $time === false) {
-			$format = $date;
-			return self::i18nFormat($_time, $format, $invalid, $timezone);
+			return self::i18nFormat($_time, $format, $default, $timezone);
 		}
-		if ($time === false && $invalid !== false) {
-			return $invalid;
+		if ($time === false && $default !== false) {
+			return $default;
 		}
-		return date($format, $time);
+		return date($date, $time);
 	}
 
 /**
@@ -954,15 +958,15 @@ class CakeTime {
  *
  * @param integer|string|DateTime $date UNIX timestamp, strtotime() valid string or DateTime object
  * @param string $format strftime format string.
- * @param boolean $invalid flag to ignore results of fromString == false
+ * @param boolean|string $default if an invalid date is passed it will output supplied default value. Pass false if you want raw conversion value
  * @param string|DateTimeZone $timezone Timezone string or DateTimeZone object
  * @return string Formatted and translated date string
  * @link http://book.cakephp.org/2.0/en/core-libraries/helpers/time.html#formatting
  */
-	public static function i18nFormat($date, $format = null, $invalid = false, $timezone = null) {
+	public static function i18nFormat($date, $format = null, $default = false, $timezone = null) {
 		$date = self::fromString($date, $timezone);
-		if ($date === false && $invalid !== false) {
-			return $invalid;
+		if ($date === false && $default !== false) {
+			return $default;
 		}
 		if (empty($format)) {
 			$format = '%x';

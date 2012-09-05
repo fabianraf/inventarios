@@ -405,7 +405,10 @@ class ControllerTest extends CakeTestCase {
  *
  * @var array
  */
-	public $fixtures = array('core.post', 'core.comment', 'core.name');
+	public $fixtures = array(
+		'core.post',
+		'core.comment'
+	);
 
 /**
  * reset environment.
@@ -868,6 +871,33 @@ class ControllerTest extends CakeTestCase {
 			->will($this->returnValue(false));
 		$Controller->response->expects($this->never())->method('header');
 		$Controller->expects($this->never())->method('_stop');
+		$Controller->redirect('http://cakephp.org');
+	}
+
+/**
+ * Test that beforeRedirect works with returning an array from the controller method.
+ *
+ * @return void
+ */
+	public function testRedirectBeforeRedirectInControllerWithArray() {
+		$Controller = $this->getMock('Controller', array('_stop', 'beforeRedirect'));
+		$Controller->response = $this->getMock('CakeResponse', array('header'));
+		$Controller->Components = $this->getMock('ComponentCollection', array('trigger'));
+
+		$Controller->expects($this->once())
+			->method('beforeRedirect')
+			->with('http://cakephp.org', null, true)
+			->will($this->returnValue(array(
+				'url' => 'http://example.org',
+				'status' => 302,
+				'exit' => true
+			)));
+
+		$Controller->response->expects($this->at(0))
+			->method('header')
+			->with('Location', 'http://example.org');
+
+		$Controller->expects($this->once())->method('_stop');
 		$Controller->redirect('http://cakephp.org');
 	}
 

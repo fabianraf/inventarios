@@ -264,10 +264,6 @@ class AuthComponent extends Component {
  * @return boolean
  */
 	public function startup(Controller $controller) {
-		if ($controller->name == 'CakeError') {
-			return true;
-		}
-
 		$methods = array_flip(array_map('strtolower', $controller->methods));
 		$action = strtolower($controller->request->params['action']);
 
@@ -569,8 +565,8 @@ class AuthComponent extends Component {
 		if ($key === null) {
 			return $user;
 		}
-		if (isset($user[$key])) {
-			return $user[$key];
+		if ($value = Hash::get($user, $key)) {
+			return $value;
 		}
 		return null;
 	}

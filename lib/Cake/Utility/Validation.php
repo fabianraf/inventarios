@@ -18,6 +18,7 @@
  */
 
 App::uses('Multibyte', 'I18n');
+App::uses('File', 'Utility');
 // Load multibyte if the extension is missing.
 if (!function_exists('mb_strlen')) {
 	class_exists('Multibyte');
@@ -441,17 +442,16 @@ class Validation {
  * Check that value has a valid file extension.
  *
  * @param string|array $check Value to check
- * @param array $extensions file extensions to allow
+ * @param array $extensions file extensions to allow. By default extensions are 'gif', 'jpeg', 'png', 'jpg'
  * @return boolean Success
  */
 	public static function extension($check, $extensions = array('gif', 'jpeg', 'png', 'jpg')) {
 		if (is_array($check)) {
 			return self::extension(array_shift($check), $extensions);
 		}
-		$pathSegments = explode('.', $check);
-		$extension = strtolower(array_pop($pathSegments));
+		$extension = strtolower(pathinfo($check, PATHINFO_EXTENSION));
 		foreach ($extensions as $value) {
-			if ($extension == strtolower($value)) {
+			if ($extension === strtolower($value)) {
 				return true;
 			}
 		}
@@ -467,12 +467,12 @@ class Validation {
  */
 	public static function ip($check, $type = 'both') {
 		$type = strtolower($type);
-		$flags = array();
-		if ($type === 'ipv4' || $type === 'both') {
-			$flags[] = FILTER_FLAG_IPV4;
+		$flags = 0;
+		if ($type === 'ipv4') {
+			$flags = FILTER_FLAG_IPV4;
 		}
-		if ($type === 'ipv6' || $type === 'both') {
-			$flags[] = FILTER_FLAG_IPV6;
+		if ($type === 'ipv6') {
+			$flags = FILTER_FLAG_IPV6;
 		}
 		return (boolean)filter_var($check, FILTER_VALIDATE_IP, array('flags' => $flags));
 	}
@@ -561,6 +561,19 @@ class Validation {
  */
 	public static function numeric($check) {
 		return is_numeric($check);
+	}
+
+/**
+ * Checks if a value is a natural number.
+ *
+ * @param string $check Value to check
+ * @param boolean $allowZero Set true to allow zero, defaults to false
+ * @return boolean Success
+ * @see http://en.wikipedia.org/wiki/Natural_number
+ */
+	public static function naturalNumber($check, $allowZero = false) {
+		$regex = $allowZero ? '/^(?:0|[1-9][0-9]*)$/' : '/^[1-9][0-9]*$/';
+		return self::_check($check, $regex);
 	}
 
 /**
@@ -843,6 +856,43 @@ class Validation {
 		}
 
 		return ($sum % 10 == 0);
+	}
+
+/**
+ * Checks the mime type of a file
+ *
+ * @param string|array $check
+ * @param array $mimeTypes to check for
+ * @return boolean Success
+ * @throws CakeException when mime type can not be determined.
+ */
+	public static function mimeType($check, $mimeTypes = array()) {
+		if (is_array($check) && isset($check['tmp_name'])) {
+			$check = $check['tmp_name'];
+		}
+
+		$File = new File($check);
+		$mime = $File->mime();
+
+		if ($mime === false) {
+			throw new CakeException(__d('cake_dev', 'Can not determine the mimetype.'));
+		}
+		return in_array($mime, $mimeTypes);
+	}
+
+/**
+ * Checking for upload errors
+ *
+ * @param string|array $check
+ * @retrun boolean
+ * @see http://www.php.net/manual/en/features.file-upload.errors.php
+ */
+	public static function uploadError($check) {
+		if (is_array($check) && isset($check['error'])) {
+			$check = $check['error'];
+		}
+
+		return $check === UPLOAD_ERR_OK;
 	}
 
 /**
