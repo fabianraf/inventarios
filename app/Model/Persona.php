@@ -5,15 +5,15 @@ class Persona extends AppModel {
   public $hasOne = 'Cliente';
 	public $validate = array(
         'primer_nombre' => array(
-            'rule' => 'notEmpty',
+            'rule' => 'validateDependentFields',
             'message' => 'Ingrese primer nombre.' 
         ),
         'primer_apellido' => array(
-            'rule' => 'notEmpty',
+            'rule' => 'validateDependentFields',
             'message' => 'Ingrese primer apellido.' 
         ),
         'segundo_apellido' => array(
-            'rule' => 'notEmpty',
+            'rule' => 'validateDependentFields',
             'message' => 'Ingrese segundo apellido.' 
         ),
         'cedula' => array(
