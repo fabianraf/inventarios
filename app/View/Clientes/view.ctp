@@ -6,6 +6,11 @@
 			<?php echo $cliente['Cliente']['id']; ?>
 			&nbsp;
 		</dd>
+		<dt<?php if ($i % 2 == 0) echo $class;?>>Tipo de Persona</dt>
+		<dd<?php if ($i++ % 2 == 0) echo $class;?>>
+			<?php echo $cliente['Persona']['tipo_de_persona']; ?>
+			&nbsp;
+		</dd>
 		<dt<?php if ($i % 2 == 0) echo $class;?>>Primer Nombre</dt>
 		<dd<?php if ($i++ % 2 == 0) echo $class;?>>
 			<?php echo $cliente['Persona']['primer_nombre']; ?>

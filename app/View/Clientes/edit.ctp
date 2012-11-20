@@ -1,8 +1,10 @@
 <div class="users form">
-<?php echo $this->Form->create('Cliente', array('action'=>'add'));?>
+<?php echo $this->Form->create('Cliente');?>
 	<fieldset>
  		<legend>Edit User</legend>
-	<?php
+  <?php
+    
+    echo $this->Form->input('Persona.tipo_de_persona', array('type' => 'select', 'options' => array("0" => "Natural", "1" => "Juridica"), 'selected' => '0'));
 		echo $this->Form->input('nombre_razon_social');
 		echo $this->Form->input('especializacion');
 		echo $this->Form->input('contacto');
