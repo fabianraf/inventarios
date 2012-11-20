@@ -5,16 +5,13 @@ class Persona extends AppModel {
   public $hasOne = 'Cliente';
 	public $validate = array(
         'primer_nombre' => array(
-            'rule' => 'validateDependentFields',
-            'message' => 'Ingrese primer nombre.' 
+            'validateprimer_nombre' => array('rule' => array('validatePrimerNombre', 'primer_nombre'), 'message' => 'Ingrese primer nombre.' ),
         ),
         'primer_apellido' => array(
-            'rule' => 'validateDependentFields',
-            'message' => 'Ingrese primer apellido.' 
+            'validateprimer_apellido' => array('rule' => array('validatePrimerApellido', 'primer_apellido'), 'message' => 'Ingrese primer apellido.' ),
         ),
         'segundo_apellido' => array(
-            'rule' => 'validateDependentFields',
-            'message' => 'Ingrese segundo apellido.' 
+            'validatesegundo_apellido' => array('rule' => array('validateSegundoApellido', 'segundo_apellido'), 'message' => 'Ingrese segundo apellido.' ), 
         ),
         'cedula' => array(
           'rule'    => array('minLength', '10',
@@ -35,29 +32,34 @@ class Persona extends AppModel {
 			'nombre_completo' => 'CONCAT(Persona.primer_nombre, " ", Persona.primer_apellido)'
 	);
   
-  function validateDependentFields($field){
+  function validatePrimerNombre(){
+    //exit(debug($field['primer_nombre']));
     $passed=true;
-    switch(true){
-        case array_key_exists('primer_nombre',$field):
-            if( $this->data['Persona']['tipo_de_persona'] == 0 && (!isset($this->data['Persona']['tipo_de_persona']) or empty($this->data['Persona']['tipo_de_persona'])) ){
+   if( $this->data['Persona']['tipo_de_persona'] == 0 && $this->data['Persona']['primer_nombre'] == ""){
                 $passed=false;
             }else{                 
                 $passed=true;
             }
-        case array_key_exists('primer_apellido',$field):
-            if( $this->data['Persona']['tipo_de_persona'] == 0 && (!isset($this->data['Persona']['tipo_de_persona']) or empty($this->data['Persona']['tipo_de_persona'])) ){
+    return $passed;
+  }
+  function validatePrimerApellido(){
+    //exit(debug($field['primer_nombre']));
+    $passed=true;
+   if( $this->data['Persona']['tipo_de_persona'] == 0 && $this->data['Persona']['primer_apellido'] == ""){
                 $passed=false;
             }else{                 
                 $passed=true;
             }
-        case array_key_exists('segundo_apellido',$field):
-            if( $this->data['Persona']['tipo_de_persona'] == 0 && (!isset($this->data['Persona']['tipo_de_persona']) or empty($this->data['Persona']['tipo_de_persona'])) ){
+    return $passed;
+  }
+  function validateSegundoApellido(){
+    //exit(debug($field['primer_nombre']));
+    $passed=true;
+    if( $this->data['Persona']['tipo_de_persona'] == 0 && $this->data['Persona']['segundo_apellido'] == ""){
                 $passed=false;
             }else{                 
                 $passed=true;
             }
-        break;
-    }
     return $passed;
   }
 	
