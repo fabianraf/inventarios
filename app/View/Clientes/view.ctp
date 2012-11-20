@@ -8,7 +8,12 @@
 		</dd>
 		<dt<?php if ($i % 2 == 0) echo $class;?>>Tipo de Persona</dt>
 		<dd<?php if ($i++ % 2 == 0) echo $class;?>>
-			<?php echo $cliente['Persona']['tipo_de_persona']; ?>
+			<?php 
+        if($cliente['Persona']['tipo_de_persona'] == 0)
+          echo "Persona Natural";
+        else
+          echo "Persona Juridica";
+      ?>
 			&nbsp;
 		</dd>
 		<dt<?php if ($i % 2 == 0) echo $class;?>>Primer Nombre</dt>
@@ -31,6 +36,56 @@
 			<?php echo $cliente['Persona']['segundo_apellido']; ?>
 			&nbsp;
 		</dd>
+		<dt<?php if ($i % 2 == 0) echo $class;?>>Cargo</dt>
+		<dd<?php if ($i++ % 2 == 0) echo $class;?>>
+			<?php echo $cliente['Cargo']['nombre']; ?>
+			&nbsp;
+		</dd>
+		<dt<?php if ($i % 2 == 0) echo $class;?>>Representante Legal</dt>
+		<dd<?php if ($i++ % 2 == 0) echo $class;?>>
+			<?php echo $cliente['Cliente']['representante_legal']; ?>
+			&nbsp;
+		</dd>
+    <dt<?php if ($i % 2 == 0) echo $class;?>>Razón Social</dt>
+		<dd<?php if ($i++ % 2 == 0) echo $class;?>>
+			<?php echo $cliente['Cliente']['nombre_razon_social']; ?>
+			&nbsp;
+		</dd>
+    <dt<?php if ($i % 2 == 0) echo $class;?>>Contacto Pedidos</dt>
+		<dd<?php if ($i++ % 2 == 0) echo $class;?>>
+			<?php echo $cliente['Cliente']['contacto_pedidos']; ?>
+			&nbsp;
+		</dd>
+    <dt<?php if ($i % 2 == 0) echo $class;?>>Contacto Cobros</dt>
+		<dd<?php if ($i++ % 2 == 0) echo $class;?>>
+			<?php echo $cliente['Cliente']['contacto_cobros']; ?>
+			&nbsp;
+		</dd>
+    <dt<?php if ($i % 2 == 0) echo $class;?>>Direccion Calle Principal</dt>
+		<dd<?php if ($i++ % 2 == 0) echo $class;?>>
+			<?php echo $cliente['Cliente']['direccion_calle_principal']; ?>
+			&nbsp;
+		</dd>
+    <dt<?php if ($i % 2 == 0) echo $class;?>>Numeracion Nueva</dt>
+		<dd<?php if ($i++ % 2 == 0) echo $class;?>>
+			<?php echo $cliente['Cliente']['numeracion_nueva']; ?>
+			&nbsp;
+		</dd>
+		<dt<?php if ($i % 2 == 0) echo $class;?>>Calle Secundaria</dt>
+		<dd<?php if ($i++ % 2 == 0) echo $class;?>>
+			<?php echo $cliente['Cliente']['calle_secundaria']; ?>
+			&nbsp;
+		</dd>
+		<dt<?php if ($i % 2 == 0) echo $class;?>>Referencia</dt>
+		<dd<?php if ($i++ % 2 == 0) echo $class;?>>
+			<?php echo $cliente['Cliente']['referencia']; ?>
+			&nbsp;
+		</dd>
+		<dt<?php if ($i % 2 == 0) echo $class;?>>Zona</dt>
+		<dd<?php if ($i++ % 2 == 0) echo $class;?>>
+			<?php echo $cliente['Zona']['nombre']; ?>
+			&nbsp;
+		</dd>
 		<dt<?php if ($i % 2 == 0) echo $class;?>>Teléfono Casa</dt>
 		<dd<?php if ($i++ % 2 == 0) echo $class;?>>
 			<?php echo $cliente['Persona']['telefono_casa']; ?>
@@ -51,29 +106,39 @@
 			<?php echo $cliente['Persona']['email']; ?>
 			&nbsp;
 		</dd>
-		<dt<?php if ($i % 2 == 0) echo $class;?>>Otro</dt>
+		<dt<?php if ($i % 2 == 0) echo $class;?>>Factura a nombre de</dt>
 		<dd<?php if ($i++ % 2 == 0) echo $class;?>>
-			<?php echo $cliente['Persona']['otro']; ?>
+			<?php echo $cliente['Cliente']['factura_a_nombre_de']; ?>
 			&nbsp;
 		</dd>
-		<dt<?php if ($i % 2 == 0) echo $class;?>>Razón Social</dt>
+    <dt<?php if ($i % 2 == 0) echo $class;?>>Especializacion</dt>
 		<dd<?php if ($i++ % 2 == 0) echo $class;?>>
-			<?php echo $cliente['Cliente']['nombre_razon_social']; ?>
+			<?php echo $cliente['Especializacion']['nombre']; ?>
 			&nbsp;
 		</dd>
-		<dt<?php if ($i % 2 == 0) echo $class;?>>Especializacion</dt>
+    <dt<?php if ($i % 2 == 0) echo $class;?>>Division</dt>
 		<dd<?php if ($i++ % 2 == 0) echo $class;?>>
-			<?php echo $cliente['Cliente']['especializacion']; ?>
+			<?php echo $cliente['Division']['nombre']; ?>
 			&nbsp;
 		</dd>
-		<dt<?php if ($i % 2 == 0) echo $class;?>>Credito Aprobado</dt>
+    <dt<?php if ($i % 2 == 0) echo $class;?>>Categoria</dt>
+		<dd<?php if ($i++ % 2 == 0) echo $class;?>>
+			<?php echo $cliente['Categoria']['nombre']; ?>
+			&nbsp;
+		</dd>
+    <dt<?php if ($i % 2 == 0) echo $class;?>>Credito Aprobado</dt>
 		<dd<?php if ($i++ % 2 == 0) echo $class;?>>
 			<?php echo $cliente['Cliente']['credito_aprobado']; ?>
 			&nbsp;
 		</dd>
-		<dt<?php if ($i % 2 == 0) echo $class;?>>Forma de Pago</dt>
+    <dt<?php if ($i % 2 == 0) echo $class;?>>Forma de Pago</dt>
 		<dd<?php if ($i++ % 2 == 0) echo $class;?>>
 			<?php echo $cliente['Cliente']['forma_pago']; ?>
+			&nbsp;
+		</dd>
+    <dt<?php if ($i % 2 == 0) echo $class;?>>Croquis</dt>
+		<dd<?php if ($i++ % 2 == 0) echo $class;?>>
+			<?php // echo $cliente['Cliente']['']; ?>
 			&nbsp;
 		</dd>
 		<dt<?php if ($i % 2 == 0) echo $class;?>>H. de Atención</dt>
@@ -81,6 +146,12 @@
 			<?php echo $cliente['Cliente']['horario_atencion']; ?>
 			&nbsp;
 		</dd>
+		<dt<?php if ($i % 2 == 0) echo $class;?>>Otro</dt>
+		<dd<?php if ($i++ % 2 == 0) echo $class;?>>
+			<?php echo $cliente['Persona']['otro']; ?>
+			&nbsp;
+		</dd>
+		
 	</dl>
 </div>
 <div class="actions">
