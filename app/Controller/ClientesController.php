@@ -42,13 +42,19 @@ class ClientesController extends AppController {
   
   public function edit($id = null) {
     $this->Cliente->id = $id;
+    $this->request->data['Cliente']['id'] = $id;
+    $this->set('cargos', $this->Cliente->Cargo->find('list', array('fields'=>array('id','nombre')))); 
+    $this->set('divisiones', $this->Cliente->Division->find('list', array('fields'=>array('id','nombre')))); 
+    $this->set('categorias', $this->Cliente->Categoria->find('list', array('fields'=>array('id','nombre')))); 
+    $this->set('zonas', $this->Cliente->Zona->find('list', array('fields'=>array('id','nombre')))); 
+    $this->set('especializaciones', $this->Cliente->Especializacion->find('list', array('fields'=>array('id','nombre')))); 
     if ($this->request->is('get')) 
       {
         $this->request->data = $this->Cliente->read();
       } 
     else 
       {
-        if ($this->Cliente->save($this->request->data)) 
+        if ($this->Cliente->saveAll( $this->request->data, array('validate'=>'first'))) 
           {
             $this->Session->setFlash('Cliente ha sido actualizado satisfactoriamente.');
             $this->redirect(array('action' => 'index'));

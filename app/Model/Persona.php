@@ -5,13 +5,16 @@ class Persona extends AppModel {
   public $hasOne = 'Cliente';
 	public $validate = array(
         'primer_nombre' => array(
-            'rule' => 'validateDependentFields'
+            'rule' => 'notEmpty',
+            'message' => 'Ingrese primer nombre.' 
         ),
         'primer_apellido' => array(
-            'rule' => 'validateDependentFields'
+            'rule' => 'notEmpty',
+            'message' => 'Ingrese primer apellido.' 
         ),
         'segundo_apellido' => array(
-            'rule' => 'validateDependentFields'
+            'rule' => 'notEmpty',
+            'message' => 'Ingrese segundo apellido.' 
         ),
         'cedula' => array(
           'rule'    => array('minLength', '10',
@@ -20,10 +23,12 @@ class Persona extends AppModel {
           'message' => 'Debe contener 10 caracteres.' 
         ),
         'telefono_oficina' => array(
-          'rule' => 'notEmpty'  
+          'rule' => 'notEmpty',
+          'message' => 'Ingrese telefono de oficina.' 
         ),
         'celular' => array(
-          'rule' => 'notEmpty'  
+          'rule' => 'notEmpty',  
+          'message' => 'Ingrese telefono de oficina.' 
         ),
     );
 	public $virtualFields = array(

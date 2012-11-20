@@ -77,7 +77,7 @@
   ?>
   
 	</fieldset>
-<?php echo $this->Form->end('Submit');?>
+<?php echo $this->Form->end('Crear');?>
 </div>
 <div class="actions">
 	<h3>Actions</h3>
