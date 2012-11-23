@@ -1,30 +1,4 @@
-<script>
-  $(document).ready(function() {
-    if($("#PersonaTipoDePersona").val() == 1){
-      hide_natural();
-    }else
-      if($("#PersonaTipoDePersona").val() == 0){
-        hide_juridica();
-      }
-    $("#PersonaTipoDePersona").change(function(){
-      if($(this).val() == 1){
-       hide_natural();
-      }
-      else
-        if($(this).val() == 0){
-         hide_juridica();
-        }
-    });
-  });
-  function hide_natural(){
-     $(".natural-bloque").hide();
-     $(".juridica-bloque").show();
-  }
-  function hide_juridica(){
-     $(".juridica-bloque").hide();
-     $(".natural-bloque").show();
-  }
-</script>
+<?php echo $this->Html->script('clientes/especializaciones'); ?>
 <div class="users form">
 <?php echo $this->Form->create('Cliente', array('action'=>'edit')); ?>
 	<fieldset>

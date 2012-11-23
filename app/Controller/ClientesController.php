@@ -24,7 +24,7 @@ class ClientesController extends AppController {
     $this->set('divisiones', $this->Cliente->Division->find('list', array('fields'=>array('id','nombre')))); 
     $this->set('categorias', $this->Cliente->Categoria->find('list', array('fields'=>array('id','nombre')))); 
     $this->set('zonas', $this->Cliente->Zona->find('list', array('fields'=>array('id','nombre')))); 
-    $this->set('especializaciones', $this->Cliente->Especializacion->find('list', array('fields'=>array('id','nombre')))); 
+    $this->set('especializaciones', $this->Cliente->Especializacion->getListEspecializaciones()); 
     if(!empty($this->data)){
       if ( $this->Cliente->saveAll( $this->data, array('validate'=>'first'))) 
         {
@@ -47,7 +47,7 @@ class ClientesController extends AppController {
     $this->set('divisiones', $this->Cliente->Division->find('list', array('fields'=>array('id','nombre')))); 
     $this->set('categorias', $this->Cliente->Categoria->find('list', array('fields'=>array('id','nombre')))); 
     $this->set('zonas', $this->Cliente->Zona->find('list', array('fields'=>array('id','nombre')))); 
-    $this->set('especializaciones', $this->Cliente->Especializacion->find('list', array('fields'=>array('id','nombre')))); 
+    $this->set('especializaciones', $this->Cliente->Especializacion->getListEspecializaciones()); 
     if ($this->request->is('get')) 
       {
         $this->request->data = $this->Cliente->read();
@@ -77,6 +77,12 @@ class ClientesController extends AppController {
           $this->Session->setFlash('La Cliente con id: ' . $id . ' ha sido eliminado.');
           $this->redirect(array('action' => 'index'));
         }
+    }
+    
+    public function change_especializacion(){
+      $this->autoLayout = false;
+      $new_especializacion = $this->Cliente->Especializacion->getListEspecializaciones($this->params['url']['id']); 
+      $this->set('especializaciones', $new_especializacion); 
     }
 
   
