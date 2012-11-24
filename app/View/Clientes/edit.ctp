@@ -40,7 +40,23 @@
     echo $this->Form->input('Persona.celular');
     echo $this->Form->input('Persona.email');
     echo $this->Form->input('factura_a_nombre_de');
-		echo $this->Form->input('especializacion_id');
+		//echo $this->Form->input('especializacion_id');
+  ?>
+  <div class="input select">
+    <label for="ClienteEspecializacionId">Especializacion 1</label>
+    <select id="ClienteEspecializacionId" name="data[Cliente][especializacion_id]">
+      <?php foreach ($especializaciones as $key=>$especializacion) { ?>
+      <option <?php if($parent_especializacion == $key ){?> selected="selected" <?php } ?> value="<?php echo $key; ?>"><?php echo $especializacion; ?></option>
+      <?php } ?>
+    </select>
+    <label for="ClienteEspecializacionId2">Especializacion 2</label>
+    <select id="ClienteEspecializacionId2" name="data[Cliente][especializacion_id]">
+      <?php foreach ($especializaciones2 as $key=>$especializacion) { ?>
+      <option <?php if($this->data['Cliente']['especializacion_id'] == $key ){?> selected="selected" <?php } ?> value="<?php echo $key; ?>"><?php echo $especializacion; ?></option>
+      <?php } ?>
+    </select>
+  </div>
+  <?php
 		echo $this->Form->input('division_id');
 		echo $this->Form->input('categoria_id');
 		echo $this->Form->input('credito_aprobado');

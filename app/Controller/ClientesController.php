@@ -48,6 +48,10 @@ class ClientesController extends AppController {
     $this->set('categorias', $this->Cliente->Categoria->find('list', array('fields'=>array('id','nombre')))); 
     $this->set('zonas', $this->Cliente->Zona->find('list', array('fields'=>array('id','nombre')))); 
     $this->set('especializaciones', $this->Cliente->Especializacion->getListEspecializaciones()); 
+    $parent_especializacion = $this->Cliente->Especializacion->getParentEspecializacion($this->request->data['Cliente']['id']);
+    $this->set('parent_especializacion', $parent_especializacion); 
+    $new_especializacion = $this->Cliente->Especializacion->getListEspecializaciones($parent_especializacion); 
+    $this->set('especializaciones2', $new_especializacion); 
     if ($this->request->is('get')) 
       {
         $this->request->data = $this->Cliente->read();
