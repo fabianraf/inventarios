@@ -1,63 +1,60 @@
-<?php
-/**
- *
- * PHP 5
- *
- * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
- * Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
- *
- * Licensed under The MIT License
- * Redistributions of files must retain the above copyright notice.
- *
- * @copyright     Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
- * @link          http://cakephp.org CakePHP(tm) Project
- * @package       Cake.View.Layouts
- * @since         CakePHP(tm) v 0.10.0.1076
- * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
- */
-
-$cakeDescription = __d('cake_dev', 'CakePHP: the rapid development php framework');
-?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
-	<?php echo $this->Html->charset(); ?>
-	<title>
-		<?php echo $cakeDescription ?>:
-		<?php echo $title_for_layout; ?>
-	</title>
-	<?php
-		echo $this->Html->meta('icon');
-
-		echo $this->Html->css('cake.generic');
-		echo $this->Html->css('main');
-
-		echo $this->fetch('meta');
-		echo $this->fetch('css');
-		echo $this->fetch('script');
-    echo $this->Html->script('jquery-1.8.3');
-	?>
+<?php echo $this->Html->charset('UTF-8')?>
+<meta name="description" content="#" />
+<meta name="keywords" content="#" />
+<meta name="author" content="#" />
+<?php echo $this->Html->css('cake.forms', 'stylesheet', array("media"=>"all" ));?>
+<?php echo $this->Html->css('doctors_office', 'stylesheet', array("media"=>"screen" ));?>
+<?php echo $this->Html->css('cake.generic.css', 'stylesheet', array("media"=>"screen" ));?>
+<title>CakePHP : The PHP Rapid Development Framework :: <?php echo $title_for_layout?></title>
 </head>
 <body>
-	<div id="container">
-		<div id="header">
-			<h1><?php echo $this->Html->link($cakeDescription, 'http://cakephp.org'); ?></h1>
-		</div>
-		<div id="content">
+<div id="banner">
+  <div class="top_links clearfix" id="topnav">
+  <ul>
+    <li><a href="http://www.inventarios.com/users">Usuarios</a></li>
+	<li><a href="http://www.inventarios.com/clientes">Clientes</a></li>
+    <li><a href="http://www.inventarios.com/personas">Personas</a></li>
 
-			<?php echo $this->Session->flash(); ?>
+  </ul>
 
-			<?php echo $this->fetch('content'); ?>
-		</div>
-		<div id="footer">
-			<?php echo $this->Html->link(
-					$this->Html->image('cake.power.gif', array('alt' => $cakeDescription, 'border' => '0')),
-					'http://www.cakephp.org/',
-					array('target' => '_blank', 'escape' => false)
-				);
-			?>
-		</div>
+  </div>
+  <?php echo $this->Html->image('header_logo.jpg', array('alt'=>"pumpkin"))?>
+  <div class="page_title"><span id="page_title">RET SUMEDENT</span>
+  </div>
+</div>
+<div class="leftcontent" id="nav"> 
+<?php echo $this->Html->image('left_bg_top.gif', array('alt'=>"bg image", 'border'=>"0"))?>
+  <ul>
+    <li><a href="http://www.inventarios.com/users">Usuarios</a></li>
+	<li><a href="http://www.inventarios.com/clientes">Clientes</a></li>
+    <li><a href="http://www.inventarios.com/personas">Personas</a></li>
+
+  </ul>
+  <div class="left_news">
+    <p>&nbsp;</p>
+    <p><span class="news_title">News Area?</span><br />
+      A little area for some news, links or perhaps a profile?</p>
+    <p><span class="news_title">Note About Above Links</span><br />
+	The left navigation links above show a small blue box on hover, at least they show up in anything other than IE (of course).</p>
+	
+	<p>The other browsers show them alright, except that there was a small lag in Opera, but the image showed up fine after that.</p>
+	
+	<p>It's not a huge deal, but i wanted to note it anyway. </p>
+  </div>
+</div>
+<div id="centercontent">
+
+<?php echo $content_for_layout?>
+	<div class="footer" id="footer">
+	Copyright &copy; 2005 (-site name-)&nbsp;&nbsp;
+	Design by <a href="#">pogy366</a> 
+	
 	</div>
-	<?php echo $this->element('sql_dump'); ?>
+
+
+</div>
 </body>
 </html>
