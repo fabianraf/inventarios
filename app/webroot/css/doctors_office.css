@@ -323,3 +323,6 @@ table tr td {
 table tr.altRow td {
   background: #f4f4f4;
 }
+.altRowCliente {
+  background: #f4f4f4;
+}
