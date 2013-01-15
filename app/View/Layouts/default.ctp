@@ -6,10 +6,11 @@
 <meta name="keywords" content="#" />
 <meta name="author" content="#" />
 
-<?php echo $this->Html->css('cake.forms', 'stylesheet', array("media"=>"all" ));?>
-<?php echo $this->Html->css('doctors_office', 'stylesheet', array("media"=>"screen" ));?>
-<?php echo $this->Html->css('cake.generic.css', 'stylesheet', array("media"=>"screen" ));
-	echo $this->Html->script('jquery-1.8.3');
+<?php 
+ echo $this->Html->css('cake.forms', 'stylesheet', array("media"=>"all" ));
+ echo $this->Html->css('doctors_office', 'stylesheet', array("media"=>"screen" ));
+ echo $this->Html->css('cake.generic.css', 'stylesheet', array("media"=>"screen" ));
+ echo $this->Html->script('jquery-1.8.3');
 ?>
 <title>CakePHP : The PHP Rapid Development Framework :: <?php echo $title_for_layout?></title>
 </head>
