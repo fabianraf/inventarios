@@ -1,3 +1,4 @@
+<?php// debug($cliente); ?>
 <div class="persona view">
 <h2>Cliente</h2>
 	<dl><?php $i = 0; $class = ' class="altRowCliente"';?>
@@ -8,6 +9,11 @@
 				&nbsp;
 			</dd>
 		</div>
+		<dt<?php if ($i % 2 == 0) echo $class;?>>Cédula</dt>
+		<dd<?php if ($i++ % 2 == 0) echo $class;?>>
+			<?php echo $cliente['Persona']['cedula']; ?>
+			&nbsp;
+		</dd>
 		<dt<?php if ($i % 2 == 0) echo $class; ?>>Tipo de Persona</dt>
 		<dd<?php if ($i++ % 2 == 0) echo $class;?>>
 			<?php 
