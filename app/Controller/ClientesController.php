@@ -7,7 +7,14 @@ class ClientesController extends AppController {
   public $helpers = array('Html', 'Form');
   //public $layout= ''; 
   public function index(){
-  	$this->set('Clientes', $this->Cliente->find('all'));
+  	$this->set('Clientes', $this->Cliente->find('all', array('order' => array(
+																																							'Cliente.id' => 'ASC',
+																																							'Persona.tipo_de_persona' => 'ASC'
+																																							)  
+																														
+																														)
+																							 )
+							);
   }
   
   public function view($id = null) {
