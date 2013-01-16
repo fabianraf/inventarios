@@ -3,13 +3,15 @@
 	<table cellpadding="0" cellspacing="0">
 	<tr>
 			<th>id</th>
+			<th>Tipo de persona</th>
 			<th>Nombre</th>
-			<th>email</th>
+			<th>Email</th>
 			<th class="actions">Acciones</th>
 	</tr>
 	<?php
 	$i = 0;
 	foreach ($Clientes as $cliente):
+		//debug($cliente);
 		$class = null;
 		if ($i++ % 2 == 0) {
 			$class = ' class="altrow"';
@@ -18,6 +20,7 @@
 	?>
 	<tr<?php echo $class;?>>
 		<td><?php echo $cliente['Cliente']['id']; ?>&nbsp;</td>
+		<td><?php echo $cliente['Persona']['tipo_de_persona_texto']; ?>&nbsp;</td>
 		<td><?php echo $cliente['Persona']['nombre_completo']; ?>&nbsp;</td>
 		<td><?php echo $cliente['Persona']['email']; ?>&nbsp;</td>
 		<td class="actions">
