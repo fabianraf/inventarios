@@ -9,14 +9,14 @@
   <?php
     echo $this->Form->input('Persona.cedula');
   ?>
-  <div class="natural-bloque">
+  <!-- <div class="natural-bloque"> -->
     <?php
       echo $this->Form->input('Persona.primer_nombre');
       echo $this->Form->input('Persona.segundo_nombre');
       echo $this->Form->input('Persona.primer_apellido');
       echo $this->Form->input('Persona.segundo_apellido');
     ?>
-  </div>
+  <!-- </div> -->
     
   <?php
     echo $this->Form->input('cargo_id');

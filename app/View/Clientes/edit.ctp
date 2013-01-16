@@ -4,19 +4,21 @@
 	<fieldset>
  		<legend>Editar Cliente</legend>
   <?php
-    echo $this->Form->input('Persona.tipo_de_persona', array('type' => 'select', 'options' => array(0 => "Natural", 1 => "Juridica")));
+  	if ($current_user['role'] == 'admin'):
+  		echo $this->Form->input('Persona.tipo_de_persona', array('type' => 'select', 'options' => array(0 => "Natural", 1 => "Juridica")));
+  	endif;
   ?>
   <?php
     echo $this->Form->input('Persona.cedula');
   ?>
-  <div class="natural-bloque">
+  <!-- <div class="natural-bloque"> -->
     <?php
       echo $this->Form->input('Persona.primer_nombre');
       echo $this->Form->input('Persona.segundo_nombre');
       echo $this->Form->input('Persona.primer_apellido');
       echo $this->Form->input('Persona.segundo_apellido');
     ?>
-  </div>
+  <!-- </div>-->
     
   <?php
     echo $this->Form->input('cargo_id');
