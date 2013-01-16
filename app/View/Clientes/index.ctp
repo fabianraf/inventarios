@@ -16,12 +16,18 @@
 		if ($i++ % 2 == 0) {
 			$class = ' class="altrow"';
 		}
-  //debug($cliente['Cliente']);
+  debug($cliente['Cliente']);
 	?>
 	<tr<?php echo $class;?>>
 		<td><?php echo $cliente['Cliente']['id']; ?>&nbsp;</td>
 		<td><?php echo $cliente['Persona']['tipo_de_persona_texto']; ?>&nbsp;</td>
-		<td><?php echo $cliente['Persona']['nombre_completo']; ?>&nbsp;</td>
+		<td><?php 
+		if($cliente['Persona']['tipo_de_persona'] == 0): //natural
+			echo $cliente['Persona']['nombre_completo']; 
+		else: 
+			echo $cliente['Cliente']['nombre_razon_social'];
+		endif;
+		?>&nbsp;</td>
 		<td><?php echo $cliente['Persona']['email']; ?>&nbsp;</td>
 		<td class="actions">
 			<?php echo $this->Html->link('View', array('action' => 'view', $cliente['Cliente']['id'])); ?>

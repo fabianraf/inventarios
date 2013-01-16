@@ -4,22 +4,21 @@
 	<fieldset>
  		<legend>Editar Cliente</legend>
   <?php
-  	if ($current_user['role'] == 'admin'):
+  	if ($current_user['role'] == 'admin'): // currently only admin can edit or delete so we dont need this validation
   		echo $this->Form->input('Persona.tipo_de_persona', array('type' => 'select', 'options' => array(0 => "Natural", 1 => "Juridica")));
   	endif;
   ?>
   <?php
     echo $this->Form->input('Persona.cedula');
   ?>
-  <!-- <div class="natural-bloque"> -->
+  <div class="natural-bloque">
     <?php
-      echo $this->Form->input('Persona.primer_nombre');
-      echo $this->Form->input('Persona.segundo_nombre');
-      echo $this->Form->input('Persona.primer_apellido');
-      echo $this->Form->input('Persona.segundo_apellido');
-    ?>
-  <!-- </div>-->
-    
+  	echo $this->Form->input('Persona.primer_nombre');
+    echo $this->Form->input('Persona.segundo_nombre');
+    echo $this->Form->input('Persona.primer_apellido');
+    echo $this->Form->input('Persona.segundo_apellido');
+	  ?>
+  </div>  
   <?php
     echo $this->Form->input('cargo_id');
   ?>
@@ -37,11 +36,15 @@
 		echo $this->Form->input('calle_secundaria');
 		echo $this->Form->input('referencia');
 		echo $this->Form->input('zona_id');
-    echo $this->Form->input('Persona.telefono_casa');
+		echo '<div class="natural-bloque">';
+			echo $this->Form->input('Persona.telefono_casa');
+		echo '</div>';
     echo $this->Form->input('Persona.telefono_oficina');
     echo $this->Form->input('Persona.celular');
     echo $this->Form->input('Persona.email');
-    echo $this->Form->input('factura_a_nombre_de');
+    echo '<div class="natural-bloque">';
+    	echo $this->Form->input('factura_a_nombre_de');
+    echo '</div>';
 		//echo $this->Form->input('especializacion_id');
   ?>
   <div class="input select">

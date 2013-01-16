@@ -94,11 +94,16 @@
 			<?php echo $cliente['Zona']['nombre']; ?>
 			&nbsp;
 		</dd>
-		<dt<?php if ($i % 2 == 0) echo $class;?>>Teléfono Casa</dt>
-		<dd<?php if ($i++ % 2 == 0) echo $class;?>>
+		
+		<?php if($cliente['Persona']['tipo_de_persona'] == 0): //natural?>
+		
+		<dt <?php if ($i % 2 == 0) echo $class;?>>Teléfono Casa</dt>
+		<dd <?php if ($i++ % 2 == 0) echo $class;?>>
 			<?php echo $cliente['Persona']['telefono_casa']; ?>
 			&nbsp;
 		</dd>
+		<?php endif; ?> 
+		
 		<dt<?php if ($i % 2 == 0) echo $class;?>>Teléfono Oficina</dt>
 		<dd<?php if ($i++ % 2 == 0) echo $class;?>>
 			<?php echo $cliente['Persona']['telefono_oficina']; ?>
@@ -114,11 +119,13 @@
 			<?php echo $cliente['Persona']['email']; ?>
 			&nbsp;
 		</dd>
+		<?php if($cliente['Persona']['tipo_de_persona'] == 0): ?>
 		<dt<?php if ($i % 2 == 0) echo $class;?>>Factura a nombre de</dt>
 		<dd<?php if ($i++ % 2 == 0) echo $class;?>>
 			<?php echo $cliente['Cliente']['factura_a_nombre_de']; ?>
 			&nbsp;
 		</dd>
+		<?php endif ?>
     <dt<?php if ($i % 2 == 0) echo $class;?>>Especializacion</dt>
 		<dd<?php if ($i++ % 2 == 0) echo $class;?>>
 			<?php echo $cliente['Especializacion']['nombre']; ?>
