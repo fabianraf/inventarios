@@ -44,7 +44,7 @@
     echo $this->Form->input('Persona.celular');
     echo $this->Form->input('Persona.email');
     echo '<div class="natural-bloque">';
-    	echo $this->Form->input('factura_a_nombre_de');
+    	echo $this->Form->input('factura_a_nombre_de', array('rows'=>'10'));
     echo '</div>';
 		//echo $this->Form->input('especializacion_id');
   ?>
