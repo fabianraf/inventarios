@@ -109,6 +109,11 @@
 			<?php echo $cliente['Persona']['telefono_oficina']; ?>
 			&nbsp;
 		</dd>
+		<dt<?php if ($i % 2 == 0) echo $class;?>>Teléfono Oficina 2</dt>
+		<dd<?php if ($i++ % 2 == 0) echo $class;?>>
+			<?php echo $cliente['Persona']['telefono_oficina2']; ?>
+			&nbsp;
+		</dd>
 		<dt<?php if ($i % 2 == 0) echo $class;?>>Celular</dt>
 		<dd<?php if ($i++ % 2 == 0) echo $class;?>>
 			<?php echo $cliente['Persona']['celular']; ?>

@@ -40,6 +40,7 @@
 			echo $this->Form->input('Persona.telefono_casa');
 		echo '</div>';
     echo $this->Form->input('Persona.telefono_oficina');
+    echo $this->Form->input('Persona.telefono_oficina2');
     echo $this->Form->input('Persona.celular');
     echo $this->Form->input('Persona.email');
     echo '<div class="natural-bloque">';
