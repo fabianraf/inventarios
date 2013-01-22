@@ -209,12 +209,12 @@ dl dt:nth-child(4n+1) {
 
 dt {
 	font-weight: bold;
-	padding-left: 4px;
+	padding-left: 0px;
 	vertical-align: top;
-	width: 10em;
+	width: 12em;
 }
 dd {
-	margin-left: 10em;
+	margin-left: 12em;
 	margin-top: -2em;
 	vertical-align: top;
 }
@@ -250,7 +250,7 @@ fieldset fieldset div {
 }
 form div {
 	clear: both;
-	margin-bottom: 1em;
+	margin-bottom: 0.4em;
 	vertical-align: text-top;
 }
 form .input {
@@ -278,7 +278,6 @@ input, textarea {
 	clear: both;
 	font-size: 120%;
 	font-family: "frutiger linotype", "lucida grande", "verdana", sans-serif;
-	width:98%;
 }
 select {
 	clear: both;
