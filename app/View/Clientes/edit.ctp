@@ -5,7 +5,7 @@
 		<legend>Editar Cliente</legend>
 		<?php
 		if ($current_user['role'] == 'admin'){ // currently only admin can edit or delete so we dont need this validation
-			echo $this->Form->input('Persona.tipo_de_persona', array('type' => 'select', 'options' => array(0 => "Natural", 1 => "Juridica")));
+			echo $this->Form->input('Persona.tipo_de_persona', array('type' => 'select', 'options' => array(0 => "Natural", 1 => "Juridica"), array('disabled'=> 'disabled')));
 		}
 		?>
 		<div>
