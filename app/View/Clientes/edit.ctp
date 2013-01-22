@@ -9,9 +9,16 @@
 		}
 		?>
 		<div>
-			<div class="inlineBlock">
+			<div class="natural-bloque inlineBlock">
 				<?php
 				echo $this->Form->input('Persona.cedula');
+				?>
+			</div>
+		</div>
+		<div>
+			<div class="juridica-bloque inlineBlock">
+				<?php
+				echo $this->Form->input('Persona.ruc');
 				?>
 			</div>
 		</div>
