@@ -16,7 +16,7 @@
 		if ($i++ % 2 == 0) {
 			$class = ' class="altrow"';
 		}
-  debug($cliente['Cliente']);
+  //debug($cliente['Cliente']);
 	?>
 	<tr<?php echo $class;?>>
 		<td><?php echo $cliente['Cliente']['id']; ?>&nbsp;</td>

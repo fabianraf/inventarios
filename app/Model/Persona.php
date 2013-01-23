@@ -15,10 +15,14 @@ class Persona extends AppModel {
 					'validatesegundo_apellido' => array('rule' => array('validateSegundoApellido', 'segundo_apellido'), 'message' => 'Ingrese segundo apellido.' ),
 			),
 			'cedula' => array(
-					'rule'    => array('minLength', '10',
-							'maxLength', '10'
-					),
-					'message' => 'Debe contener 10 caracteres.'
+					'validate_cedula' => array('rule' => array('validatesCedula', 'cedula'), 'message' => 'Ingrese cedula.' ),
+					array('rule' => array('validatesLengthCedula', 'cedula'),'message' => 'Debe contener 10 caracteres.'),
+					array('rule' => array('validatesUniquenessCedula', 'cedula'),'message' => 'Cedula ya ingresada anteriormente.'),
+			),
+			'ruc' => array(
+					'validate_ruc' => array('rule' => array('validatesRuc', 'ruc'), 'message' => 'Ingrese RUC.' ),
+					array('rule' => array('validatesLengthRuc', 'ruc'),'message' => 'Debe contener 13 caracteres.'),
+					array('rule' => array('validatesUniquenessRuc', 'ruc'),'message' => 'RUC ya ingresada anteriormente.'),
 			),
 			'telefono_oficina' => array(
 					'rule' => 'notEmpty',
@@ -32,6 +36,92 @@ class Persona extends AppModel {
 	public $virtualFields = array(
 			'nombre_completo' => 'CONCAT(Persona.primer_nombre, " ", Persona.primer_apellido)'
 	);
+
+
+	function validatesUniquenessCedula(){
+		//exit(debug($this->data['Persona']['tipo_de_persona']));
+		$passed = true;
+		if($this->data['Persona']['tipo_de_persona'] == '1')
+			return $passed;
+		$resultado = $this->find('all', array(
+				'conditions' => array('Persona.cedula' => $this->data['Persona']['cedula'])
+		));
+		//exit(debug(count($resultado)));
+
+		if( count($resultado) == 0 ) {
+			$passed = true;
+		}else{
+			$passed = false;
+		}
+		return $passed;
+	}
+
+	function validatesUniquenessRuc(){
+		//exit(debug($this->data['Persona']['tipo_de_persona']));
+		$passed = true;
+		if($this->data['Persona']['tipo_de_persona'] == '0')
+			return $passed;
+		$resultado = $this->find('all', array(
+				'conditions' => array('Persona.ruc' => $this->data['Persona']['ruc'])
+		));
+		//exit(count($resultado));
+
+		if( count($resultado) == 0){
+			$passed = true;
+		}else{
+			$passed = false;
+		}
+		return $passed;
+	}
+
+	function validatesCedula(){
+		$passed=true;
+		if( $this->data['Persona']['tipo_de_persona'] == 0 && $this->data['Persona']['cedula'] == ""){
+			$passed=false;
+		}else{
+			$passed=true;
+		}
+		return $passed;
+	}
+
+	function validatesRuc(){
+		$passed=true;
+		if( $this->data['Persona']['tipo_de_persona'] == 1 && $this->data['Persona']['ruc'] == ""){
+			$passed=false;
+		}else{
+			$passed=true;
+		}
+		return $passed;
+	}
+
+	function validatesLengthCedula(){
+		$passed = true;
+		if($this->data['Persona']['tipo_de_persona'] == '1')
+			return $passed;
+
+
+		if( strlen($this->data['Persona']['cedula']) == 10 ) {
+			$passed = true;
+		}else{
+			$passed = false;
+		}
+		return $passed;
+	}
+
+	function validatesLengthRuc(){
+		$passed = true;
+		if($this->data['Persona']['tipo_de_persona'] == '0')
+			return $passed;
+
+
+		if( strlen($this->data['Persona']['ruc']) == 13 ) {
+			$passed = true;
+		}else{
+			$passed = false;
+		}
+		return $passed;
+	}
+
 
 	function validatePrimerNombre(){
 		//exit(debug($field['primer_nombre']));
@@ -75,15 +165,15 @@ class Persona extends AppModel {
 
 	function afterFind($results)
 	{
-// 		exit(debug($results));
-			foreach($results as &$entry) {
-				if (isset($entry[$this->alias]['tipo_de_persona'])){
-					$entry[$this->alias]['tipo_de_persona_texto'] = $this->obtenerTipoDePersona($entry[$this->alias]['tipo_de_persona']);
-				}
-				if ($this->concatNames){
-					$entry['Persona']['primer_nombre'] = $entry['Persona']['primer_nombre'].' '.$entry['Persona']['primer_apellido'];
-				}
+		// 		exit(debug($results));
+		foreach($results as &$entry) {
+			if (isset($entry[$this->alias]['tipo_de_persona'])){
+				$entry[$this->alias]['tipo_de_persona_texto'] = $this->obtenerTipoDePersona($entry[$this->alias]['tipo_de_persona']);
 			}
+			if ($this->concatNames){
+				$entry['Persona']['primer_nombre'] = $entry['Persona']['primer_nombre'].' '.$entry['Persona']['primer_apellido'];
+			}
+		}
 		return $results;
 	}
 
@@ -99,7 +189,18 @@ class Persona extends AppModel {
 			}
 		}
 		return $res;
-		
+
 	}
+
+
+
+	function esJuridica($tipo_de_persona){
+		if($tipo_de_persona == 0 ){
+			return true;
+		}else{
+			return false;
+		}
+	}
+
 
 }

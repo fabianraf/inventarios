@@ -22,10 +22,10 @@ $(document).ready(function() {
               url: '/clientes/change_especializacion',
               success: function(data){
                   if($("#ClienteEspecializacionId2").length > 0){
-                    $("#ClienteEspecializacionId2").html(data);
+                    $("#ClienteEspecializacionId2").parent('div').html(data);
                   }
                   else{
-                    $("#ClienteEspecializacionId").after(data);
+                    $("#ClienteEspecializacionId").parent('div').after(data);
                   }
                   
                   $("#ClienteEspecializacionId").attr('name', '');
