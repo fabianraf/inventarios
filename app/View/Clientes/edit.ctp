@@ -63,35 +63,39 @@
 			echo $this->Form->input('referencia');
 			?>
 		</div>
-		
+
 		<?php
 		echo $this->Form->input('zona_id');
 		echo $this->Form->input('croquis_id');
 		?>
 
 		<div class="natural-bloque inlineBlock">
-		<?php
-		echo $this->Form->input('Persona.telefono_casa');
-		?>
+			<?php
+			echo $this->Form->input('Persona.telefono_casa');
+			?>
 		</div>
 		<div class="inlineBlock">
 			<?php
 			echo $this->Form->input('Persona.telefono_oficina');
 			echo $this->Form->input('Persona.telefono_oficina2');
 			echo $this->Form->input('Persona.celular');
-			
+
 
 			?>
-		</div>		
+		</div>
+		<div class="inlineBlock">
+			<?php
+			echo $this->Form->input('Persona.email');
+			?>
+		</div>
 		<?php
-		echo $this->Form->input('Persona.email');
 		echo '<div class="natural-bloque">';
-		echo $this->Form->input('factura_a_nombre_de', array('rows'=>'10'));
+		echo $this->Form->input('persona_id');
+		echo $this->Form->input('factura_a_nombre_de', array('rows'=>'5'));
 		echo '</div>';
-		echo $this->Form->input('especializacion_id');
-		echo $this->Form->input('division_id');
 		echo $this->Form->input('categoria_id');
-
+		echo $this->Form->input('division_id');
+		echo $this->Form->input('especializacion_id');
 		if ($current_user['role'] == 'admin'){
 			echo $this->Form->input('credito_aprobado');
 		};
@@ -100,7 +104,7 @@
 		echo $this->Form->input('horario_atencion');
 		echo $this->Form->input('Persona.otro', array('rows'=>'5'));
 		?>
-		
+
 
 	</fieldset>
 	<?php echo $this->Form->end('Edit');?>
