@@ -77,7 +77,8 @@
 		<?php
 		echo $this->Form->input('Persona.email');
 		echo '<div class="natural-bloque">';
-		echo $this->Form->input('factura_a_nombre_de', array('rows'=>'10'));
+		echo $this->Form->input('persona_id');
+		echo $this->Form->input('factura_a_nombre_de', array('rows'=>'5'));
 		echo '</div>';
 		echo $this->Form->input('especializacion_id');
 		echo $this->Form->input('division_id');
