@@ -33,6 +33,29 @@ $(document).ready(function() {
             });
     });
 
+    
+    $("#ClientePersonaId").change(function(){
+    	alert($(this).val());
+        $.ajax({
+               type: 'GET',
+               data: {id: $(this).val(),'loadPersona':'true'}, 
+//               url: '/js/clientes/jsCalls.php',
+               url: '/clientes/getCliente',
+               error: function(xhr, status, error) { alert('Error: '+ xhr.status+ ' - '+ error); },
+               success: function(response) {alert('ok succes'); $('#factura_a_nombre_de').html(response); }
+//               success: function(data){
+//            	   alert('ok');
+//                   if($("#factura_a_nombre_de").length > 0){
+//                     $("#factura_a_nombre_de").html(data);
+//                   }
+//                   else{
+//                     $("#factura_a_nombre_de").after(data);
+//                   }
+//                   
+//                   $("#factura_a_nombre_de").attr('name', '');
+//               }
+             });
+     });
 
   });
   function hide_natural(){
