@@ -170,30 +170,17 @@ class Persona extends AppModel {
 			if (isset($entry[$this->alias]['tipo_de_persona'])){
 				$entry[$this->alias]['tipo_de_persona_texto'] = $this->obtenerTipoDePersona($entry[$this->alias]['tipo_de_persona']);
 			}
-			if ($this->concatNames){
-				$entry['Persona']['primer_nombre'] = $entry['Persona']['primer_nombre'].' '.$entry['Persona']['primer_apellido'];
-			}
 		}
 		return $results;
 	}
 
 	public function getCedulaNombre($tipoDePersona=0) {
-		$conditions = array( 'fields' => array('primer_apellido','primer_nombre', 'cedula'),
+		$conditions = array( 'fields' => array( 'cedula','nombre_completo'),
 				'conditions' => array('Persona.tipo_de_persona' => $tipoDePersona )
 		);
-		$results = $this->find('list', $conditions);
-		$res = array();
-		foreach($results as $key=>$val) {
-			foreach($val as $data) {
-				$res[$key]=$data;
-			}
-		}
-		return $res;
+		return $results = $this->find('list', $conditions);
 
 	}
-
-
-
 	function esJuridica($tipo_de_persona){
 		if($tipo_de_persona == 0 ){
 			return true;

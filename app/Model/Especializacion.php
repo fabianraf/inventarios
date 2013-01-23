@@ -10,6 +10,7 @@ class Especializacion extends AppModel {
             'conditions' => array('Especializacion.parent_id' => $id)
         );
         return $this->find('list', $conditions);
+        
     }
     
   public function getParentEspecializacion($cliente_id){
