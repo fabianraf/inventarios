@@ -34,10 +34,10 @@ $(document).ready(function() {
     });
 
     
-    $("#ClientePersonaId").change(function(){
+    $("#ClientePersonasNaturales").change(function(){
         $.ajax({
                type: 'GET',
-               data: {id: $(this).val(),'loadPersona':'true'}, 
+               data: {id: $(this).val()}, 
                url: '/clientes/getCliente',
                error: function(xhr, status, error) { alert('Error: '+ xhr.status+ ' - '+ error); },
                success: function(response) {
