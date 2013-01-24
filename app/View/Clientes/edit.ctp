@@ -90,7 +90,7 @@
 		</div>
 		<?php
 		echo '<div class="natural-bloque">';
-		echo $this->Form->input('persona_id');
+		echo $this->Form->input('personasNaturales');
 		echo $this->Form->input('factura_a_nombre_de', array('rows'=>'5'));
 		echo '</div>';
 		echo $this->Form->input('categoria_id');

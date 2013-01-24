@@ -5,7 +5,6 @@ App::uses('Controller', 'Controller');
 class ClientesController extends AppController {
 	public $name = "Clientes";
 	public $helpers = array('Html', 'Form');
-	//public $layout= '';
 	public function index(){
 		$this->set('Clientes', $this->Cliente->find('all', array('order' => array(
 				'Cliente.id' => 'ASC',
@@ -23,7 +22,7 @@ class ClientesController extends AppController {
 	}
 
 	public function add() {
-		debug($this->request->is);
+// 		debug($this->request->is);
 
 		// debug($divisiones);
 		//$division = New Division()
@@ -32,8 +31,9 @@ class ClientesController extends AppController {
 		$this->set('categorias', $this->Cliente->Categoria->find('list', array('fields'=>array('id','nombre'))));
 		$this->set('zonas', $this->Cliente->Zona->find('list', array('fields'=>array('id','nombre'))));
 		$this->set('especializaciones', $this->Cliente->Especializacion->getListEspecializaciones());
-		$this->set('personas', $this->Cliente->Persona->getCedulaNombre()); // natural
+		$this->set('personasNaturales', $this->Cliente->Persona->getCedulaNombre()); // natural
 		if(!empty($this->data)){
+			
 			if ( $this->Cliente->saveAll( $this->data, array('validate'=>'first')))
 			{
 				$this->Session->setFlash('Cliente ha sido guardado.');
@@ -56,11 +56,12 @@ class ClientesController extends AppController {
 		$this->set('categorias', $this->Cliente->Categoria->find('list', array('fields'=>array('id','nombre'))));
 		$this->set('zonas', $this->Cliente->Zona->find('list', array('fields'=>array('id','nombre'))));
 		$this->set('especializaciones', $this->Cliente->Especializacion->getListEspecializaciones());
-		$this->set('personas', $this->Cliente->Persona->getCedulaNombre()); // natural
+		$this->set('personasNaturales', $this->Cliente->Persona->getCedulaNombre()); // natural
 		$parent_especializacion = $this->Cliente->Especializacion->getParentEspecializacion($this->request->data['Cliente']['id']);
 		$this->set('parent_especializacion', $parent_especializacion);
-		$new_especializacion = $this->Cliente->Especializacion->getListEspecializaciones($parent_especializacion);
-		$this->set('especializaciones2', $new_especializacion);
+// 		$new_especializacion = $this->Cliente->Especializacion->getListEspecializaciones($parent_especializacion);
+// 		$this->set('especializaciones2', $new_especializacion);
+//  		exit(debug($this->Cliente->Persona->id));
 		if ($this->request->is('get'))
 		{
 			$this->request->data = $this->Cliente->read();
