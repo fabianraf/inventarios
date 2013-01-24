@@ -8,6 +8,7 @@
 			echo $this->Form->input('Persona.tipo_de_persona', array('type' => 'select', 'options' => array(0 => "Natural", 1 => "Juridica"), array('disabled'=> 'disabled')));
 		}
 		?>
+    <input type="hidden" name="data[Persona][tipo_de_persona]" value="<?php echo $this->data['Persona']['tipo_de_persona'] ?>"/>
 		<div>
 			<div class="natural-bloque inlineBlock">
 				<?php
