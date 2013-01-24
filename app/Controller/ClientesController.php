@@ -62,6 +62,9 @@ class ClientesController extends AppController {
 // 		$new_especializacion = $this->Cliente->Especializacion->getListEspecializaciones($parent_especializacion);
 // 		$this->set('especializaciones2', $new_especializacion);
 //  		exit(debug($this->Cliente->Persona->id));
+    $cliente_completo = $this->Cliente->read();
+    $persona_id = $cliente_completo['Persona']['id'];
+    $this->request->data['Persona']['id'] = $persona_id;
 		if ($this->request->is('get'))
 		{
 			$this->request->data = $this->Cliente->read();

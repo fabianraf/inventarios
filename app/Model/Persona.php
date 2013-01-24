@@ -2,8 +2,8 @@
 class Persona extends AppModel {
 
 	public $name = 'Persona';
+  public $useTable = 'personas';
 	public $hasOne = 'Cliente';
-	private $concatNames = true;
 	public $validate = array(
 			'primer_nombre' => array(
 					'validateprimer_nombre' => array('rule' => array('validatePrimerNombre', 'primer_nombre'), 'message' => 'Ingrese primer nombre.' ),
@@ -39,31 +39,41 @@ class Persona extends AppModel {
 
 
 	function validatesUniquenessCedula(){
-		//exit(debug($this->data['Persona']['tipo_de_persona']));
+		//exit(debug($this->data));
 		$passed = true;
 		if($this->data['Persona']['tipo_de_persona'] == '1')
 			return $passed;
-		$resultado = $this->find('all', array(
-				'conditions' => array('Persona.cedula' => $this->data['Persona']['cedula'])
-		));
-		//exit(debug(count($resultado)));
-
+    if(isset($this->data['Persona']['id']))
+      $resultado = $this->find('all', array(
+          'conditions' => array('Persona.cedula' => $this->data['Persona']['cedula'],
+                                'Persona.id != ' => $this->data['Persona']['id'])
+      ));
+    else
+      $resultado = $this->find('all', array(
+          'conditions' => array('Persona.cedula' => $this->data['Persona']['cedula'])
+      ));
+    //exit(debug(count($resultado)));
 		if( count($resultado) == 0 ) {
 			$passed = true;
 		}else{
-			$passed = false;
+      $passed = false;
 		}
 		return $passed;
 	}
 
 	function validatesUniquenessRuc(){
-		//exit(debug($this->data['Persona']['tipo_de_persona']));
 		$passed = true;
 		if($this->data['Persona']['tipo_de_persona'] == '0')
 			return $passed;
-		$resultado = $this->find('all', array(
-				'conditions' => array('Persona.ruc' => $this->data['Persona']['ruc'])
-		));
+    if(isset($this->data['Persona']['id']))
+      $resultado = $this->find('all', array(
+          'conditions' => array('Persona.ruc' => $this->data['Persona']['ruc'],
+                                'Persona.id != ' => $this->data['Persona']['id'])
+      ));
+    else
+      $resultado = $this->find('all', array(
+          'conditions' => array('Persona.ruc' => $this->data['Persona']['ruc'])
+      ));
 		//exit(count($resultado));
 
 		if( count($resultado) == 0){
