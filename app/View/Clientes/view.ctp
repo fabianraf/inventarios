@@ -51,19 +51,21 @@
 			<?php echo $cliente['Persona']['segundo_apellido']; ?>
 			&nbsp;
 		</dd>
-		<?php } else{ ?>
-		<dt <?php if ($i % 2 == 0) echo $class;?>>RUC</dt>
-		<dd <?php if ($i++ % 2 == 0) echo $class;?>>
-			<?php echo $cliente['Persona']['ruc']; ?>
-			&nbsp;
-		</dd>
-		<?php }?>
 		<dt <?php if ($i % 2 == 0) echo $class;?>>Cargo</dt>
 		<dd <?php if ($i++ % 2 == 0) echo $class;?>>
 
 			<?php echo $cliente['Cargo']['nombre']; ?>
 			&nbsp;
 		</dd>
+		<?php } else{ ?>
+		<dt <?php if ($i % 2 == 0) echo $class;?>>RUC</dt>
+		<dd <?php if ($i++ % 2 == 0) echo $class;?>>
+			<?php echo $cliente['Persona']['ruc']; ?>
+			&nbsp;
+		</dd>
+
+		<?php }?>
+
 		<dt <?php if ($i % 2 == 0) echo $class;?>>Representante Legal</dt>
 		<dd <?php if ($i++ % 2 == 0) echo $class;?>>
 			<?php echo $cliente['Cliente']['representante_legal']; ?>
