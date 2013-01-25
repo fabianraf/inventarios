@@ -88,8 +88,8 @@
 		</div>
 		<?php
 		echo '<div class="natural-bloque">';
-		echo $this->Form->input('personasNaturales');
-		echo $this->Form->input('factura_a_nombre_de', array('rows'=>'5'));
+		echo $this->Form->input('personasNaturales', array('label'=> "Factura a nombre de"));
+		echo $this->Form->input('factura_a_nombre_de', array('rows'=>'5','label'=>''));
 		echo '</div>';
 		echo $this->Form->input('categoria_id');
 		echo $this->Form->input('division_id');
