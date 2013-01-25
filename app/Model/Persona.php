@@ -29,8 +29,7 @@ class Persona extends AppModel {
 					'message' => 'Ingrese telefono de oficina.'
 			),
 			'celular' => array(
-					'rule' => 'notEmpty',
-					'message' => 'Ingrese telefono de oficina.'
+          array('rule' => array('validatesCelular', 'celular'),'message' => 'Celular no puede estar vacío.'),
 			),
 	);
 	public $virtualFields = array(
@@ -41,7 +40,7 @@ class Persona extends AppModel {
 	function validatesUniquenessCedula(){
 		//exit(debug($this->data));
 		$passed = true;
-		if($this->data['Persona']['tipo_de_persona'] == '1')
+		if($this->esJuridica($this->data['Persona']['tipo_de_persona']))
 			return $passed;
     if(isset($this->data['Persona']['id']))
       $resultado = $this->find('all', array(
@@ -63,7 +62,7 @@ class Persona extends AppModel {
 
 	function validatesUniquenessRuc(){
 		$passed = true;
-		if($this->data['Persona']['tipo_de_persona'] == '0')
+		if(!$this->esJuridica($this->data['Persona']['tipo_de_persona']))
 			return $passed;
     if(isset($this->data['Persona']['id']))
       $resultado = $this->find('all', array(
@@ -86,7 +85,7 @@ class Persona extends AppModel {
 
 	function validatesCedula(){
 		$passed=true;
-		if( $this->data['Persona']['tipo_de_persona'] == 0 && $this->data['Persona']['cedula'] == ""){
+		if(!$this->esJuridica($this->data['Persona']['tipo_de_persona']) && $this->data['Persona']['cedula'] == ""){
 			$passed=false;
 		}else{
 			$passed=true;
@@ -96,7 +95,7 @@ class Persona extends AppModel {
 
 	function validatesRuc(){
 		$passed=true;
-		if( $this->data['Persona']['tipo_de_persona'] == 1 && $this->data['Persona']['ruc'] == ""){
+		if($this->esJuridica($this->data['Persona']['tipo_de_persona']) && $this->data['Persona']['ruc'] == ""){
 			$passed=false;
 		}else{
 			$passed=true;
@@ -106,7 +105,7 @@ class Persona extends AppModel {
 
 	function validatesLengthCedula(){
 		$passed = true;
-		if($this->data['Persona']['tipo_de_persona'] == '1')
+		if($this->esJuridica($this->data['Persona']['tipo_de_persona']))
 			return $passed;
 
 
@@ -120,7 +119,7 @@ class Persona extends AppModel {
 
 	function validatesLengthRuc(){
 		$passed = true;
-		if($this->data['Persona']['tipo_de_persona'] == '0')
+		if(!$this->esJuridica($this->data['Persona']['tipo_de_persona']))
 			return $passed;
 
 
@@ -136,7 +135,7 @@ class Persona extends AppModel {
 	function validatePrimerNombre(){
 		//exit(debug($field['primer_nombre']));
 		$passed=true;
-		if( $this->data['Persona']['tipo_de_persona'] == 0 && $this->data['Persona']['primer_nombre'] == ""){
+		if(!$this->esJuridica($this->data['Persona']['tipo_de_persona']) && $this->data['Persona']['primer_nombre'] == ""){
 			$passed=false;
 		}else{
 			$passed=true;
@@ -146,7 +145,7 @@ class Persona extends AppModel {
 	function validatePrimerApellido(){
 		//exit(debug($field['primer_nombre']));
 		$passed=true;
-		if( $this->data['Persona']['tipo_de_persona'] == 0 && $this->data['Persona']['primer_apellido'] == ""){
+		if(!$this->esJuridica($this->data['Persona']['tipo_de_persona']) && $this->data['Persona']['primer_apellido'] == ""){
 			$passed=false;
 		}else{
 			$passed=true;
@@ -156,7 +155,7 @@ class Persona extends AppModel {
 	function validateSegundoApellido(){
 		//exit(debug($field['primer_nombre']));
 		$passed=true;
-		if( $this->data['Persona']['tipo_de_persona'] == 0 && $this->data['Persona']['segundo_apellido'] == ""){
+		if(!$this->esJuridica($this->data['Persona']['tipo_de_persona']) && $this->data['Persona']['segundo_apellido'] == ""){
 			$passed=false;
 		}else{
 			$passed=true;
@@ -192,11 +191,21 @@ class Persona extends AppModel {
 
 	}
 	function esJuridica($tipo_de_persona){
-		if($tipo_de_persona == 0 ){
+		if($tipo_de_persona == 1 ){
 			return true;
 		}else{
 			return false;
 		}
+	}
+  
+  function validatesCelular(){
+    //exit(debug(!$this->esJuridica($this->data['Persona']['tipo_de_persona'])));
+    if(!$this->esJuridica($this->data['Persona']['tipo_de_persona']) && $this->data['Persona']['celular'] == ""){
+			$passed = false;
+		}else{
+			$passed = true;
+		}
+		return $passed;
 	}
 
 
