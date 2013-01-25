@@ -71,7 +71,7 @@
 			<?php echo $cliente['Cliente']['representante_legal']; ?>
 			&nbsp;
 		</dd>
-		<dt <?php if ($i % 2 == 0) echo $class;?>>Razón Social</dt>
+		<dt <?php if ($i % 2 == 0) echo $class;?>>Empresa/Institución</dt>
 		<dd <?php if ($i++ % 2 == 0) echo $class;?>>
 			<?php echo $cliente['Cliente']['nombre_razon_social']; ?>
 			&nbsp;
@@ -84,6 +84,11 @@
 		<dt <?php if ($i % 2 == 0) echo $class;?>>Contacto Cobros</dt>
 		<dd <?php if ($i++ % 2 == 0) echo $class;?>>
 			<?php echo $cliente['Cliente']['contacto_cobros']; ?>
+			&nbsp;
+		</dd>
+		<dt <?php if ($i % 2 == 0) echo $class;?>>Ciudad</dt>
+		<dd <?php if ($i++ % 2 == 0) echo $class;?>>
+			<?php echo $cliente['Cliente']['ciudad']; ?>
 			&nbsp;
 		</dd>
 		<dt <?php if ($i % 2 == 0) echo $class;?>>Direccion Calle Principal</dt>

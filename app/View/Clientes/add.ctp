@@ -35,7 +35,7 @@
 		</div>
 		<?php
 		echo $this->Form->input('cargo_id');
-		echo $this->Form->input('nombre_razon_social');
+		echo $this->Form->input('nombre_razon_social', array('label' => "Empresa/Institución"));
 		?>
 		<div class="juridica-bloque">
 			<?php
@@ -49,8 +49,12 @@
 			echo $this->Form->input('contacto_cobros');
 			?>
 		</div>
+		<?php
+		echo $this->Form->input('ciudad');
+		?>
 		<div class="inlineBlock">
 			<?php
+			
 			echo $this->Form->input('direccion_calle_principal');
 			echo $this->Form->input('calle_secundaria');
 			echo $this->Form->input('numeracion_nueva');
@@ -88,8 +92,8 @@
 		</div>
 		<?php
 		echo '<div class="natural-bloque">';
-		echo $this->Form->input('personasNaturales');
-		echo $this->Form->input('factura_a_nombre_de', array('rows'=>'5'));
+		echo $this->Form->input('personasNaturales', array('label'=> "Factura a nombre de"));
+		echo $this->Form->input('factura_a_nombre_de', array('rows'=>'5','label'=>''));
 		echo '</div>';
 		echo $this->Form->input('categoria_id');
 		echo $this->Form->input('division_id');

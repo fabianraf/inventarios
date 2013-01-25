@@ -8,7 +8,8 @@
 			echo $this->Form->input('Persona.tipo_de_persona', array('type' => 'select', 'options' => array(0 => "Natural", 1 => "Juridica"), array('disabled'=> 'disabled')));
 		}
 		?>
-    <input type="hidden" name="data[Persona][tipo_de_persona]" value="<?php echo $this->data['Persona']['tipo_de_persona'] ?>"/>
+		<input type="hidden" name="data[Persona][tipo_de_persona]"
+			value="<?php echo $this->data['Persona']['tipo_de_persona'] ?>" />
 		<div>
 			<div class="natural-bloque inlineBlock">
 				<?php
@@ -38,7 +39,7 @@
 		</div>
 		<?php
 		echo $this->Form->input('cargo_id');
-		echo $this->Form->input('nombre_razon_social');
+		echo $this->Form->input('nombre_razon_social', array('label' => "Empresa/Institución"));
 		?>
 		<div class="juridica-bloque">
 			<?php
@@ -52,6 +53,9 @@
 			echo $this->Form->input('contacto_cobros');
 			?>
 		</div>
+		<?php
+		echo $this->Form->input('ciudad');
+		?>
 		<div class="inlineBlock">
 			<?php
 			echo $this->Form->input('direccion_calle_principal');
@@ -91,8 +95,8 @@
 		</div>
 		<?php
 		echo '<div class="natural-bloque">';
-		echo $this->Form->input('personasNaturales');
-		echo $this->Form->input('factura_a_nombre_de', array('rows'=>'5'));
+		echo $this->Form->input('personasNaturales', array('label'=> "Factura a nombre de"));
+		echo $this->Form->input('factura_a_nombre_de', array('rows'=>'5','label'=>''));
 		echo '</div>';
 		echo $this->Form->input('categoria_id');
 		echo $this->Form->input('division_id');
