@@ -71,7 +71,7 @@
 			<?php echo $cliente['Cliente']['representante_legal']; ?>
 			&nbsp;
 		</dd>
-		<dt <?php if ($i % 2 == 0) echo $class;?>>Razón Social</dt>
+		<dt <?php if ($i % 2 == 0) echo $class;?>>Empresa/Institución</dt>
 		<dd <?php if ($i++ % 2 == 0) echo $class;?>>
 			<?php echo $cliente['Cliente']['nombre_razon_social']; ?>
 			&nbsp;

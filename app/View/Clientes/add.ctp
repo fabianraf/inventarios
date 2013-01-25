@@ -35,7 +35,7 @@
 		</div>
 		<?php
 		echo $this->Form->input('cargo_id');
-		echo $this->Form->input('nombre_razon_social');
+		echo $this->Form->input('nombre_razon_social', array('label' => "Empresa/Institución"));
 		?>
 		<div class="juridica-bloque">
 			<?php
