@@ -65,6 +65,8 @@ class ClientesController extends AppController {
     $cliente_completo = $this->Cliente->read();
     $persona_id = $cliente_completo['Persona']['id'];
     $this->request->data['Persona']['id'] = $persona_id;
+    
+    //exit(debug($this));
 		if ($this->request->is('get'))
 		{
 			$this->request->data = $this->Cliente->read();
@@ -106,7 +108,7 @@ class ClientesController extends AppController {
 		$persona = $this->Cliente->Persona->findByCedula($this->params['url']['id']);
 		$htmlExport = "Nombre: ".$persona['Persona']['primer_nombre']." ".$persona['Persona']['segundo_nombre']." ".$persona['Persona']['primer_apellido']." ".$persona['Persona']['segundo_apellido']."\r";
 		$htmlExport .= "Cedula: ".$persona['Persona']['cedula']."\r";
-		$htmlExport .= "Dirección: ".$persona['Persona']['direccion']."\r";
+		$htmlExport .= "Dirección Cliente: ".$persona['Cliente']['direccion_calle_principal']." ".$persona['Cliente']['numeracion_nueva']." y ".$persona['Cliente']['calle_secundaria']."\r";
 		echo $htmlExport .= "Teléfono casa: ".$persona['Persona']['telefono_casa']." Teléfono oficina: ".$persona['Persona']['telefono_oficina'];
 		die();
 	}
