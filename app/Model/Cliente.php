@@ -46,7 +46,15 @@ class Cliente extends AppModel {
           'rule' => 'notEmpty'  
         ),
     );
-
+  
+  
 	
+  function getNombreCompletoORazonSocial(){
+    if($this->data['Persona']['tipo_de_persona'] == 1)
+      return $this->data['Cliente']['nombre_razon_social'];
+    else
+      return $this->data['Persona']['nombre_completo'];
+  }
+  
 	
 }
