@@ -86,6 +86,11 @@
 			<?php echo $cliente['Cliente']['contacto_cobros']; ?>
 			&nbsp;
 		</dd>
+		<dt <?php if ($i % 2 == 0) echo $class;?>>Ciudad</dt>
+		<dd <?php if ($i++ % 2 == 0) echo $class;?>>
+			<?php echo $cliente['Cliente']['ciudad']; ?>
+			&nbsp;
+		</dd>
 		<dt <?php if ($i % 2 == 0) echo $class;?>>Direccion Calle Principal</dt>
 		<dd <?php if ($i++ % 2 == 0) echo $class;?>>
 			<?php echo $cliente['Cliente']['direccion_calle_principal']; ?>

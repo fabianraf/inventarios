@@ -53,6 +53,9 @@
 			echo $this->Form->input('contacto_cobros');
 			?>
 		</div>
+		<?php
+		echo $this->Form->input('ciudad');
+		?>
 		<div class="inlineBlock">
 			<?php
 			echo $this->Form->input('direccion_calle_principal');
