@@ -32,7 +32,7 @@ class ClientesController extends AppController {
 		}
 		if ($choice=='name'){
 			
-			$conditions = array("OR" => array("Persona.primer_nombre LIKE" => $criteria, "Persona.segundo_nombre LIKE" => $criteria,"Persona.primer_apellido LIKE" => $criteria,"Persona.segundo_apellido LIKE" => $criteria));
+			$conditions = array("OR" => array("Persona.primer_nombre LIKE" => "%".$criteria."%", "Persona.segundo_nombre LIKE" => "%".$criteria."%","Persona.primer_apellido LIKE" => "%".$criteria."%","Persona.segundo_apellido LIKE" => "%".$criteria."%"));
 			return  $this->Cliente->Persona->find('all',array('conditions' => $conditions));
 // 			return  $this->Cliente->Persona->findAllByPrimer_nombreOrSegundo_nombreOrPrimer_apellidoOrSegundo_apellido($criteria,$criteria,$criteria,$criteria);
 		}
