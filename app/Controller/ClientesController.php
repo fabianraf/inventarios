@@ -5,7 +5,9 @@ App::uses('Controller', 'Controller');
 class ClientesController extends AppController {
 	public $name = "Clientes";
 	public $helpers = array('Html', 'Form');
+  
 	public function index(){
+    $this->set("title_for_layout","Clientes"); 
 		$this->set('Clientes', $this->Cliente->find('all', array('order' => array(
 				'Cliente.id' => 'ASC',
 				'Persona.tipo_de_persona' => 'ASC'
@@ -16,22 +18,26 @@ class ClientesController extends AppController {
 		);
 	}
 
+
+  
 	public function view($id = null) {
-		$this->Cliente->id = $id;
+    $this->Cliente->id = $id;
 		$this->set('cliente', $this->Cliente->read());
-	}
+    $this->set("title_for_layout", $this->Cliente->getNombreCompletoORazonSocial());
+  }
 
 	public function add() {
 // 		debug($this->request->is);
 
 		// debug($divisiones);
 		//$division = New Division()
-		$this->set('cargos', $this->Cliente->Cargo->find('list', array('fields'=>array('id','nombre'))));
+    $this->set('cargos', $this->Cliente->Cargo->find('list', array('fields'=>array('id','nombre'))));
 		$this->set('divisiones', $this->Cliente->Division->find('list', array('fields'=>array('id','nombre'))));
 		$this->set('categorias', $this->Cliente->Categoria->find('list', array('fields'=>array('id','nombre'))));
 		$this->set('zonas', $this->Cliente->Zona->find('list', array('fields'=>array('id','nombre'))));
 		$this->set('especializaciones', $this->Cliente->Especializacion->getListEspecializaciones());
 		$this->set('personasNaturales', $this->Cliente->Persona->getCedulaNombre()); // natural
+    $this->set("title_for_layout", "Nuevo Cliente");
 		if(!empty($this->data)){
 			
 			if ( $this->Cliente->saveAll( $this->data, array('validate'=>'first')))
@@ -64,6 +70,7 @@ class ClientesController extends AppController {
 //  		exit(debug($this->Cliente->Persona->id));
     $cliente_completo = $this->Cliente->read();
     $persona_id = $cliente_completo['Persona']['id'];
+    $this->set("title_for_layout", $this->Cliente->getNombreCompletoORazonSocial());
     $this->request->data['Persona']['id'] = $persona_id;
     
     //exit(debug($this));

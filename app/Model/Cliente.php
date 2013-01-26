@@ -64,8 +64,8 @@ class Cliente extends AppModel {
 		$passed = true;
 		if($this->data['Persona']['tipo_de_persona'] == '0')
 			return $passed;
-	
-	
+
+
 		if( strlen($this->data['Persona']['contacto_cobros']) >0 ) {
 			$passed = true;
 		}else{
@@ -73,5 +73,33 @@ class Cliente extends AppModel {
 		}
 		return $passed;
 	}
-	
+		
+	function getNombreCompletoORazonSocial(){
+		if($this->data['Persona']['tipo_de_persona'] == 1)
+			return $this->data['Cliente']['nombre_razon_social'];
+		else
+			return $this->data['Persona']['nombre_completo'];
+	}
+	/*  ORIGINAL
+	 public $validate = array(
+	 		'cargo_id' => array(
+	 				'rule' => 'notEmpty'
+	 		),
+	 		'contacto_pedidos' => array(
+	 				'rule' => 'notEmpty'
+	 		),
+	 		'contacto_cobros' => array(
+	 				'rule' => 'notEmpty'
+	 		),
+	 		'direccion_calle_principal' => array(
+	 				'rule' => 'notEmpty'
+	 		),
+	 		'zona_id' => array(
+	 				'rule' => 'notEmpty'
+	 		),
+	 );
+
+
+	*/
+
 }

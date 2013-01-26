@@ -12,7 +12,7 @@
  echo $this->Html->css('cake.generic.css', 'stylesheet', array("media"=>"screen" ));
  echo $this->Html->script('jquery-1.8.3');
 ?>
-<title>CakePHP : The PHP Rapid Development Framework :: <?php echo $title_for_layout?></title>
+<title> <?php echo $title_for_layout?></title>
 </head>
 <body>
 <div id="banner">
