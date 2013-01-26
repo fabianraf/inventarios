@@ -7,6 +7,6 @@
 	echo $this->Form->radio('choice',$options,$attributes);
 	echo $this->Form->input('criteria', array('label'=>'CRITERIO DE BUSQUEDA'));
 	?>
-	<?php echo $this->Form->end('index');?>
+	<?php echo $this->Form->end('Buscar');?>
 	</li>
 </div>
