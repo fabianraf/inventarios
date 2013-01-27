@@ -56,5 +56,6 @@
 	<h3>Acciones</h3>
 	<ul>
 		<li><?php echo $this->Html->link('Nuevo cliente', array('action' => 'add')); ?></li>
+		<li><?php echo $this->Html->link('Todos los Clientes', array('action' => 'index'));?></li>
 	</ul>
 </div>

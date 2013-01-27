@@ -1,6 +1,6 @@
 <?php $this->Html->script("clientes/busqueda", array("inline"=>false)); ?>
-<div class="users index">
-	<h2>Clientes</h2>
+<div class="users index" style="display: inline-block;">
+  <h2>Clientes</h2>
 
 	<?php echo $this->Form->create('Cliente', array('action'=>'index')); 
 	$options=array('cedula'=>'CEDULA/RUC','name'=>'NOMBRE','razonSocial'=>'RAZON SOCIAL', 'city' =>'CIUDAD', 'zone' =>'ZONA', 'especiality' =>'ESPECIALIDAD');

@@ -1,6 +1,5 @@
-<?php // debug($cliente); ?>
+<?php echo $this->render('search', 'ajax');  ?>
 <div class="persona view">
-	<h2>Cliente</h2>
 	<dl>
 		<?php $i = 0; $class = ' class="altRowCliente"';?>
 		<div>
