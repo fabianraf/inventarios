@@ -11,6 +11,8 @@
  echo $this->Html->css('doctors_office', 'stylesheet', array("media"=>"screen" ));
  echo $this->Html->css('cake.generic.css', 'stylesheet', array("media"=>"screen" ));
  echo $this->Html->script('jquery-1.8.3');
+ echo $this->Html->script('jquery-watermark');
+ echo $scripts_for_layout; 
 ?>
 <title> <?php echo $title_for_layout?></title>
 </head>

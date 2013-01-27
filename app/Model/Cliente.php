@@ -30,22 +30,23 @@ class Cliente extends AppModel {
 					'foreignKey'   => 'especializacion_id'
 			),
 	);
-	public $validate = array('cargo_id' => array(
-			'rule' => 'notEmpty'
-	),
-			'contacto_pedidos' => array(
-					array('rule' => array('optionalOnNaturalPedidos', 'contacto_pedidos'),'notEmpty'
-					),
-					'contacto_cobros' =>
-					array('rule' => array('optionalOnNaturalCobros', 'contacto_cobros'),'notEmpty'
-					),
-					'direccion_calle_principal' => array(
-							'rule' => 'notEmpty'
-					),
-					'zona_id' => array(
-							'rule' => 'notEmpty'
-					)
-			));
+  //FIXME: Problems with optionalOnNaturalCobros
+//	public $validate = array('cargo_id' => array(
+//			'rule' => 'notEmpty'
+//	),
+//			'contacto_pedidos' => array(
+//					array('rule' => array('optionalOnNaturalPedidos', 'contacto_pedidos'),'notEmpty'
+//					),
+//					'contacto_cobros' =>
+//					array('rule' => array('optionalOnNaturalCobros', 'contacto_cobros'),'notEmpty'
+//					),
+//					'direccion_calle_principal' => array(
+//							'rule' => 'notEmpty'
+//					),
+//					'zona_id' => array(
+//							'rule' => 'notEmpty'
+//					)
+//			));
 
 	function optionalOnNaturalPedidos(){
 		$passed = true;
@@ -80,7 +81,7 @@ class Cliente extends AppModel {
 		else
 			return $this->data['Persona']['nombre_completo'];
 	}
-	/*  ORIGINAL
+	//  ORIGINAL
 	 public $validate = array(
 	 		'cargo_id' => array(
 	 				'rule' => 'notEmpty'
@@ -100,6 +101,6 @@ class Cliente extends AppModel {
 	 );
 
 
-	*/
+
 
 }

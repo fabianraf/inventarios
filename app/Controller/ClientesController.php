@@ -5,60 +5,70 @@ App::uses('Controller', 'Controller');
 class ClientesController extends AppController {
 	public $name = "Clientes";
 	public $helpers = array('Html', 'Form');
+  
 
 	public function index(){
-
+//$this->controller->helpers[] = "AppHelper"; 
 		$this->set("title_for_layout","Clientes");
 		if(isset($this->data['Cliente']['choice']) &&  isset($this->data['Cliente']['criteria'])){
-			$buildResult = $this->search($this->data['Cliente']['choice'],$this->data['Cliente']['criteria']);
-			$this->set('Clientes',$buildResult  );
+      $buildResult = $this->search($this->data['Cliente']['choice'], $this->data['Cliente']['criteria']);
+			$this->set('Clientes', $buildResult);
 		}else{
-			$this->set('Clientes', $this->Cliente->find('all', array('order' => array(
-					'Cliente.id' => 'ASC',
-					'Persona.tipo_de_persona' => 'ASC'
-			)
-
-			)
-			)
-			);
+      $data = $this->paginate('Cliente');
+      //$sorted_data = Set::sort($data, '{n}.Persona.tipo_de_persona', 'ASC');
+      $this->set('Clientes', $data);
+      
+			
+//			$this->set('Clientes', $this->Cliente->find('all', array('order' => array(
+//					'Cliente.id' => 'ASC',
+//					'Persona.tipo_de_persona' => 'ASC')))
+//			);
 		}
 
 
 	}
 
-	public function search($choice=null,$criteria=null) {
+	public function search($choice=null, $criteria=null) {
+     //$this->autoLayout = false;
+    $conditions = NULL;
 		if ($choice=='cedula'){
-			return  $this->Cliente->Persona->findAllByCedulaOrRuc($criteria,$criteria); //array of conditions$criteria);
-		}
+      $conditions = array("OR" => array("Persona.cedula LIKE" => "%" . $criteria . "%", "Persona.ruc LIKE" => "%" . $criteria . "%"));
+    }
 		if ($choice=='name'){
-			
 			$conditions = array("OR" => array("Persona.primer_nombre LIKE" => "%".$criteria."%", "Persona.segundo_nombre LIKE" => "%".$criteria."%","Persona.primer_apellido LIKE" => "%".$criteria."%","Persona.segundo_apellido LIKE" => "%".$criteria."%"));
-			return  $this->Cliente->Persona->find('all',array('conditions' => $conditions));
-// 			return  $this->Cliente->Persona->findAllByPrimer_nombreOrSegundo_nombreOrPrimer_apellidoOrSegundo_apellido($criteria,$criteria,$criteria,$criteria);
 		}
 		if ($choice=='razonSocial'){
 			$conditions =  array("Cliente.nombre_razon_social LIKE" => "%".$criteria."%");
-			return  $this->Cliente->find('all',array('conditions'=>$conditions));
 		}
 		if ($choice=='city'){
-			return $this->Cliente->findAllByCiudad($criteria);
+			$conditions = array("Cliente.ciudad LIKE" => "%".$criteria."%");
+      //return $this->Cliente->findAllByCiudad($criteria);
 		}
 		if ($choice=='zone'){
-			return $this->Cliente->findAllByZona_id($criteria);
+      $conditions = array("Cliente.zona_id = " => $criteria);
 		}
-		if ($choice=='especiality'){
-// 			exit(debug($this->Cliente->Especializacion->findAllByNombre($criteria)));
-		$i=0;
-		$clientesId = array();
-			foreach( $this->Cliente->Especializacion->findAllByNombre($criteria) as $cliente){
-				array_push($clientesId,$cliente['Cliente']['id']);
-			}
+		//if ($choice=='especiality'){
+    //  $conditions = array("Especializacion.nombre LIKE" => "%".$criteria."%");
+//		$i=0;
+//		$clientesId = array();
+//			foreach( $this->Cliente->Especializacion->findAllByNombre($criteria) as $cliente){
+//				array_push($clientesId,$cliente['Cliente']['id']);
+//			}
+//			
+//			$conditions =  array("Cliente.id" => $clientesId);
+//			return  $this->Cliente->find('all',array('conditions'=>$conditions));
 			
-			$conditions =  array("Cliente.id" => $clientesId);
-			return  $this->Cliente->find('all',array('conditions'=>$conditions));
-			
-		}
-		return	array();
+		//}
+    if($conditions == NULL)
+      return array(); 
+    else{
+    $this->paginate = array(
+          'conditions' => $conditions,
+      );
+    $clientes = $this->paginate('Cliente');
+    return $clientes;
+    }
+		
 	}
 
 	public function view($id = null) {
@@ -160,7 +170,11 @@ class ClientesController extends AppController {
 		echo $htmlExport .= "Teléfono casa: ".$persona['Persona']['telefono_casa']." Teléfono oficina: ".$persona['Persona']['telefono_oficina'];
 		die();
 	}
-
+  
+  public $paginate = array(
+        'limit' => 10,
+         
+    );
 
 
 }

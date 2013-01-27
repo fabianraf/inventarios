@@ -1,8 +1,9 @@
-<?php echo $this->Html->script('clientes/especializaciones'); ?>
+<?php $this->Html->script('clientes/especializaciones', array("inline"=>false)); ?>
+<?php echo $this->render('search', 'ajax');  ?>
 <div class="users form">
 	<?php echo $this->Form->create('Cliente', array('action'=>'edit')); ?>
 	<fieldset>
-		<legend>Editar Cliente</legend>
+		<legend>Editar</legend>
 		<?php
 		if ($current_user['role'] == 'admin'){ // currently only admin can edit or delete so we dont need this validation
 			echo $this->Form->input('Persona.tipo_de_persona', array('type' => 'select', 'options' => array(0 => "Natural", 1 => "Juridica"), array('disabled'=> 'disabled')));

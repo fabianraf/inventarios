@@ -344,10 +344,19 @@ SPECIFIC CHANGES FOR INVENTARIOS
 	padding-right: 15px;
 	margin-top: 0px;
 }
+.inlineBlock div {
+	display: inline-block;
+	padding-right: 15px;
+	margin-top: 0px;
+}
 .inlineBlock input {
 	width: 230px;	
 	margin-right: 0px;
 }
 .longInput input, textarea {
 	width: 720px;
+}
+
+.right{
+  float: right;
 }

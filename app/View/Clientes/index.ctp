@@ -1,11 +1,16 @@
+<?php echo $this->render('search', 'ajax');  ?>
 <div class="users index">
-	<h2>Clientes</h2>
-	<table cellpadding="0" cellspacing="0">
+	<div class="right">
+    <?php echo $this->Paginator->prev(' << ', array(), null, array('class' => 'prev disabled', 'style' => "display:none;")); ?>
+    <?php echo $this->Paginator->numbers(); ?>
+    <?php echo $this->Paginator->next(' >> ', array(), null, array('class' => 'next disabled', 'style' => "display:none;")); ?>
+  </div>
+  <table cellpadding="0" cellspacing="0">
 	<tr>
-			<th>id</th>
-			<th>Tipo de persona</th>
-			<th>Nombre</th>
-			<th>Email</th>
+			<th><?php echo $this->Paginator->sort('Cliente.id','Id'); ?></th>  
+			<th><?php echo $this->Paginator->sort('Persona.tipo_de_persona','Tipo de Persona'); ?></th>
+			<th><?php echo $this->Paginator->sort('Persona.primer_apellido','Nombre'); ?></th>
+			<th><?php echo $this->Paginator->sort('Persona.email','Email'); ?></th>
 			<th class="actions">Acciones</th>
 	</tr>
 	<?php
@@ -41,11 +46,15 @@
 	</tr>
 <?php endforeach; ?>
 	</table>
+  <div class="right">
+    <?php echo $this->Paginator->prev(' << ', array(), null, array('class' => 'prev disabled', 'style' => "display:none;")); ?>
+    <?php echo $this->Paginator->numbers(); ?>
+    <?php echo $this->Paginator->next(' >> ', array(), null, array('class' => 'next disabled', 'style' => "display:none;")); ?>
+  </div>
 </div>
 <div class="actions">
 	<h3>Acciones</h3>
 	<ul>
 		<li><?php echo $this->Html->link('Nuevo cliente', array('action' => 'add')); ?></li>
-		<li><?php echo $this->Html->link('Buscar', array('action' => 'search')); ?></li>
 	</ul>
 </div>
