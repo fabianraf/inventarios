@@ -9,7 +9,7 @@
 		echo $this->Form->input('password_confirmation', array('type'=>'password'));
 		
 		if ($current_user['role'] == 'admin'){
-			echo $this->Form->input('role', array('type' => 'select', 'options' => array('admin','normal')));
+			echo $this->Form->input('role', array('type' => 'select', 'options' => array('normal' =>'normal','admin'=>'admin')));
 		};
 		
 	?>
