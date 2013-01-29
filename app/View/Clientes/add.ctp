@@ -34,28 +34,30 @@
 			echo $this->Form->input('Persona.segundo_apellido');
 			?>
 		</div>
-		<?php
-		echo $this->Form->input('cargo_id');
-		echo $this->Form->input('nombre_razon_social', array('label' => "Empresa/Institución"));
-		?>
+		<div class="natural-bloque inlineBlock">
+			<?php
+			echo $this->Form->input('cargo_id');
+			?>
+		</div>
 		<div class="juridica-bloque">
 			<?php
+			echo $this->Form->input('nombre_razon_social', array('label' => "Empresa/Institución"));
 			echo $this->Form->input('representante_legal');
 			?>
 		</div>
 		<div class="inlineBlock">
-
-			<?php
+			<?php 
 			echo $this->Form->input('contacto_pedidos');
 			echo $this->Form->input('contacto_cobros');
 			?>
+
 		</div>
 		<?php
 		echo $this->Form->input('ciudad');
 		?>
 		<div class="inlineBlock">
 			<?php
-			
+
 			echo $this->Form->input('direccion_calle_principal');
 			echo $this->Form->input('calle_secundaria');
 			echo $this->Form->input('numeracion_nueva');
@@ -82,7 +84,6 @@
 			echo $this->Form->input('Persona.telefono_oficina');
 			echo $this->Form->input('Persona.telefono_oficina2');
 			echo $this->Form->input('Persona.celular');
-
 			?>
 		</div>
 		<div class="inlineBlock">
