@@ -86,7 +86,7 @@ class ClientesController extends AppController {
 		$this->set('divisiones', $this->Cliente->Division->find('list', array('fields'=>array('id','nombre'))));
 		$this->set('categorias', $this->Cliente->Categoria->find('list', array('fields'=>array('id','nombre'))));
 		$this->set('zonas', $this->Cliente->Zona->find('list', array('fields'=>array('id','nombre'))));
-		$this->set('especializaciones', $this->Cliente->Especializacion->getListEspecializaciones());
+		$this->set('especializaciones', $this->Cliente->Especializacion->find('list', array('fields'=>array('id','nombre'))));
 		$this->set('personasNaturales', $this->Cliente->Persona->getCedulaNombre()); // natural
 		$this->set("title_for_layout", "Nuevo Cliente");
 		if(!empty($this->data)){
