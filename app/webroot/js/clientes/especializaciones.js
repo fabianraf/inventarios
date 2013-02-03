@@ -20,25 +20,6 @@ $(document).ready(function() {
         }
     });
 
-    $("#ClienteEspecializacionId").change(function(){
-       $.ajax({
-              type: 'GET',
-              data: {id: $(this).val()},
-              url: '/clientes/change_especializacion',
-              success: function(data){
-                  if($("#ClienteEspecializacionId2").length > 0){
-                    $("#ClienteEspecializacionId2").parent('div').html(data);
-                  }
-                  else{
-                    $("#ClienteEspecializacionId").parent('div').after(data);
-                  }
-                  
-                  $("#ClienteEspecializacionId").attr('name', '');
-              }
-            });
-    });
-
-    
     $("#ClientePersonasNaturales").change(function(){
         $.ajax({
                type: 'GET',

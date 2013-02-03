@@ -116,9 +116,6 @@ class ClientesController extends AppController {
 		$this->set('personasNaturales', $this->Cliente->Persona->getCedulaNombre()); // natural
 		$parent_especializacion = $this->Cliente->Especializacion->getParentEspecializacion($this->request->data['Cliente']['id']);
 		$this->set('parent_especializacion', $parent_especializacion);
-		// 		$new_especializacion = $this->Cliente->Especializacion->getListEspecializaciones($parent_especializacion);
-		// 		$this->set('especializaciones2', $new_especializacion);
-		//  		exit(debug($this->Cliente->Persona->id));
 		$cliente_completo = $this->Cliente->read();
 		$persona_id = $cliente_completo['Persona']['id'];
 		$this->set("title_for_layout", $this->Cliente->getNombreCompletoORazonSocial());
@@ -154,12 +151,6 @@ class ClientesController extends AppController {
 			$this->Session->setFlash('La Cliente con id: ' . $id . ' ha sido eliminado.');
 			$this->redirect(array('action' => 'index'));
 		}
-	}
-
-	public function change_especializacion(){
-		$this->autoLayout = false;
-		$new_especializacion = $this->Cliente->Especializacion->getListEspecializaciones($this->params['url']['id']);
-		$this->set('especializaciones', $new_especializacion);
 	}
 
 	public function getCliente(){
