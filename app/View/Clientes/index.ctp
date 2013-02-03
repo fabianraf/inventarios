@@ -3,7 +3,12 @@
 	<div class="right">
     <?php echo $this->Paginator->prev(' << ', array(), null, array('class' => 'prev disabled', 'style' => "display:none;")); ?>
     <?php echo $this->Paginator->numbers(); ?>
-    <?php echo $this->Paginator->next(' >> ', array(), null, array('class' => 'next disabled', 'style' => "display:none;")); ?>
+    <?php echo $this->Paginator->next(' >> ', array(), null, array('class' => 'next disabled', 'style' => "display:none;")); 
+    
+    if (!$this->viewVars['logged_in']){
+//     	echo $this->redirect('Log in', array('action' => 'login'));   
+    }
+    ?>
   </div>
   <table cellpadding="0" cellspacing="0">
 	<tr>

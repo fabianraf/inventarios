@@ -7,19 +7,15 @@
 		<?php
 		echo $this->Form->input('Persona.tipo_de_persona', array('type' => 'select', 'options' => array(0 => "Natural", 1 => "Juridica")));
 		?>
-		<div>
+		<div class="inlineBlock">
 			<div class="natural-bloque inlineBlock">
 				<?php
 				echo $this->Form->input('Persona.cedula');
 				?>
 			</div>
-		</div>
-		<div>
-			<div class="juridica-bloque inlineBlock">
-				<?php
-				echo $this->Form->input('Persona.ruc');
-				?>
-			</div>
+			<?php
+			echo $this->Form->input('Persona.ruc');
+			?>
 		</div>
 		<div class="natural-bloque inlineBlock">
 			<?php
@@ -34,28 +30,30 @@
 			echo $this->Form->input('Persona.segundo_apellido');
 			?>
 		</div>
-		<?php
-		echo $this->Form->input('cargo_id');
-		echo $this->Form->input('nombre_razon_social', array('label' => "Empresa/Institución"));
-		?>
+		<div class="natural-bloque inlineBlock">
+			<?php
+			echo $this->Form->input('cargo_id');
+			?>
+		</div>
 		<div class="juridica-bloque">
 			<?php
+			echo $this->Form->input('nombre_razon_social', array('label' => "Empresa/Institución"));
 			echo $this->Form->input('representante_legal');
 			?>
 		</div>
 		<div class="inlineBlock">
-
-			<?php
+			<?php 
 			echo $this->Form->input('contacto_pedidos');
 			echo $this->Form->input('contacto_cobros');
 			?>
+
 		</div>
 		<?php
 		echo $this->Form->input('ciudad');
 		?>
 		<div class="inlineBlock">
 			<?php
-			
+
 			echo $this->Form->input('direccion_calle_principal');
 			echo $this->Form->input('calle_secundaria');
 			echo $this->Form->input('numeracion_nueva');
@@ -83,7 +81,6 @@
 			echo $this->Form->input('Persona.telefono_oficina');
 			echo $this->Form->input('Persona.telefono_oficina2');
 			echo $this->Form->input('Persona.celular');
-
 			?>
 		</div>
 		<div class="inlineBlock">
@@ -94,7 +91,7 @@
 		</div>
 		<?php
 		echo '<div class="natural-bloque">';
-		echo $this->Form->input('personasNaturales', array('label'=> "Factura a nombre de"));
+		echo $this->Form->input('personasNaturales', array('label'=> "Factura a nombre de",'empty' => '-- SELECCIONAR --'));
 		echo $this->Form->input('factura_a_nombre_de', array('rows'=>'5','label'=>''));
 		echo '</div>';
 		echo $this->Form->input('categoria_id');

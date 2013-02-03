@@ -1,12 +1,7 @@
 <div class="users view">
 <h2>User</h2>
 	<dl><?php $i = 0; $class = ' class="altrow"';?>
-		<dt<?php if ($i % 2 == 0) echo $class;?>>Id</dt>
-		<dd<?php if ($i++ % 2 == 0) echo $class;?>>
-			<?php echo $user['User']['id']; ?>
-			&nbsp;
-		</dd>
-    <dt<?php if ($i % 2 == 0) echo $class;?>>Username</dt>
+    <dt<?php if ($i % 2 == 0) echo $class;?>>Nombre de usuario</dt>
 		<dd<?php if ($i++ % 2 == 0) echo $class;?>>
 			<?php echo $user['User']['username']; ?>
 			&nbsp;
@@ -14,6 +9,11 @@
 		<dt<?php if ($i % 2 == 0) echo $class;?>>Email</dt>
 		<dd<?php if ($i++ % 2 == 0) echo $class;?>>
 			<?php echo $user['User']['email']; ?>
+			&nbsp;
+		</dd>
+		<dt<?php if ($i % 2 == 0) echo $class;?>>Rol</dt>
+		<dd<?php if ($i++ % 2 == 0) echo $class;?>>
+			<?php echo $user['User']['role']; ?>
 			&nbsp;
 		</dd>
 	</dl>

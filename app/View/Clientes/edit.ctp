@@ -16,6 +16,7 @@ $this->Html->script('clientes/especializaciones', array("inline"=>false)); ?>
 			<div class="natural-bloque inlineBlock">
 				<?php
 				echo $this->Form->input('Persona.cedula');
+				echo $this->Form->input('Persona.ruc');
 				?>
 			</div>
 		</div>
@@ -37,20 +38,22 @@ $this->Html->script('clientes/especializaciones', array("inline"=>false)); ?>
 			<?php
 			echo $this->Form->input('Persona.primer_apellido');
 			echo $this->Form->input('Persona.segundo_apellido');
+
 			?>
 		</div>
-		<?php
-		echo $this->Form->input('cargo_id');
-		echo $this->Form->input('nombre_razon_social', array('label' => "Empresa/Institución"));
-		?>
+		<div class="natural-bloque inlineBlock">
+			<?php
+			echo $this->Form->input('cargo_id');
+			?>
+		</div>
 		<div class="juridica-bloque">
 			<?php
+			echo $this->Form->input('nombre_razon_social', array('label' => "Empresa/Institución"));
 			echo $this->Form->input('representante_legal');
 			?>
 		</div>
 		<div class="inlineBlock">
-
-			<?php
+			<?php 
 			echo $this->Form->input('contacto_pedidos');
 			echo $this->Form->input('contacto_cobros');
 			?>
@@ -87,8 +90,6 @@ $this->Html->script('clientes/especializaciones', array("inline"=>false)); ?>
 			echo $this->Form->input('Persona.telefono_oficina');
 			echo $this->Form->input('Persona.telefono_oficina2');
 			echo $this->Form->input('Persona.celular');
-
-
 			?>
 		</div>
 		<div class="inlineBlock">
@@ -98,7 +99,7 @@ $this->Html->script('clientes/especializaciones', array("inline"=>false)); ?>
 		</div>
 		<?php
 		echo '<div class="natural-bloque">';
-		echo $this->Form->input('personasNaturales', array('label'=> "Factura a nombre de"));
+		echo $this->Form->input('personasNaturales', array('label'=> "Factura a nombre de",'empty' => '-- SELECCIONAR --'));
 		echo $this->Form->input('factura_a_nombre_de', array('rows'=>'5','label'=>''));
 		echo '</div>';
 		echo $this->Form->input('categoria_id');

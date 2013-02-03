@@ -9,18 +9,13 @@
 				&nbsp;
 			</dd>
 		</div>
-		<dt <?php if ($i % 2 == 0) echo $class;?>>Cédula</dt>
-		<dd <?php if ($i++ % 2 == 0) echo $class;?>>
-			<?php echo $cliente['Persona']['cedula']; ?>
-			&nbsp;
-		</dd>
 		<dt <?php if ($i % 2 == 0) echo $class; ?>>Tipo de Persona</dt>
 		<dd <?php if ($i++ % 2 == 0) echo $class;?>>
 			<?php 
 			if($cliente['Persona']['tipo_de_persona'] == 0)
-				echo "Persona Natural";
+				echo " --- Persona Natural ---";
 			else
-				echo "Persona Juridica";
+				echo " --- Persona Juridica ---";
 			?>
 			&nbsp;
 		</dd>
@@ -30,6 +25,13 @@
 			<?php echo $cliente['Persona']['cedula']; ?>
 			&nbsp;
 		</dd>
+		<?php } ?>
+		<dt <?php if ($i % 2 == 0) echo $class;?>>RUC</dt>
+		<dd <?php if ($i++ % 2 == 0) echo $class;?>>
+			<?php echo $cliente['Persona']['ruc']; ?>
+			&nbsp;
+		</dd>
+		<?php if($cliente['Persona']['tipo_de_persona'] == 0){?>
 		<dt <?php if ($i % 2 == 0) echo $class;?>>Primer Nombre</dt>
 		<dd <?php if ($i++ % 2 == 0) echo $class;?>>
 			<?php echo $cliente['Persona']['primer_nombre']; ?>
@@ -56,15 +58,7 @@
 			<?php echo $cliente['Cargo']['nombre']; ?>
 			&nbsp;
 		</dd>
-		<?php } else{ ?>
-		<dt <?php if ($i % 2 == 0) echo $class;?>>RUC</dt>
-		<dd <?php if ($i++ % 2 == 0) echo $class;?>>
-			<?php echo $cliente['Persona']['ruc']; ?>
-			&nbsp;
-		</dd>
-
-		<?php }?>
-
+		<?php } ?>
 		<dt <?php if ($i % 2 == 0) echo $class;?>>Representante Legal</dt>
 		<dd <?php if ($i++ % 2 == 0) echo $class;?>>
 			<?php echo $cliente['Cliente']['representante_legal']; ?>
