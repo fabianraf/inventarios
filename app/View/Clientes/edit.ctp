@@ -1,7 +1,8 @@
-<?php $this->Html->script('clientes/especializaciones', array("inline"=>false)); ?>
+<?php //phpinfo(); 
+$this->Html->script('clientes/especializaciones', array("inline"=>false)); ?>
 <?php echo $this->render('search', 'ajax');  ?>
 <div class="users form">
-	<?php echo $this->Form->create('Cliente', array('action'=>'edit')); ?>
+	<?php echo $this->Form->create('Cliente', array('action'=>'edit', 'type' => 'file')); ?>
 	<fieldset>
 		<legend>Editar</legend>
 		<?php
@@ -72,7 +73,8 @@
 
 		<?php
 		echo $this->Form->input('zona_id');
-		echo $this->Form->input('croquis_id');
+		//echo $this->Form->input('croquis_id');
+    echo $this->Form->input('Attachment.attachment', array('type' => 'file')); 
 		?>
 
 		<div class="natural-bloque inlineBlock">

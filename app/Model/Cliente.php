@@ -4,7 +4,17 @@ class Cliente extends AppModel {
 	public $name = 'Cliente';
 	public $useTable = 'clientes';
 
-	public $belongsTo = array(
+  public $hasOne = array(
+        'Attachment' => array(
+            'className' => 'Attachment',
+            'foreignKey' => 'foreign_key',
+            'conditions' => array(
+                'Attachment.model' => 'Cliente',
+            ),
+        ),
+    );
+  
+  public $belongsTo = array(
 			'Persona' => array(
 					'className'    => 'Persona',
 					'foreignKey'   => 'persona_id'
@@ -30,6 +40,9 @@ class Cliente extends AppModel {
 					'foreignKey'   => 'especializacion_id'
 			),
 	);
+  
+  
+  
   //FIXME: Problems with optionalOnNaturalCobros
 //	public $validate = array('cargo_id' => array(
 //			'rule' => 'notEmpty'
