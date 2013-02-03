@@ -1,6 +1,7 @@
 $(document).ready(function() {
     if($("#PersonaTipoDePersona").val() == 1){
       hide_natural();
+      $("#PersonaCelular").parent('div').attr("class", "input text");
     }else
       if($("#PersonaTipoDePersona").val() == 0){
         hide_juridica();
@@ -14,7 +15,7 @@ $(document).ready(function() {
       else
         if($(this).val() == 0){
          hide_juridica();
-         //Change label to not required "celular" for "juridica"
+         //Change label to required "celular" for "natural"
         $("#PersonaCelular").parent('div').attr("class", "input text required");
         }
     });
