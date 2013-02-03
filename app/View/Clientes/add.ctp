@@ -7,19 +7,15 @@
 		<?php
 		echo $this->Form->input('Persona.tipo_de_persona', array('type' => 'select', 'options' => array(0 => "Natural", 1 => "Juridica")));
 		?>
-		<div>
+		<div class="inlineBlock">
 			<div class="natural-bloque inlineBlock">
 				<?php
 				echo $this->Form->input('Persona.cedula');
 				?>
 			</div>
-		</div>
-		<div>
-			<div class="juridica-bloque inlineBlock">
-				<?php
-				echo $this->Form->input('Persona.ruc');
-				?>
-			</div>
+			<?php
+			echo $this->Form->input('Persona.ruc');
+			?>
 		</div>
 		<div class="natural-bloque inlineBlock">
 			<?php

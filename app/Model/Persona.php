@@ -2,8 +2,9 @@
 class Persona extends AppModel {
 
 	public $name = 'Persona';
-  public $useTable = 'personas';
+	public $useTable = 'personas';
 	public $hasOne = 'Cliente';
+	public $message = ' ';
 	public $validate = array(
 			'primer_nombre' => array(
 					'validateprimer_nombre' => array('rule' => array('validatePrimerNombre', 'primer_nombre'), 'message' => 'Ingrese primer nombre.' ),
@@ -15,21 +16,19 @@ class Persona extends AppModel {
 					'validatesegundo_apellido' => array('rule' => array('validateSegundoApellido', 'segundo_apellido'), 'message' => 'Ingrese segundo apellido.' ),
 			),
 			'cedula' => array(
-					'validate_cedula' => array('rule' => array('validatesCedula', 'cedula'), 'message' => 'Ingrese cedula.' ),
-					array('rule' => array('validatesLengthCedula', 'cedula'),'message' => 'Debe contener 10 caracteres.'),
-					array('rule' => array('validatesUniquenessCedula', 'cedula'),'message' => 'Cedula ya ingresada anteriormente.'),
+					'validate_cedula' =>
+					array('rule' => array('validatesCedulaOrRuc', 'cedula')),
 			),
 			'ruc' => array(
-					'validate_ruc' => array('rule' => array('validatesRuc', 'ruc'), 'message' => 'Ingrese RUC.' ),
-					array('rule' => array('validatesLengthRuc', 'ruc'),'message' => 'Debe contener 13 caracteres.'),
-					array('rule' => array('validatesUniquenessRuc', 'ruc'),'message' => 'RUC ya ingresada anteriormente.'),
+					'validate_ruc' =>
+					array('rule' => array('validatesCedulaOrRuc', 'ruc')),
 			),
 			'telefono_oficina' => array(
 					'rule' => 'notEmpty',
 					'message' => 'Ingrese telefono de oficina.'
 			),
 			'celular' => array(
-          array('rule' => array('validatesCelular', 'celular'),'message' => 'Celular no puede estar vacío.'),
+					array('rule' => array('validatesCelular', 'celular'),'message' => 'Celular no puede estar vacío.'),
 			),
 	);
 	public $virtualFields = array(
@@ -42,37 +41,36 @@ class Persona extends AppModel {
 		$passed = true;
 		if($this->esJuridica($this->data['Persona']['tipo_de_persona']))
 			return $passed;
-    if(isset($this->data['Persona']['id']))
-      $resultado = $this->find('all', array(
-          'conditions' => array('Persona.cedula' => $this->data['Persona']['cedula'],
-                                'Persona.id != ' => $this->data['Persona']['id'])
-      ));
-    else
-      $resultado = $this->find('all', array(
-          'conditions' => array('Persona.cedula' => $this->data['Persona']['cedula'])
-      ));
-    //exit(debug(count($resultado)));
+		if(isset($this->data['Persona']['id']))
+			$resultado = $this->find('all', array(
+					'conditions' => array('Persona.cedula' => $this->data['Persona']['cedula'],
+							'Persona.id != ' => $this->data['Persona']['id'])
+			));
+		else
+			$resultado = $this->find('all', array(
+					'conditions' => array('Persona.cedula' => $this->data['Persona']['cedula'])
+			));
+		//exit(debug(count($resultado)));
 		if( count($resultado) == 0 ) {
 			$passed = true;
 		}else{
-      $passed = false;
+			$passed = false;
 		}
 		return $passed;
 	}
 
 	function validatesUniquenessRuc(){
 		$passed = true;
-		if(!$this->esJuridica($this->data['Persona']['tipo_de_persona']))
-			return $passed;
-    if(isset($this->data['Persona']['id']))
-      $resultado = $this->find('all', array(
-          'conditions' => array('Persona.ruc' => $this->data['Persona']['ruc'],
-                                'Persona.id != ' => $this->data['Persona']['id'])
-      ));
-    else
-      $resultado = $this->find('all', array(
-          'conditions' => array('Persona.ruc' => $this->data['Persona']['ruc'])
-      ));
+
+		if(isset($this->data['Persona']['id']))
+			$resultado = $this->find('all', array(
+					'conditions' => array('Persona.ruc' => $this->data['Persona']['ruc'],
+							'Persona.id != ' => $this->data['Persona']['id'])
+			));
+		else
+			$resultado = $this->find('all', array(
+					'conditions' => array('Persona.ruc' => $this->data['Persona']['ruc'])
+			));
 		//exit(count($resultado));
 
 		if( count($resultado) == 0){
@@ -83,23 +81,36 @@ class Persona extends AppModel {
 		return $passed;
 	}
 
-	function validatesCedula(){
-		$passed=true;
-		if(!$this->esJuridica($this->data['Persona']['tipo_de_persona']) && $this->data['Persona']['cedula'] == ""){
-			$passed=false;
-		}else{
-			$passed=true;
+	function validatesCedulaOrRuc(){
+		$passed = true;
+		if(empty($this->data['Persona']['cedula']) && empty($this->data['Persona']['ruc'])){
+			$passed = false;
+			$this->validator()->getField('cedula')->getRule('validate_cedula')->message = "Ingrese Cedula";
+			$this->validator()->getField('ruc')->getRule('validate_ruc')->message= "Ingrese Ruc";
 		}
-		return $passed;
-	}
 
-	function validatesRuc(){
-		$passed=true;
-		if($this->esJuridica($this->data['Persona']['tipo_de_persona']) && $this->data['Persona']['ruc'] == ""){
-			$passed=false;
-		}else{
-			$passed=true;
+		if(!empty($this->data['Persona']['cedula'])){
+			$passed = $this->validatesLengthCedula();
+			$cedulaMessage = 'Debe contener 10 caracteres.';
+			if($passed){
+				$passed = $this->validatesUniquenessCedula();
+				$cedulaMessage = 'Cedula ya ingresada anteriormente.';
+			}
+			$this->validator()->remove('ruc','validate_ruc');
+			$this->validator()->getField('cedula')->getRule('validate_cedula')->message = $cedulaMessage;
 		}
+		
+		if(!empty($this->data['Persona']['ruc'])){
+			$passed = $this->validatesLengthRuc();
+			$rucMessage = 'Debe contener 13 caracteres.';
+			if($passed){
+				$passed = $this->validatesUniquenessRuc();
+				$rucMessage = 'Ruc ya ingresado anteriormente.';
+			}
+			$this->validator()->remove('cedula','validate_cedula');
+			$this->validator()->getField('ruc')->getRule('validate_ruc')->message = $rucMessage;
+		}
+		
 		return $passed;
 	}
 
@@ -119,9 +130,6 @@ class Persona extends AppModel {
 
 	function validatesLengthRuc(){
 		$passed = true;
-		if(!$this->esJuridica($this->data['Persona']['tipo_de_persona']))
-			return $passed;
-
 
 		if( strlen($this->data['Persona']['ruc']) == 13 ) {
 			$passed = true;
@@ -197,15 +205,18 @@ class Persona extends AppModel {
 			return false;
 		}
 	}
-  
-  function validatesCelular(){
-    //exit(debug(!$this->esJuridica($this->data['Persona']['tipo_de_persona'])));
-    if(!$this->esJuridica($this->data['Persona']['tipo_de_persona']) && $this->data['Persona']['celular'] == ""){
+
+	function validatesCelular(){
+		//exit(debug(!$this->esJuridica($this->data['Persona']['tipo_de_persona'])));
+		if(!$this->esJuridica($this->data['Persona']['tipo_de_persona']) && $this->data['Persona']['celular'] == ""){
 			$passed = false;
 		}else{
 			$passed = true;
 		}
 		return $passed;
+	}
+	function getMessage(){
+		return $this->message();
 	}
 
 

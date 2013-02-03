@@ -15,6 +15,7 @@
 			<div class="natural-bloque inlineBlock">
 				<?php
 				echo $this->Form->input('Persona.cedula');
+				echo $this->Form->input('Persona.ruc');
 				?>
 			</div>
 		</div>
