@@ -84,12 +84,12 @@
 			<?php echo $cliente['Cliente']['ciudad']; ?>
 			&nbsp;
 		</dd>
-		<dt <?php if ($i % 2 == 0) echo $class;?>>Direccion Calle Principal</dt>
+		<dt <?php if ($i % 2 == 0) echo $class;?>>Dirección Calle Principal</dt>
 		<dd <?php if ($i++ % 2 == 0) echo $class;?>>
 			<?php echo $cliente['Cliente']['direccion_calle_principal']; ?>
 			&nbsp;
 		</dd>
-		<dt <?php if ($i % 2 == 0) echo $class;?>>Numeracion Nueva</dt>
+		<dt <?php if ($i % 2 == 0) echo $class;?>>Numeración Nueva</dt>
 		<dd <?php if ($i++ % 2 == 0) echo $class;?>>
 			<?php echo $cliente['Cliente']['numeracion_nueva']; ?>
 			&nbsp;
@@ -147,22 +147,22 @@
 			&nbsp;
 		</dd>
 		<?php endif ?>
-		<dt <?php if ($i % 2 == 0) echo $class;?>>Especializacion</dt>
+		<dt <?php if ($i % 2 == 0) echo $class;?>>Especialización</dt>
 		<dd <?php if ($i++ % 2 == 0) echo $class;?>>
 			<?php echo $cliente['Especializacion']['nombre']; ?>
 			&nbsp;
 		</dd>
-		<dt <?php if ($i % 2 == 0) echo $class;?>>Division</dt>
+		<dt <?php if ($i % 2 == 0) echo $class;?>>División</dt>
 		<dd <?php if ($i++ % 2 == 0) echo $class;?>>
 			<?php echo $cliente['Division']['nombre']; ?>
 			&nbsp;
 		</dd>
-		<dt <?php if ($i % 2 == 0) echo $class;?>>Categoria</dt>
+		<dt <?php if ($i % 2 == 0) echo $class;?>>Categoría</dt>
 		<dd <?php if ($i++ % 2 == 0) echo $class;?>>
 			<?php echo $cliente['Categoria']['nombre']; ?>
 			&nbsp;
 		</dd>
-		<dt <?php if ($i % 2 == 0) echo $class;?>>Credito Aprobado</dt>
+		<dt <?php if ($i % 2 == 0) echo $class;?>>Crédito Aprobado</dt>
 		<dd <?php if ($i++ % 2 == 0) echo $class;?>>
 			<?php echo $cliente['Cliente']['credito_aprobado']; ?>
 			&nbsp;

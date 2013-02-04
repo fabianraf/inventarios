@@ -1,7 +1,7 @@
 <div class="users form">
 	<?php echo $this->Form->create('User');?>
 	<fieldset>
-		<legend>Register</legend>
+		<legend>Registrar</legend>
 		<?php
 		echo $this->Form->input('username');
 		echo $this->Form->input('email');
@@ -13,10 +13,10 @@
 
 		?>
 	</fieldset>
-	<?php echo $this->Form->end('Submit');?>
+	<?php echo $this->Form->end('Guardar');?>
 </div>
 <div class="actions">
-	<h3>Actions</h3>
+	<h3>Acciones</h3>
 	<ul>
 		<li><?php echo $this->Html->link('List Users', array('action' => 'index'));?>
 		</li>

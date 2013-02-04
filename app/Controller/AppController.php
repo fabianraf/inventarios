@@ -47,7 +47,8 @@ class AppController extends Controller {
   }
     
   public function beforeFilter() {
-    $this->Auth->allow('index', 'view');
+    //Following line allows to access actions without loging in -Fabian
+    //$this->Auth->allow('view');
     $this->set('logged_in', $this->Auth->loggedIn());
     $this->set('current_user', $this->Auth->user());
   }

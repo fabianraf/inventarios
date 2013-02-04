@@ -113,7 +113,7 @@
 	<?php echo $this->Form->end('Crear');?>
 </div>
 <div class="actions">
-	<h3>Actions</h3>
+	<h3>Acciones</h3>
 	<ul>
 		<li><?php echo $this->Html->link('Clientes', array('action' => 'index'));?>
 		</li>

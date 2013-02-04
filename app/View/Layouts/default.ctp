@@ -20,10 +20,8 @@
 <div id="banner">
   <div class="top_links clearfix" id="topnav">
   <ul>
-    <li><a href="/users">Usuarios</a></li>
-	<li><a href="/clientes">Clientes</a></li>
-    <li><a href="/personas">Personas</a></li>
-
+    <li><a href="/users/login">Login</a></li>
+    <li><a href="/users/logout">Logout</a></li>
   </ul>
 
   </div>
@@ -35,10 +33,8 @@
 <?php echo $this->Html->image('left_bg_top.gif', array('alt'=>"bg image", 'border'=>"0"))?>
 	  <ul>
 	    <li><a href="/users">Usuarios</a></li>
-		<li><a href="/clientes">Clientes</a></li>
-	    <li><a href="/personas">Personas</a></li>
-	
-	  </ul>
+      <li><a href="/clientes">Clientes</a></li>
+    </ul>
 	  <div class="left_news">
 	<!--  commented in order to use this before
 	
