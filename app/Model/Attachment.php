@@ -13,7 +13,7 @@ class Attachment extends AppModel {
                     'thumb' => '80x80',
                 ),
             'fields' => array(
-                'dir' => 'profile_dir'
+                'dir' => 'dir'
             ),
             ),
         ),
