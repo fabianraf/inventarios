@@ -174,7 +174,10 @@
 		</dd>
 		<dt <?php if ($i % 2 == 0) echo $class;?>>Croquis</dt>
 		<dd <?php if ($i++ % 2 == 0) echo $class;?>>
-			<?php // echo $cliente['Cliente']['']; ?>
+			<?php 
+			echo $this->Html->image($cliente['Attachment']['name'], array('alt' => 'image info'));
+			// echo $cliente['Cliente']['']; ?>
+			
 			&nbsp;
 		</dd>
 		<dt <?php if ($i % 2 == 0) echo $class;?>>H. de Atención</dt>
