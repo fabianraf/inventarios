@@ -10,7 +10,7 @@ class Cliente extends AppModel {
             'foreignKey' => 'foreign_key',
  //           'conditions' => array(
  //               'Attachment.model' => 'Cliente',
-            ),
+ //           ),
         ),
     );
   
