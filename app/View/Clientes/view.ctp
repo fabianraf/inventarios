@@ -175,7 +175,7 @@
 		<dt <?php if ($i % 2 == 0) echo $class;?>>Croquis</dt>
 		<dd <?php if ($i++ % 2 == 0) echo $class;?>>
 			<?php 
-			echo $this->Html->image('/webroot/files/attachment/attachment/'.$cliente['Attachment']['dir'].'/'.$cliente['Attachment']['attachment'], array('alt' => 'image info'));
+			echo $this->Html->image('app/webroot/files/attachment/attachment/'.$cliente['Attachment']['dir'].'/'.$cliente['Attachment']['attachment'], array('alt' => 'image info'));
 			// echo $cliente['Cliente']['']; ?>
 			
 			&nbsp;
