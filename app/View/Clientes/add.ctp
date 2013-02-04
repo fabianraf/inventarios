@@ -69,6 +69,7 @@
 		echo $this->Form->input('zona_id');
 		//echo $this->Form->input('croquis_id');
     echo $this->Form->input('Attachment.attachment', array('type' => 'file')); 
+    echo $this->Form->input('Attachment.dir', array('type' => 'hidden'));
     ?>
 
 		<div class="natural-bloque inlineBlock">
