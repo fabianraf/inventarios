@@ -8,8 +8,8 @@ class Cliente extends AppModel {
         'Attachment' => array(
             'className' => 'Attachment',
             'foreignKey' => 'foreign_key',
-            'conditions' => array(
-                'Attachment.model' => 'Cliente',
+ //           'conditions' => array(
+ //               'Attachment.model' => 'Cliente',
             ),
         ),
     );
