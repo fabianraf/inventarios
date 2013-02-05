@@ -5,35 +5,35 @@ App::uses('Controller', 'Controller');
 class ClientesController extends AppController {
 	public $name = "Clientes";
 	public $helpers = array('Html', 'Form');
-  
+
 
 	public function index(){
-//$this->controller->helpers[] = "AppHelper"; 
+		//$this->controller->helpers[] = "AppHelper";
 		$this->set("title_for_layout","Clientes");
 		if(isset($this->data['Cliente']['choice']) &&  isset($this->data['Cliente']['criteria'])){
-      $buildResult = $this->search($this->data['Cliente']['choice'], $this->data['Cliente']['criteria']);
+			$buildResult = $this->search($this->data['Cliente']['choice'], $this->data['Cliente']['criteria']);
 			$this->set('Clientes', $buildResult);
 		}else{
-      $data = $this->paginate('Cliente');
-      //$sorted_data = Set::sort($data, '{n}.Persona.tipo_de_persona', 'ASC');
-      $this->set('Clientes', $data);
-      
-			
-//			$this->set('Clientes', $this->Cliente->find('all', array('order' => array(
-//					'Cliente.id' => 'ASC',
-//					'Persona.tipo_de_persona' => 'ASC')))
-//			);
+			$data = $this->paginate('Cliente');
+			//$sorted_data = Set::sort($data, '{n}.Persona.tipo_de_persona', 'ASC');
+			$this->set('Clientes', $data);
+
+
+			//			$this->set('Clientes', $this->Cliente->find('all', array('order' => array(
+			//					'Cliente.id' => 'ASC',
+			//					'Persona.tipo_de_persona' => 'ASC')))
+			//			);
 		}
 
 
 	}
 
 	public function search($choice=null, $criteria=null) {
-     //$this->autoLayout = false;
-    $conditions = NULL;
+		//$this->autoLayout = false;
+		$conditions = NULL;
 		if ($choice=='cedula'){
-      $conditions = array("OR" => array("Persona.cedula LIKE" => "%" . $criteria . "%", "Persona.ruc LIKE" => "%" . $criteria . "%"));
-    }
+			$conditions = array("OR" => array("Persona.cedula LIKE" => "%" . $criteria . "%", "Persona.ruc LIKE" => "%" . $criteria . "%"));
+		}
 		if ($choice=='name'){
 			$conditions = array("OR" => array("Persona.primer_nombre LIKE" => "%".$criteria."%", "Persona.segundo_nombre LIKE" => "%".$criteria."%","Persona.primer_apellido LIKE" => "%".$criteria."%","Persona.segundo_apellido LIKE" => "%".$criteria."%"));
 		}
@@ -42,33 +42,33 @@ class ClientesController extends AppController {
 		}
 		if ($choice=='city'){
 			$conditions = array("Cliente.ciudad LIKE" => "%".$criteria."%");
-      //return $this->Cliente->findAllByCiudad($criteria);
+			//return $this->Cliente->findAllByCiudad($criteria);
 		}
 		if ($choice=='zone'){
-      $conditions = array("Cliente.zona_id = " => $criteria);
+			$conditions = array("Cliente.zona_id = " => $criteria);
 		}
 		//if ($choice=='especiality'){
-    //  $conditions = array("Especializacion.nombre LIKE" => "%".$criteria."%");
-//		$i=0;
-//		$clientesId = array();
-//			foreach( $this->Cliente->Especializacion->findAllByNombre($criteria) as $cliente){
-//				array_push($clientesId,$cliente['Cliente']['id']);
-//			}
-//			
-//			$conditions =  array("Cliente.id" => $clientesId);
-//			return  $this->Cliente->find('all',array('conditions'=>$conditions));
+		//  $conditions = array("Especializacion.nombre LIKE" => "%".$criteria."%");
+		//		$i=0;
+		//		$clientesId = array();
+		//			foreach( $this->Cliente->Especializacion->findAllByNombre($criteria) as $cliente){
+		//				array_push($clientesId,$cliente['Cliente']['id']);
+		//			}
+		//
+		//			$conditions =  array("Cliente.id" => $clientesId);
+		//			return  $this->Cliente->find('all',array('conditions'=>$conditions));
 			
 		//}
-    if($conditions == NULL)
-      return array(); 
-    else{
-    $this->paginate = array(
-          'conditions' => $conditions,
-      );
-    $clientes = $this->paginate('Cliente');
-    return $clientes;
-    }
-		
+		if($conditions == NULL)
+			return array();
+		else{
+			$this->paginate = array(
+					'conditions' => $conditions,
+			);
+			$clientes = $this->paginate('Cliente');
+			return $clientes;
+		}
+
 	}
 
 	public function view($id = null) {
@@ -128,10 +128,7 @@ class ClientesController extends AppController {
 		}
 		else
 		{
-			debug($this->request->data);
-// 			echo $this->request->data('Attachment.id');
-// 			$this->Attachment->delete($this->request->data('Attachment.id'));
-			$this->Cliente->Attachment->deleteAll(array('Attachment.id' => $this->request->data('Attachment.dir')));
+			$this->deleteAttachmentInfo($this->request->data('Attachment.dir'));
 			if ($this->Cliente->saveAll( $this->request->data, array('validate'=>'first')))
 			{
 				$this->Session->setFlash('Cliente ha sido actualizado satisfactoriamente.');
@@ -141,9 +138,19 @@ class ClientesController extends AppController {
 			{
 				$this->Session->setFlash('No se pudo leer el Cliente.');
 			}
+
+
 		}
 	}
+	public function deleteAttachmentInfo($dir){
+		// 			echo $this->request->data('Attachment.id');
+		// 			$this->Attachment->delete($this->request->data('Attachment.id'));
+		$this->Cliente->Attachment->deleteAll(array('Attachment.id' => $dir));
+		$folder = new Folder('files/attachment/attachment/'.$dir);
+			
+		if ($folder->delete());
 
+	}
 
 	public function delete($id) {
 		if ($this->request->is('get'))
@@ -165,11 +172,11 @@ class ClientesController extends AppController {
 		echo $htmlExport .= "Teléfono casa: ".$persona['Persona']['telefono_casa']." Teléfono oficina: ".$persona['Persona']['telefono_oficina'];
 		die();
 	}
-  
-  public $paginate = array(
-        'limit' => 10,
-         
-    );
+
+	public $paginate = array(
+			'limit' => 10,
+
+	);
 
 
 }
