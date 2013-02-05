@@ -175,9 +175,15 @@
 		<dt <?php if ($i % 2 == 0) echo $class;?>>Croquis</dt>
 		<dd <?php if ($i++ % 2 == 0) echo $class;?>>
 			<?php 
-			echo $this->Html->image('/files/attachment/attachment/'.$cliente['Attachment']['dir'].'/'.$cliente['Attachment']['attachment'], array('alt' => 'image info'));
+			// 			echo $this->Html->image('/files/attachment/attachment/'.$cliente['Attachment']['dir'].'/thumb_'.$cliente['Attachment']['attachment'], array('alt' => 'image info'));
+			echo $this->Html->link(
+					$this->Html->image('/files/attachment/attachment/'.$cliente['Attachment']['dir'].'/thumb_'.$cliente['Attachment']['attachment'],
+							array('alt' => 'image info')),
+							'/files/attachment/attachment/'.$cliente['Attachment']['dir'].'/'.$cliente['Attachment']['attachment'],
+							array('escape' => false)
+					);
 			// echo $cliente['Cliente']['']; ?>
-			
+
 			&nbsp;
 		</dd>
 		<dt <?php if ($i % 2 == 0) echo $class;?>>H. de Atención</dt>
