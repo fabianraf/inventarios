@@ -109,44 +109,44 @@
 			<?php echo $cliente['Zona']['nombre']; ?>
 			&nbsp;
 		</dd>
-		<div <?php if ($i++ % 2 == 0) echo $class;?>>
-			<?php if($cliente['Persona']['tipo_de_persona'] == 0){ //natural?>
-			<dt>Teléfono Casa</dt>
-			<dd>
-				<?php echo $cliente['Persona']['telefono_casa']; ?>
-				&nbsp;
-			</dd>
-			<?php } ?>
 
-			<dt>Teléfono Oficina</dt>
-			<dd>
-				<?php echo $cliente['Persona']['telefono_oficina']; ?>
-				&nbsp;
-			</dd>
-			<dt>Teléfono Oficina 2</dt>
-			<dd>
-				<?php echo $cliente['Persona']['telefono_oficina2']; ?>
-				&nbsp;
-			</dd>
+		<?php if($cliente['Persona']['tipo_de_persona'] == 0){ //natural?>
+		<dt <?php if ($i % 2 == 0) echo $class;?>>Teléfono Casa</dt>
+		<dd <?php if ($i++ % 2 == 0) echo $class;?>>
+			<?php echo $cliente['Persona']['telefono_casa']; ?>
+			&nbsp;
+		</dd>
+		<?php } ?>
 
-			<dt>Celular</dt>
-			<dd>
-				<?php echo $cliente['Persona']['celular']; ?>
-				&nbsp;
-			</dd>
-		</div>
+		<dt <?php if ($i % 2 == 0) echo $class;?>>Teléfono Oficina</dt>
+		<dd <?php if ($i++ % 2 == 0) echo $class;?>>
+			<?php echo $cliente['Persona']['telefono_oficina']; ?>
+			&nbsp;
+		</dd>
+		<dt <?php if ($i % 2 == 0) echo $class;?>>Teléfono Oficina 2</dt>
+		<dd <?php if ($i++ % 2 == 0) echo $class;?>>
+			<?php echo $cliente['Persona']['telefono_oficina2']; ?>
+			&nbsp;
+		</dd>
+
+		<dt <?php if ($i % 2 == 0) echo $class;?>>Celular</dt>
+		<dd <?php if ($i++ % 2 == 0) echo $class;?>>
+			<?php echo $cliente['Persona']['celular']; ?>
+			&nbsp;
+		</dd>
+
 		<dt <?php if ($i % 2 == 0) echo $class;?>>Email</dt>
 		<dd <?php if ($i++ % 2 == 0) echo $class;?>>
 			<?php echo $cliente['Persona']['email']; ?>
 			&nbsp;
 		</dd>
-		<?php if($cliente['Persona']['tipo_de_persona'] == 0): ?>
+		<?php if($cliente['Persona']['tipo_de_persona'] == 0){ ?>
 		<dt <?php if ($i % 2 == 0) echo $class;?>>Factura a nombre de</dt>
 		<dd <?php if ($i++ % 2 == 0) echo $class;?>>
 			<?php echo $cliente['Cliente']['factura_a_nombre_de']; ?>
 			&nbsp;
 		</dd>
-		<?php endif ?>
+		<?php } ?>
 		<dt <?php if ($i % 2 == 0) echo $class;?>>Especialización</dt>
 		<dd <?php if ($i++ % 2 == 0) echo $class;?>>
 			<?php echo $cliente['Especializacion']['nombre']; ?>
@@ -175,7 +175,7 @@
 		<dt <?php if ($i % 2 == 0) echo $class;?>>Croquis</dt>
 		<dd <?php if ($i++ % 2 == 0) echo $class;?>>
 			<?php
-// 			debug($cliente['Attachment']);
+			// 			debug($cliente['Attachment']);
 			if(is_file('files/attachment/attachment/'.$cliente['Attachment']['dir'].'/'.$cliente['Attachment']['attachment'])){
 				echo $this->Html->link(
 						$this->Html->image('/files/attachment/attachment/'.$cliente['Attachment']['dir'].'/thumb_'.$cliente['Attachment']['attachment']
