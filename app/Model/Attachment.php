@@ -12,6 +12,7 @@ class Attachment extends AppModel {
 //                     'vga' => '640x480',
                     'thumb' => '80x80',
                 ),
+            		'deleteOnUpdate' => 'true',
             ),
         ),
     );

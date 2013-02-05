@@ -11,13 +11,11 @@ class Cliente extends AppModel {
 					'conditions' => array(
 							'Attachment.model' => 'Cliente',
 					),
-					// fields defines which fields will show after finding attacments
+					// fields defines which fields will show after finding attachments
 // 					'fields' => array(
 // 							'dir'=>'dir',
 // 					),
-					'order' => array(
-							'Attachment.id'=>'DESC',
-					),
+					'deleteOnUpdate' => 'true',
 			),
 	);
 
