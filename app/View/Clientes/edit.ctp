@@ -78,7 +78,8 @@ $this->Html->script('clientes/especializaciones', array("inline"=>false)); ?>
 		echo $this->Form->input('zona_id');
 		//echo $this->Form->input('croquis_id');
 		 echo $this->Form->input('Attachment.attachment', array('type' => 'file')); 
-    		echo $this->Form->input('Attachment.dir', array('type' => 'hidden'));
+     echo $this->Form->input('Attachment.dir', array('type' => 'hidden'));
+     echo $this->Form->input('Attachment.model', array('type' => 'hidden','value'=>'Cliente'));
 		?>
 
 		<div class="natural-bloque inlineBlock">

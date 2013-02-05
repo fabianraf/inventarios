@@ -8,13 +8,10 @@ class Attachment extends AppModel {
         'Upload.Upload' => array(
             'attachment' => array(
                 'thumbnailSizes' => array(
-                    'xvga' => '1024x768',
-                    'vga' => '640x480',
+//                     'xvga' => '1024x768',
+//                     'vga' => '640x480',
                     'thumb' => '80x80',
                 ),
-            'fields' => array(
-                'dir' => 'dir'
-            ),
             ),
         ),
     );
@@ -25,8 +22,4 @@ class Attachment extends AppModel {
             'foreignKey' => 'foreign_key',
         ),
     );
-
-
-
-
 }

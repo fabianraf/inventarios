@@ -4,17 +4,24 @@ class Cliente extends AppModel {
 	public $name = 'Cliente';
 	public $useTable = 'clientes';
 
-  public $hasOne = array(
-        'Attachment' => array(
-            'className' => 'Attachment',
-            'foreignKey' => 'foreign_key',
- //           'conditions' => array(
- //               'Attachment.model' => 'Cliente',
- //           ),
-        ),
-    );
-  
-  public $belongsTo = array(
+	public $hasOne = array(
+			'Attachment' => array(
+					'className' => 'Attachment',
+					'foreignKey' => 'foreign_key',
+					'conditions' => array(
+							'Attachment.model' => 'Cliente',
+					),
+					// fields defines which fields will show after finding attacments
+// 					'fields' => array(
+// 							'dir'=>'dir',
+// 					),
+					'order' => array(
+							'Attachment.id'=>'DESC',
+					),
+			),
+	);
+
+	public $belongsTo = array(
 			'Persona' => array(
 					'className'    => 'Persona',
 					'foreignKey'   => 'persona_id'
@@ -41,9 +48,9 @@ class Cliente extends AppModel {
 			),
 	);
 
-  
-  
- 
+
+
+
 	public $validate =	array(
 			'cargo_id' => array(
 					'rule' => 'notEmpty'
