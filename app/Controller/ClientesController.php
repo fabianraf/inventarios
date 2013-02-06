@@ -154,6 +154,9 @@ class ClientesController extends AppController {
 		}
 	}
 	public function deleteAttachmentInfo($id,$dir){
+		echo "id".$id;
+		echo "dir".$dir;
+		die();
 		// 			echo $this->request->data('Attachment.id');
 		// 			$this->Attachment->delete($this->request->data('Attachment.id'));
 		$this->Cliente->Attachment->deleteAll(array('Attachment.foreign_key' => $id));
