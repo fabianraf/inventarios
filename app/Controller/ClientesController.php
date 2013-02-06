@@ -10,9 +10,17 @@ class ClientesController extends AppController {
 	public function index(){
 		//$this->controller->helpers[] = "AppHelper";
 		$this->set("title_for_layout","Clientes");
-		if(isset($this->data['Cliente']['choice']) &&  isset($this->data['Cliente']['criteria'])){
+    if(isset($this->data['Cliente']['choice']) &&  isset($this->data['Cliente']['criteria'])){
 			$buildResult = $this->search($this->data['Cliente']['choice'], $this->data['Cliente']['criteria']);
-			$this->set('Clientes', $buildResult);
+      if(is_numeric($this->data['Cliente']['criteria']) && $this->data['Cliente']['choice'] == 'especialidad'){
+        $especializacion = $this->Cliente->Especializacion->find('first', array('fields' => array(('nombre'),),
+                                        'conditions' => array('Especializacion.id' => $this->data['Cliente']['criteria'])
+                                        )
+                        );
+      }
+      if(isset($especializacion))
+        $this->set('criteria_especializacion', $especializacion['Especializacion']['nombre']);
+      $this->set('Clientes', $buildResult);
 		}else{
 			$data = $this->paginate('Cliente');
 			//$sorted_data = Set::sort($data, '{n}.Persona.tipo_de_persona', 'ASC');
@@ -46,6 +54,9 @@ class ClientesController extends AppController {
 		}
 		if ($choice=='zone'){
 			$conditions = array("Cliente.zona_id = " => $criteria);
+		}
+		if ($choice=='especialidad'){
+			$conditions = array("Cliente.especializacion_id = " => $criteria);
 		}
 		//if ($choice=='especiality'){
 		//  $conditions = array("Especializacion.nombre LIKE" => "%".$criteria."%");
@@ -178,5 +189,10 @@ class ClientesController extends AppController {
 
 	);
 
+  
+  public function show_especializaciones(){
+    $this->autoLayout = false;
+    $this->set('especializaciones', $this->Cliente->Especializacion->find('list', array('fields'=>array('id','nombre'))));
+  }
 
 }
