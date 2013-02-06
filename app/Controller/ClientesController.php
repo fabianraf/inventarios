@@ -139,7 +139,11 @@ class ClientesController extends AppController {
 		}
 		else
 		{
-			$this->deleteAttachmentInfo($this->request->data('Cliente.id'),$this->request->data('Attachment.dir'));
+			debug($this->Cliente);
+			exit();
+			if($this->Cliente->Attachment){
+				$this->deleteAttachmentInfo($this->request->data('Cliente.id'),$this->request->data('Attachment.dir'));
+			}
 			if ($this->Cliente->saveAll( $this->request->data, array('validate'=>'first')))
 			{
 				$this->Session->setFlash('Cliente ha sido actualizado satisfactoriamente.');
