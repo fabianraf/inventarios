@@ -139,7 +139,7 @@ class ClientesController extends AppController {
 		}
 		else
 		{
-			debug($this->data['Attachment']['name']);
+			debug($this->data['Attachment']);
 			exit();
 			if(!empty($this->data['Attachment']['name'])){
 				$this->deleteAttachmentInfo($this->request->data('Cliente.id'),$this->request->data('Attachment.dir'));
