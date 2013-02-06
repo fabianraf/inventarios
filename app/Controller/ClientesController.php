@@ -139,7 +139,7 @@ class ClientesController extends AppController {
 		}
 		else
 		{
-			$this->deleteAttachmentInfo($this->request->data('Attachment.dir'));
+			$this->deleteAttachmentInfo($this->request->data('Cliente.id'));
 			if ($this->Cliente->saveAll( $this->request->data, array('validate'=>'first')))
 			{
 				$this->Session->setFlash('Cliente ha sido actualizado satisfactoriamente.');
@@ -153,10 +153,10 @@ class ClientesController extends AppController {
 
 		}
 	}
-	public function deleteAttachmentInfo($dir){
+	public function deleteAttachmentInfo($id){
 		// 			echo $this->request->data('Attachment.id');
 		// 			$this->Attachment->delete($this->request->data('Attachment.id'));
-		$this->Cliente->Attachment->deleteAll(array('Attachment.id' => $dir));
+		$this->Cliente->Attachment->deleteAll(array('Attachment.foreign_key' => $id));
 		$folder = new Folder('files/attachment/attachment/'.$dir);
 			
 		if ($folder->delete());
