@@ -141,7 +141,7 @@ class ClientesController extends AppController {
 		{
 			debug($this);
 			debug($this->Cliente);
-			debug($this->Attachment);
+			debug($this->data[Attachment][attachment]);
 			exit();
 			if(empty($this->Cliente->Attachment->attachment)){
 				$this->deleteAttachmentInfo($this->request->data('Cliente.id'),$this->request->data('Attachment.dir'));
