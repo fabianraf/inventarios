@@ -139,9 +139,9 @@ class ClientesController extends AppController {
 		}
 		else
 		{
-			debug($this->data[Attachment][name]);
+			debug($this->data['Attachment']['name']);
 			exit();
-			if(empty($this->Cliente->Attachment->attachment)){
+			if(!empty($this->data['Attachment']['name'])){
 				$this->deleteAttachmentInfo($this->request->data('Cliente.id'),$this->request->data('Attachment.dir'));
 			}
 			if ($this->Cliente->saveAll( $this->request->data, array('validate'=>'first')))
