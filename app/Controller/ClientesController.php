@@ -101,7 +101,7 @@ class ClientesController extends AppController {
 		$this->set('personasNaturales', $this->Cliente->Persona->getCedulaNombre()); // natural
 		$this->set("title_for_layout", "Nuevo Cliente");
 		if(!empty($this->data)){
-
+			$this->data['Attachment'] = $this->request->data['Attachment'];
 			if ( $this->Cliente->saveAll( $this->data, array('validate'=>'first')))
 			{
 				$this->Session->setFlash('Cliente ha sido guardado.');
