@@ -177,9 +177,9 @@
 			<?php
 			// 			debug($cliente['Attachment']);
 			if(is_file('files/attachment/attachment/'.$cliente['Attachment']['dir'].'/'.$cliente['Attachment']['attachment'])){
-				echo $this->Html->link(
-						$this->Html->image('/files/attachment/attachment/'.$cliente['Attachment']['dir'].'/thumb_'.$cliente['Attachment']['attachment']
-						),
+				echo $this->Html->link('croquis',
+// 						$this->Html->image('/files/attachment/attachment/'.$cliente['Attachment']['dir'].'/'.$cliente['Attachment']['attachment']
+// 						),
 						'/files/attachment/attachment/'.$cliente['Attachment']['dir'].'/'.$cliente['Attachment']['attachment'],
 						array('escape' => false)
 				);

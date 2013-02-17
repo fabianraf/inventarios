@@ -103,7 +103,7 @@ class ClientesController extends AppController {
 		if(!empty($this->data)){
 			debug($this->request->data);
 			debug($this->data);
-			$this->data['Attachment'] = $this->request->data['Attachment'];
+// 			$this->data['Attachment'] = $this->request->data['Attachment'];
 			if ( $this->Cliente->saveAll( $this->data, array('validate'=>'first')))
 			{
 				$this->Session->setFlash('Cliente ha sido guardado.');

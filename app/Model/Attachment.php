@@ -7,11 +7,12 @@ class Attachment extends AppModel {
 	public $actsAs = array(
         'Upload.Upload' => array(
             'attachment' => array(
-                'thumbnailSizes' => array(
-//                     'xvga' => '1024x768',
-//                     'vga' => '640x480',
-                    'thumb' => '80x80',
-                ),
+//                 'thumbnailSizes' => array(
+// //                     'xvga' => '1024x768',
+// //                     'vga' => '640x480',
+//                     'thumb' => '80x80',
+//                 ),
+            		'thumbnailMethod'	=> 'php',
             		'deleteOnUpdate' => 'true',
             ),
         ),
