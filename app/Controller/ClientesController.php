@@ -98,11 +98,11 @@ class ClientesController extends AppController {
 		$this->set('categorias', $this->Cliente->Categoria->find('list', array('fields'=>array('id','nombre'))));
 		$this->set('zonas', $this->Cliente->Zona->find('list', array('fields'=>array('id','nombre'))));
 		$this->set('especializaciones', $this->Cliente->Especializacion->find('list', array('fields'=>array('id','nombre'))));
-		$this->set('personasNaturales', $this->Cliente->Persona->getCedulaNombre()); // natural
-		$this->set("title_for_layout", "Nuevo Cliente");
+		$this->set('personasNaturales', $this->Cliente->getCedulaRucNombreRazonSocial());
+    $this->set("title_for_layout", "Nuevo Cliente");
 		if(!empty($this->data)){
-			debug($this->request->data);
-			debug($this->data);
+			//debug($this->request->data);
+			//debug($this->data);
 // 			$this->data['Attachment'] = $this->request->data['Attachment'];
 			if ( $this->Cliente->saveAll( $this->data, array('validate'=>'first')))
 			{
@@ -126,7 +126,7 @@ class ClientesController extends AppController {
 		$this->set('categorias', $this->Cliente->Categoria->find('list', array('fields'=>array('id','nombre'))));
 		$this->set('zonas', $this->Cliente->Zona->find('list', array('fields'=>array('id','nombre'))));
 		$this->set('especializaciones', $this->Cliente->Especializacion->find('list', array('fields'=>array('id','nombre'))));
-		$this->set('personasNaturales', $this->Cliente->Persona->getCedulaNombre()); // natural
+		$this->set('personasNaturales', $this->Cliente->getCedulaRucNombreRazonSocial());
 		$parent_especializacion = $this->Cliente->Especializacion->getParentEspecializacion($this->request->data['Cliente']['id']);
 		$this->set('parent_especializacion', $parent_especializacion);
 		$cliente_completo = $this->Cliente->read();
@@ -188,11 +188,21 @@ class ClientesController extends AppController {
 
 	public function getCliente(){
 		$persona = $this->Cliente->Persona->findByCedula($this->params['url']['id']);
+    if($persona){
 		$htmlExport = "Nombre: ".$persona['Persona']['primer_nombre']." ".$persona['Persona']['segundo_nombre']." ".$persona['Persona']['primer_apellido']." ".$persona['Persona']['segundo_apellido']."\r";
-		$htmlExport .= "Cedula: ".$persona['Persona']['cedula']."\r";
+		$htmlExport .= "Cédula: ".$persona['Persona']['cedula']."\r";
 		$htmlExport .= "Dirección Cliente: ".$persona['Cliente']['direccion_calle_principal']." ".$persona['Cliente']['numeracion_nueva']." y ".$persona['Cliente']['calle_secundaria']."\r";
 		echo $htmlExport .= "Teléfono casa: ".$persona['Persona']['telefono_casa']." Teléfono oficina: ".$persona['Persona']['telefono_oficina'];
 		die();
+    }
+    else{
+      $persona = $this->Cliente->Persona->findByRuc($this->params['url']['id']);
+      $htmlExport = "Nombre Razón Social: ".$persona['Cliente']['nombre_razon_social']."\r";
+      $htmlExport .= "RUC: ".$persona['Persona']['ruc']."\r";
+      $htmlExport .= "Dirección Cliente: ".$persona['Cliente']['direccion_calle_principal']." ".$persona['Cliente']['numeracion_nueva']." y ".$persona['Cliente']['calle_secundaria']."\r";
+      echo $htmlExport .= "Teléfono oficina: ".$persona['Persona']['telefono_oficina']." Teléfono oficina2: ".$persona['Persona']['telefono_oficina2'];
+      die();
+    }
 	}
 
 	public $paginate = array(

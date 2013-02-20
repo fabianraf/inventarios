@@ -94,4 +94,24 @@ class Cliente extends AppModel {
 		else
 			return $this->data['Persona']['nombre_completo'];
 	}
+  
+  function getCedulaRucNombreRazonSocial(){
+    $clientes = $this->find('all', array('fields' => array("Persona.ruc, Persona.cedula, Persona.primer_nombre, Persona.primer_apellido, Cliente.nombre_razon_social"), 
+                                         'conditions' => array('Persona.cedula <> ""')
+                                        )
+                           );
+    foreach ($clientes as $cliente){
+      $cliente_final[$cliente['Persona']['cedula']] = "Nat. ".$cliente['Persona']['primer_nombre']." ".$cliente['Persona']['primer_apellido'];
+    }
+    
+    $clientes = $this->find('all', array('fields' => array("Persona.ruc, Persona.cedula, Persona.primer_nombre, Persona.primer_apellido, Cliente.nombre_razon_social"), 
+                                         'conditions' => array('Persona.ruc <> ""')
+                                        )
+                           );
+    foreach ($clientes as $cliente){
+      $cliente_final[$cliente['Persona']['ruc']] = "Jur. ".$cliente['Cliente']['nombre_razon_social'];
+    }
+    return $cliente_final;
+  }
+  
 }

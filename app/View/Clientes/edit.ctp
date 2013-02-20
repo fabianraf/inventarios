@@ -3,6 +3,13 @@ $this->Html->script('clientes/especializaciones', array("inline"=>false)); ?>
 <?php echo $this->render('search', 'ajax');  ?>
 <div class="users form">
 	<?php echo $this->Form->create('Cliente', array('action'=>'edit', 'type' => 'file')); ?>
+  <?php
+    echo $this->Form->input('Editar', array(
+      'type'=>'submit', 
+      'div'=>array('class'=>'inlineBlock right submit'),
+      'label'=>"&nbsp;"
+    ));
+  ?>
 	<fieldset>
 		<legend>Editar</legend>
 		<?php
@@ -118,7 +125,7 @@ $this->Html->script('clientes/especializaciones', array("inline"=>false)); ?>
 
 
 	</fieldset>
-	<?php echo $this->Form->end('Edit');?>
+	<?php echo $this->Form->end('Editar');?>
 </div>
 <div class="actions">
 	<h3>Acciones</h3>

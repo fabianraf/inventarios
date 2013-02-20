@@ -2,6 +2,13 @@
 <?php echo $this->render('search', 'ajax');  ?>
 <div class="users form">
 	<?php echo $this->Form->create('Cliente', array('action'=>'add')); ?>
+  <?php
+    echo $this->Form->input('Crear', array(
+      'type'=>'submit', 
+      'div'=>array('class'=>'inlineBlock right submit'),
+      'label'=>"&nbsp;"
+    ));
+  ?>
 	<fieldset>
 		<legend>Nuevo</legend>
 		<?php
