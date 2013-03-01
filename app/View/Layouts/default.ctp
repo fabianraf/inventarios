@@ -22,7 +22,7 @@
 
   </div>
   <?php echo $this->Html->image('header_logo.jpg', array('alt'=>"pumpkin"))?>
-  <div class="page_title"><span id="page_title">RET SUMEDENT</span>
+  <div class="page_title"><span id="page_title">SUMEDENT</span>
   </div>
 </div>
 <div class="leftcontent" id="nav"> 
