@@ -2,9 +2,9 @@
 	<h2>Users</h2>
 	<table cellpadding="0" cellspacing="0">
 	<tr>
-			<th>id</th>
-			<th>username</th>
-			<th>email</th>
+			<th>Nombre de usuario</th>
+			<th>Email</th>
+			<th>Rol</th>
 			<th class="actions">Actions</th>
 	</tr>
 	<?php
@@ -16,9 +16,9 @@
 		}
 	?>
 	<tr<?php echo $class;?>>
-		<td><?php echo $user['User']['id']; ?>&nbsp;</td>
 		<td><?php echo $user['User']['username']; ?>&nbsp;</td>
 		<td><?php echo $user['User']['email']; ?>&nbsp;</td>
+		<td><?php echo $user['User']['role']; ?>&nbsp;</td>
 		<td class="actions">
 			<?php echo $this->Html->link('View', array('action' => 'view', $user['User']['id'])); ?>
 			<?php if ($current_user['id'] == $user['User']['id'] || $current_user['role'] == 'admin'): ?>

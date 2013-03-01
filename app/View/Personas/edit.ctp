@@ -3,6 +3,7 @@
 	<fieldset>
  		<legend>Editar Persona</legend>
 	<?php
+	echo $this->Form->input('Persona.tipo_de_persona', array('type' => 'select', 'options' => array(0 => "Natural", 1 => "Juridica")));
 		echo $this->Form->input('primer_nombre');
     echo $this->Form->input('segundo_nombre');
     echo $this->Form->input('primer_apellido');
@@ -11,7 +12,7 @@
     echo $this->Form->input('celular');
     echo $this->Form->input('direccion');
     echo $this->Form->input('email');
-    echo $this->Form->input('otro', array('rows'=>'20'));
+    echo $this->Form->input('otro', array('rows'=>'5'));
 	?>
 	</fieldset>
 <?php echo $this->Form->end('Editar');?>
